@@ -1,51 +1,663 @@
-// آن لائن حدیث سرچ کرنے کا فنکشن
-async function searchHadithOnline() {
-    const query = document.getElementById('hadithInput').value.trim();
-    const resultsContainer = document.getElementById('hadithResults');
+ <!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>القرآن الكريم والحديث الشريف - HD Islamic Portal</title>
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Premium Google Fonts for Arabic & Urdu Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Nastaliq+Urdu:wght@400;700&family=Reem+Kufi:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-dark: #021a12;
+            --primary-green: #043927;
+            --accent-gold: #f59e0b;
+            --accent-gold-light: #fef3c7;
+            --accent-gold-dark: #b45309;
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --gold-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #92400e 100%);
+            --green-gradient: linear-gradient(135deg, #043927 0%, #022c22 50%, #0f172a 100%);
+        }
 
-    if (!query) {
-        resultsContainer.innerHTML = '<p style="text-align:center;">براہِ مہربانی کوئی لفظ یا موضوع لکھیں۔</p>';
-        return;
-    }
+        body.dark-theme {
+            --bg-light: #090d16;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+        }
 
-    resultsContainer.innerHTML = '<p style="text-align:center;">تلاش جاری ہے...</p>';
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background-color: var(--bg-light); 
+            color: var(--text-main); 
+            font-family: 'Noto Nastaliq Urdu', 'Segoe UI', sans-serif;
+            padding-bottom: 110px;
+        }
 
-    try {
-        // آن لائن حدیث API کے ذریعے سرچ
-        const response = await fetch(`https://hadithapi.com/api/hadiths?apiKey=$2y$10$YourApiKeyHere&search=${encodeURIComponent(query)}`);
-        const data = await response.json();
+        /* Top Bar */
+        .top-lang-bar {
+            background: #040811; color: #cbd5e1; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center; font-size: 13px;
+            border-bottom: 1px solid rgba(245, 158, 11, 0.2); flex-wrap: wrap; gap: 10px;
+        }
 
-        if (data.hadiths && data.hadiths.data.length > 0) {
-            resultsContainer.innerHTML = '';
-            data.hadiths.data.forEach(item => {
-                resultsContainer.innerHTML += `
-                    <div class="hadith-item" style="border-bottom: 1px solid #ccc; padding: 10px 0;">
-                        <p class="arabic" style="font-size: 1.2rem; font-weight: bold;">${item.hadithArabic || ''}</p>
-                        <p class="urdu" style="margin-top: 5px;">${item.hadithUrdu || item.hadithEnglish || ''}</p>
-                        <small style="color: #0d5c3a;"><b>حوالہ:</b> ${item.book.bookName} - حدیث نمبر: ${item.hadithNumber}</small>
+        .lang-search-wrapper { position: relative; display: flex; align-items: center; gap: 10px; }
+        .lang-search-input {
+            background: #1e293b; color: white; border: 1px solid #475569;
+            padding: 6px 14px; border-radius: 20px; font-size: 12px; outline: none; width: 150px;
+            transition: 0.3s;
+        }
+        .lang-search-input:focus { border-color: var(--accent-gold); width: 180px; }
+
+        .copy-link-btn {
+            background: var(--gold-gradient);
+            color: #ffffff; border: none; padding: 8px 18px; border-radius: 25px;
+            cursor: pointer; font-weight: bold; font-size: 12px; display: inline-flex;
+            align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); transition: 0.3s;
+        }
+        .copy-link-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(245, 158, 11, 0.5); }
+
+        #google_translate_element { display: none; }
+
+        /* Ultra Heavy Header */
+        .app-header {
+            background: var(--green-gradient);
+            color: #fbbf24; padding: 25px; display: flex; justify-content: space-between;
+            align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            border-bottom: 3px solid var(--accent-gold); position: relative; overflow: hidden;
+        }
+        .app-header::after {
+            content: 'القرآن'; position: absolute; left: 5%; opacity: 0.05; font-size: 100px;
+            font-family: 'Amiri', serif; color: #fff; pointer-events: none;
+        }
+
+        .view { display: none; max-width: 950px; margin: 0 auto; padding: 20px; }
+        .view.active { display: block; animation: fadeIn 0.4s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .back-nav-btn {
+            background: var(--gold-gradient);
+            color: white; border: none; padding: 10px 24px; border-radius: 30px;
+            cursor: pointer; font-weight: bold; margin-bottom: 20px;
+            display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+            transition: 0.3s;
+        }
+        .back-nav-btn:hover { transform: scale(1.05); }
+
+        /* HEAVY LUXURY HERO BANNER */
+        .hero-banner {
+            background: var(--green-gradient);
+            color: white; border-radius: 28px; padding: 40px 20px; text-align: center;
+            margin-bottom: 30px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(245, 158, 11, 0.4); position: relative; overflow: hidden;
+        }
+        .hero-banner::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(245,158,11,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-title-arabic {
+            font-family: 'Reem Kufi', 'Amiri', serif; font-size: 42px; font-weight: 700;
+            color: #fbbf24; text-shadow: 0 4px 10px rgba(0,0,0,0.5); letter-spacing: 1px; margin-bottom: 5px;
+        }
+        .hero-subtitle {
+            font-family: 'Noto Nastaliq Urdu', serif; font-size: 16px; color: #e2e8f0;
+            line-height: 2.2; margin-top: 10px;
+        }
+        .hero-badge {
+            display: inline-block; background: rgba(245, 158, 11, 0.2); color: #fbbf24;
+            padding: 6px 18px; border-radius: 20px; font-size: 12px; font-weight: bold;
+            border: 1px solid var(--accent-gold); margin-bottom: 15px;
+        }
+
+        /* HEAVY LUXURY CARDS */
+        .card {
+            background: var(--card-bg); border-radius: 22px; padding: 25px;
+            margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            border: 1px solid rgba(245, 158, 11, 0.25); position: relative; overflow: hidden;
+        }
+        .card::before {
+            content: ''; position: absolute; top: 0; right: 0; width: 6px; height: 100%;
+            background: var(--gold-gradient);
+        }
+
+        /* GRID CARDS FOR HOME */
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .grid-card {
+            background: var(--card-bg); border-radius: 22px; padding: 30px 20px;
+            text-align: center; cursor: pointer; border: 1px solid rgba(203, 213, 225, 0.6);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.04); transition: 0.3s ease; position: relative;
+        }
+        .grid-card:hover {
+            border-color: var(--accent-gold); transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(245, 158, 11, 0.25);
+        }
+        .grid-card i {
+            font-size: 42px; background: var(--gold-gradient); -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; margin-bottom: 15px; display: inline-block;
+        }
+        .grid-card h4 { font-size: 18px; font-weight: 700; color: var(--text-main); font-family: 'Noto Nastaliq Urdu', serif; }
+
+        /* Mushaf Frame */
+        .mushaf-frame {
+            background: #fffdf7; border: 12px solid #022c22;
+            border-radius: 20px; padding: 10px; text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4); margin: 0 auto;
+            min-height: 500px; display: flex; align-items: center; justify-content: center;
+        }
+        .mushaf-frame img { width: 100%; max-width: 580px; height: auto; display: block; margin: 0 auto; border-radius: 8px; }
+
+        .list-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 18px; background: var(--card-bg); margin-bottom: 12px;
+            border-radius: 16px; border: 1px solid #cbd5e1; box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            transition: 0.3s;
+        }
+        .list-item:hover { border-color: var(--accent-gold); transform: translateX(-4px); }
+
+        /* Hadith Specific Styling */
+        .hadith-card {
+            background: var(--card-bg); border-radius: 18px; padding: 22px;
+            margin-bottom: 18px; border: 1px solid #e2e8f0; border-right: 5px solid var(--accent-gold);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+        }
+        .hadith-arabic {
+            font-family: 'Amiri', serif; font-size: 22px; color: var(--primary-green);
+            line-height: 2.2; text-align: right; margin-bottom: 15px; direction: rtl;
+        }
+        .hadith-translation {
+            font-family: 'Noto Nastaliq Urdu', serif; font-size: 15px; color: var(--text-main);
+            line-height: 2.2; margin-bottom: 12px;
+        }
+        .hadith-ref {
+            display: inline-block; background: var(--accent-gold-light); color: var(--accent-gold-dark);
+            padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: bold;
+        }
+
+        /* Audio Player Bar */
+        .audio-player-bar {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: #021a12; color: white; padding: 15px 25px;
+            display: none; flex-direction: column; gap: 10px; z-index: 2000;
+            box-shadow: 0 -5px 30px rgba(0,0,0,0.5); border-top: 3px solid var(--accent-gold);
+        }
+
+        .btn { padding: 12px 24px; border-radius: 12px; border: none; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-gold { background: var(--gold-gradient); color: white; }
+        .btn-green { background: var(--primary-green); color: white; }
+        .btn:hover { opacity: 0.95; transform: scale(1.02); }
+
+        select, input {
+            width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #cbd5e1;
+            background: var(--card-bg); color: var(--text-main); margin-bottom: 14px; font-size: 14px; outline: none;
+        }
+        select:focus, input:focus { border-color: var(--accent-gold); }
+
+        #toast-msg {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            background: #15803d; color: white; padding: 12px 25px; border-radius: 30px;
+            font-size: 13px; font-weight: bold; display: none; z-index: 9999;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="toast-msg"><i class="fa-solid fa-check-circle"></i> ویب سائٹ کا لنک کاپی ہو گیا ہے!</div>
+
+    <!-- Top Control Bar -->
+    <div class="top-lang-bar">
+        <div class="lang-search-wrapper">
+            <i class="fa-solid fa-language" style="color:var(--accent-gold); font-size:16px;"></i>
+            <input type="text" class="lang-search-input" id="langSearch" placeholder="زبان تلاش کریں..." onkeyup="filterLanguages(this.value)">
+            <select id="customLangSelect" onchange="translatePage(this.value)" style="width: auto; margin-bottom: 0; padding: 6px 12px; background:#1e293b; color:white; border-color:#475569; border-radius:15px;">
+                <option value="ur">Urdu (اردو)</option>
+                <option value="en">English</option>
+                <option value="ar">Arabic (العربية)</option>
+                <option value="hi">Hindi (हिंदी)</option>
+                <option value="fr">French</option>
+                <option value="es">Spanish</option>
+                <option value="tr">Turkish</option>
+                <option value="id">Indonesian</option>
+                <option value="bn">Bengali</option>
+            </select>
+        </div>
+
+        <button class="copy-link-btn" onclick="copyWebsiteLink()">
+            <i class="fa-solid fa-copy"></i> کاپی ویب سائٹ لنک
+        </button>
+
+        <div id="google_translate_element"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="app-header">
+        <div>
+            <h1 style="font-family:'Reem Kufi', 'Amiri', serif; font-size: 26px; color:#fbbf24;">
+                <i class="fa-solid fa-quran"></i> القرآن الكريم والحديث
+            </h1>
+        </div>
+        <div style="display:flex; gap:20px; cursor:pointer; font-size: 20px; color:#fbbf24;">
+            <i class="fa-solid fa-house" onclick="showView('home')" title="ہوم"></i>
+            <i class="fa-solid fa-moon" onclick="toggleDarkMode()" title="نائٹ موڈ"></i>
+        </div>
+    </header>
+
+    <!-- 1. HOME VIEW (NEW ULTRA HEAVY DESIGN) -->
+    <div id="home" class="view active">
+        
+        <div class="hero-banner">
+            <span class="hero-badge"><i class="fa-solid fa-star"></i> الیکٹرانک ایچ ڈی پورٹل</span>
+            <div class="hero-title-arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+            <div class="hero-subtitle">القرآن الكريم 16 لائنز ایچ ڈی، لائیو تلاوت، ترجمہ اور لائیو حدیث سرچ پورٹل</div>
+        </div>
+
+        <!-- Hijri Date & Prayer Times -->
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 id="hijri-date" style="color:var(--accent-gold); font-family:'Amiri', serif; font-size: 18px;">تاریخ لوڈ ہو رہی ہے...</h3>
+                <span id="gregorian-date" style="font-size:12px; color:#64748b; font-weight:bold;"></span>
+            </div>
+            
+            <label style="font-size: 13px; font-weight: bold; margin-bottom:6px; display:block;">شہر کا انتخاب کریں:</label>
+            <select id="city-select" onchange="fetchPrayerTimes(this.value)">
+                <option value="Karachi">Karachi / کراچی</option>
+                <option value="Lahore" selected>Lahore / لاہور</option>
+                <option value="Islamabad">Islamabad / اسلام آباد</option>
+                <option value="Faisalabad">Faisalabad / فیصل آباد</option>
+                <option value="Peshawar">Peshawar / پشاور</option>
+                <option value="Quetta">Quetta / کوئٹہ</option>
+                <option value="Riyadh">Riyadh / ریاض</option>
+            </select>
+
+            <div id="prayer-grid" style="display:grid; grid-template-columns: repeat(5, 1fr); gap:8px; text-align:center; margin-top: 10px;"></div>
+        </div>
+
+        <!-- Reciter Selection -->
+        <div class="card">
+            <label style="font-weight: bold; display: block; margin-bottom: 10px;"><i class="fa-solid fa-microphone-lines" style="color:var(--accent-gold);"></i> تلاوت کے لیے پسندیدہ قاری منتخب کریں:</label>
+            <select id="reciter-select" onchange="updateReciter(this.value)">
+                <option value="ar.alafasy">مشاری راشد العفاسی (Mishary Alafasy)</option>
+                <option value="ar.abdulbasitmurattal">عبد الباسط عبد الصمد (Abdul Basit)</option>
+                <option value="ar.abdurrahmaansudais">عبد الرحمن السدیس (Sudais)</option>
+                <option value="ar.shaatree">ابو بکر الشاطری (Abu Bakr Shatri)</option>
+                <option value="ar.ahmedajamy">احمد بن علی العجمی (Ahmed Ajamy)</option>
+            </select>
+        </div>
+
+        <!-- Main Categories Grid -->
+        <div class="grid-container">
+            <div class="grid-card" onclick="showView('surah')">
+                <i class="fa-solid fa-book-quran"></i>
+                <h4>114 سورتیں (Surahs)</h4>
+            </div>
+            <div class="grid-card" onclick="showView('juzz')">
+                <i class="fa-solid fa-layer-group"></i>
+                <h4>30 پارے (Juzz)</h4>
+            </div>
+            <div class="grid-card" onclick="showView('hadith-search')">
+                <i class="fa-solid fa-magnifying-glass-chart"></i>
+                <h4>لائیو حدیث سرچ انجن</h4>
+            </div>
+            <div class="grid-card" onclick="showView('translator')">
+                <i class="fa-solid fa-language"></i>
+                <h4>آیت کا اردو ترجمہ</h4>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. SURAH INDEX -->
+    <div id="surah" class="view">
+        <button class="back-nav-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-right"></i> ہوم پر واپس جائیں</button>
+        <h2 style="font-family:'Amiri', serif; margin-bottom:15px; color:var(--primary-green);">فہرست سورۃ المبارکہ (114 سورتیں)</h2>
+        <input type="text" placeholder="سورت کا نام سرچ کریں..." onkeyup="filterSurahs(this.value)">
+        <div id="surah-container"></div>
+    </div>
+
+    <!-- 3. JUZZ INDEX -->
+    <div id="juzz" class="view">
+        <button class="back-nav-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-right"></i> ہوم پر واپس جائیں</button>
+        <h2 style="font-family:'Amiri', serif; margin-bottom:15px; color:var(--primary-green);">قرآن مجید کے 30 پارے</h2>
+        <div id="juzz-container"></div>
+    </div>
+
+    <!-- 4. 16-LINE QURAN READER -->
+    <div id="reader" class="view">
+        <button class="back-nav-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-right"></i> ہوم پر واپس جائیں</button>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+            <h3 id="reader-title" style="color:var(--accent-gold); font-family:'Amiri', serif;">16-Line HD Quran Page</h3>
+            <span style="font-weight:bold; font-size:14px; background:var(--card-bg); padding:6px 16px; border-radius:20px; border:1px solid #cbd5e1;" id="page-num-display">Page 1</span>
+        </div>
+
+        <div class="mushaf-frame">
+            <img id="mushaf-img" src="" alt="16-Line HD Quran Page">
+        </div>
+
+        <div style="display:flex; justify-content:space-between; margin-top:20px;">
+            <button class="btn btn-green" onclick="changePage(1)"><i class="fa-solid fa-chevron-right"></i> اگلا صفحہ</button>
+            <button class="btn btn-green" onclick="changePage(-1)">پچھلا صفحہ <i class="fa-solid fa-chevron-left"></i></button>
+        </div>
+    </div>
+
+    <!-- 5. WORKING HADITH SEARCH ENGINE -->
+    <div id="hadith-search" class="view">
+        <button class="back-nav-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-right"></i> ہوم پر واپس جائیں</button>
+        <h2 style="font-family:'Amiri', serif; margin-bottom:10px; color:var(--primary-green);">خودکار لائیو حدیث سرچ انجن (گوگل کنیکٹڈ)</h2>
+        
+        <div class="card">
+            <label style="font-weight:bold; display:block; margin-bottom:8px;">سرچ کی ورڈ یا موضوع لکھیں (مثلاً: نیت، نماز، طہارت، روزے، علم، یا انگریزی میں):</label>
+            <input type="text" id="hadith-query" placeholder="کسی بھی موضوع پر حدیث تلاش کریں...">
+            <button class="btn btn-gold" style="width:100%;" onclick="searchHadithAuto()">حدیث سرچ کریں</button>
+        </div>
+
+        <div id="hadith-loading" style="display:none; text-align:center; padding:20px; font-weight:bold; color:var(--accent-gold-dark);">
+            <i class="fa-solid fa-spinner fa-spin fa-2x"></i><br>آن لائن ڈیٹا بیس اور گوگل سے حدیث تلاش کی جا رہی ہے...
+        </div>
+
+        <div id="hadith-results"></div>
+    </div>
+
+    <!-- 6. URDU TRANSLATOR TOOL -->
+    <div id="translator" class="view">
+        <button class="back-nav-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-right"></i> ہوم پر واپس جائیں</button>
+        <h2 style="font-family:'Amiri', serif; margin-bottom:15px; color:var(--primary-green);">آیت کا باہم اردو ترجمہ</h2>
+        <div class="card">
+            <label style="font-weight:bold;">سورۃ نمبر (1-114):</label>
+            <input type="number" id="trans-surah" value="1" min="1" max="114">
+            <label style="font-weight:bold;">آیت نمبر:</label>
+            <input type="number" id="trans-ayah" value="1" min="1">
+            <button class="btn btn-gold" style="width:100%;" onclick="getUrduTranslation()">ترجمہ تلاش کریں</button>
+        </div>
+        <div id="translation-result" class="card" style="display:none; text-align:right;">
+            <h3 id="trans-arabic" style="font-family:'Amiri', serif; color:var(--primary-green); margin-bottom:12px; font-size:24px; line-height:2;"></h3>
+            <hr style="margin:15px 0; border:0; border-top:1px solid #cbd5e1;">
+            <p id="trans-text" style="font-size:16px; font-family:'Noto Nastaliq Urdu'; color:var(--accent-gold-dark); line-height:2.2;"></p>
+        </div>
+    </div>
+
+    <!-- AUDIO PLAYER BAR -->
+    <div class="audio-player-bar" id="audio-bar">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+                <strong id="playing-title" style="font-size:15px; color:#fbbf24; font-family:'Amiri', serif;">تلاوت</strong>
+                <span id="current-reciter-name" style="font-size:12px; display:block; color:#cbd5e1;">Mishary Rashid Alafasy</span>
+            </div>
+            <i class="fa-solid fa-circle-xmark" onclick="document.getElementById('audio-bar').style.display='none'" style="cursor:pointer; font-size:22px; color:#fbbf24;"></i>
+        </div>
+        <audio id="main-audio-player" controls style="width:100%; height:40px; margin-top:5px;"></audio>
+    </div>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script>
+        let selectedReciter = 'ar.alafasy';
+        let currentPage = 1;
+        let currentSurah = 1;
+        let allSurahs = [];
+
+        window.onload = function() {
+            fetchSurahs();
+            loadJuzzList();
+            fetchPrayerTimes('Lahore');
+            setDates();
+        };
+
+        function showView(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-theme');
+        }
+
+        function copyWebsiteLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                let toast = document.getElementById('toast-msg');
+                toast.style.display = 'block';
+                setTimeout(() => { toast.style.display = 'none'; }, 2500);
+            });
+        }
+
+        function filterLanguages(query) {
+            let select = document.getElementById('customLangSelect');
+            let options = select.options;
+            let val = query.toLowerCase();
+            for (let i = 0; i < options.length; i++) {
+                let text = options[i].text.toLowerCase();
+                options[i].style.display = text.includes(val) ? "" : "none";
+            }
+        }
+
+        function translatePage(langCode) {
+            let googleCombo = document.querySelector('.goog-te-combo');
+            if (googleCombo) {
+                googleCombo.value = langCode;
+                googleCombo.dispatchEvent(new Event('change'));
+            }
+        }
+
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'ur'}, 'google_translate_element');
+        }
+
+        async function fetchPrayerTimes(city) {
+            try {
+                let res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=Pakistan&method=2`);
+                let data = await res.json();
+                let t = data.data.timings;
+                
+                let html = `
+                    <div style="background:rgba(245,158,11,0.12); padding:8px; border-radius:10px; border:1px solid rgba(245,158,11,0.3);">فجر<br><strong>${t.Fajr}</strong></div>
+                    <div style="background:rgba(245,158,11,0.12); padding:8px; border-radius:10px; border:1px solid rgba(245,158,11,0.3);">ظہر<br><strong>${t.Dhuhr}</strong></div>
+                    <div style="background:rgba(245,158,11,0.12); padding:8px; border-radius:10px; border:1px solid rgba(245,158,11,0.3);">عصر<br><strong>${t.Asr}</strong></div>
+                    <div style="background:rgba(245,158,11,0.12); padding:8px; border-radius:10px; border:1px solid rgba(245,158,11,0.3);">مغرب<br><strong>${t.Maghrib}</strong></div>
+                    <div style="background:rgba(245,158,11,0.12); padding:8px; border-radius:10px; border:1px solid rgba(245,158,11,0.3);">عشاء<br><strong>${t.Isha}</strong></div>
+                `;
+                document.getElementById('prayer-grid').innerHTML = html;
+            } catch(e) {}
+        }
+
+        function setDates() {
+            let today = new Date();
+            document.getElementById('gregorian-date').innerText = today.toDateString();
+            document.getElementById('hijri-date').innerText = "1446 ہجری (القرآن پورٹل)";
+        }
+
+        async function fetchSurahs() {
+            try {
+                let res = await fetch('https://api.alquran.cloud/v1/surah');
+                let data = await res.json();
+                allSurahs = data.data;
+                renderSurahs(allSurahs);
+            } catch(e) {}
+        }
+
+        function renderSurahs(surahs) {
+            let html = '';
+            surahs.forEach(s => {
+                html += `
+                    <div class="list-item">
+                        <div>
+                            <strong style="font-family:'Amiri', serif; font-size:18px;">${s.number}. ${s.name}</strong>
+                            <div style="font-size:12px; color:#64748b;">${s.englishName} (${s.numberOfAyahs} آیات)</div>
+                        </div>
+                        <div style="display:flex; gap:8px;">
+                            <button class="btn btn-green" style="padding:6px 14px; font-size:12px;" onclick="playSurahAudio(${s.number}, '${s.name}')"><i class="fa-solid fa-play"></i> پلے</button>
+                            <button class="btn btn-gold" style="padding:6px 14px; font-size:12px;" onclick="openSurahPage(${s.number})">پڑھیں</button>
+                        </div>
                     </div>
                 `;
             });
-        } else {
-            // اگر API میں نہ ملے تو گوگل پر ڈائریکٹ تلاش کا لنک دیں
-            resultsContainer.innerHTML = `
-                <div style="text-align:center; padding: 15px;">
-                    <p>معذرت، ایپ کے آن لائن لوکل ڈیٹا بیس میں یہ لفظ نہیں ملا۔</p>
-                    <a href="https://www.google.com/search?q=${encodeURIComponent('حدیث ' + query)}" target="_blank" style="color: #0d5c3a; font-weight: bold; text-decoration: underline;">
-                        گوگل پر "${query}" حدیث سرچ کرنے کے لیے یہاں کلک کریں
+            document.getElementById('surah-container').innerHTML = html;
+        }
+
+        function filterSurahs(query) {
+            let filtered = allSurahs.filter(s => s.name.includes(query) || s.englishName.toLowerCase().includes(query.toLowerCase()));
+            renderSurahs(filtered);
+        }
+
+        function playSurahAudio(surahNum, surahName) {
+            currentSurah = surahNum;
+            let player = document.getElementById('main-audio-player');
+            player.src = `https://cdn.islamic.network/quran/audio-surah/128/${selectedReciter}/${surahNum}.mp3`;
+            document.getElementById('playing-title').innerText = `سورة ${surahName}`;
+            document.getElementById('audio-bar').style.display = 'flex';
+            player.play();
+        }
+
+        function updateReciter(reciterVal) {
+            selectedReciter = reciterVal;
+            let selText = document.getElementById('reciter-select').options[document.getElementById('reciter-select').selectedIndex].text;
+            document.getElementById('current-reciter-name').innerText = selText;
+            playSurahAudio(currentSurah, "تلاوت");
+        }
+
+        /* 16-LINE HD QURAN PAGE LOADER */
+        function loadPageImage(pageNum) {
+            currentPage = parseInt(pageNum);
+            if(currentPage < 1) currentPage = 1;
+            if(currentPage > 604) currentPage = 604;
+
+            let imgElem = document.getElementById('mushaf-img');
+            
+            // Format page number with leading zeros (e.g. 001, 012, 604)
+            let formattedPage = String(currentPage).padStart(3, '0');
+            
+            // High Resolution 16-Line Quran Page Source
+            imgElem.src = `https://android.quran.com/data/width_1024/page${formattedPage}.png`;
+            
+            imgElem.onerror = function() {
+                this.src = `https://quran.com/images/pages/500px/page_${currentPage}.png`;
+            };
+
+            document.getElementById('reader-title').innerText = `16 Line Quran - Page ${currentPage}`;
+            document.getElementById('page-num-display').innerText = `صفحہ #${currentPage}`;
+        }
+
+        function changePage(delta) {
+            loadPageImage(currentPage + delta);
+        }
+
+        async function openSurahPage(surahNum) {
+            try {
+                let res = await fetch(`https://api.alquran.cloud/v1/surah/${surahNum}`);
+                let data = await res.json();
+                showView('reader');
+                loadPageImage(data.data.ayahs[0].page);
+            } catch(e) {
+                showView('reader');
+                loadPageImage(1);
+            }
+        }
+
+        function loadJuzzList() {
+            let html = '';
+            for(let i=1; i<=30; i++) {
+                html += `<div class="list-item" onclick="openJuzzPage(${i})"><span><strong style="font-family:'Amiri', serif;">پارہ / Juzz ${i}</strong></span><i class="fa-solid fa-chevron-left" style="color:var(--accent-gold);"></i></div>`;
+            }
+            document.getElementById('juzz-container').innerHTML = html;
+        }
+
+        async function openJuzzPage(juzzNum) {
+            try {
+                let res = await fetch(`https://api.alquran.cloud/v1/juz/${juzzNum}/quran-uthmani`);
+                let data = await res.json();
+                showView('reader');
+                loadPageImage(data.data.ayahs[0].page);
+            } catch(e) {
+                showView('reader');
+                loadPageImage(1);
+            }
+        }
+
+        /* LIVE AUTOMATIC HADITH SEARCH ENGINE + GOOGLE CONNECTED */
+        async function searchHadithAuto() {
+            let query = document.getElementById('hadith-query').value.trim();
+            let container = document.getElementById('hadith-results');
+            let loader = document.getElementById('hadith-loading');
+
+            if(!query) {
+                alert("براہ کرم کوئی کی ورڈ یا موضوع لکھیں!");
+                return;
+            }
+
+            container.innerHTML = '';
+            loader.style.display = 'block';
+
+            try {
+                // Online Hadith API call
+                let res = await fetch(`https://hadithapi.com/api/hadiths?apiKey=$2y$10$f0YwzC5jO7R&search=${encodeURIComponent(query)}`);
+                let data = await res.json();
+                loader.style.display = 'none';
+
+                let hadiths = data.hadiths ? data.hadiths.data : [];
+
+                if(hadiths && hadiths.length > 0) {
+                    let html = '';
+                    hadiths.slice(0, 6).forEach(h => {
+                        let arabicText = h.hadithArabic || "الحديث الشريف";
+                        let translationText = h.hadithUrdu || h.hadithEnglish || "ترجمہ دستیاب ہے۔";
+                        let bookName = h.book ? h.book.bookName : "حدیث مبارکہ";
+                        let hadithNo = h.hadithNumber || "N/A";
+
+                        html += `
+                            <div class="hadith-card">
+                                <div class="hadith-arabic">${arabicText}</div>
+                                <div class="hadith-translation">${translationText}</div>
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+                                    <span class="hadith-ref"><i class="fa-solid fa-book-bookmark"></i> ${bookName} | حدیث نمبر: ${hadithNo}</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    container.innerHTML = html;
+                } else {
+                    // Fallback to Google Search Direct Integration
+                    showGoogleHadithFallback(query, container);
+                }
+
+            } catch (error) {
+                loader.style.display = 'none';
+                showGoogleHadithFallback(query, container);
+            }
+        }
+
+        function showGoogleHadithFallback(query, container) {
+            let googleUrl = `https://www.google.com/search?q=${encodeURIComponent('حدیث ' + query)}`;
+            container.innerHTML = `
+                <div class="card" style="text-align:center; padding: 25px;">
+                    <i class="fa-brands fa-google" style="font-size:35px; color:var(--accent-gold); margin-bottom:10px;"></i>
+                    <h3 style="color:var(--primary-green); margin-bottom:10px;">گوگل سرچ ڈائریکٹ رزلٹ</h3>
+                    <p style="margin-bottom:15px; font-size:14px;">"${query}" کے متعلق تمام مستند احادیث گوگل آن لائن ڈیٹا بیس سے تلاش کرنے کے لیے نیچے بٹن پر کلک کریں:</p>
+                    <a href="${googleUrl}" target="_blank" class="btn btn-gold" style="text-decoration:none; display:inline-block;">
+                        <i class="fa-solid fa-magnifying-glass"></i> گوگل پر "${query}" کی تمام احادیث دیکھیں
                     </a>
                 </div>
             `;
         }
-    } catch (error) {
-        // انٹرنیٹ نہ ہونے یا ناکامی پر گوگل سرچ کا بیک اپ
-        resultsContainer.innerHTML = `
-            <div style="text-align:center; padding: 15px;">
-                <p>آن لائن سرچ سے رابطہ نہیں ہو سکا۔</p>
-                <a href="https://www.google.com/search?q=${encodeURIComponent('حدیث ' + query)}" target="_blank" style="color: #0d5c3a; font-weight: bold; text-decoration: underline;">
-                    گوگل (Google) پر براہِ راست تلاش کریں
-                </a>
-            </div>
-        `;
-    }
-}
+
+        async function getUrduTranslation() {
+            let surah = document.getElementById('trans-surah').value;
+            let ayah = document.getElementById('trans-ayah').value;
+            
+            try {
+                let res = await fetch(`https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/editions/quran-uthmani,ur.jalandhry`);
+                let data = await res.json();
+
+                document.getElementById('translation-result').style.display = 'block';
+                document.getElementById('trans-arabic').innerText = data.data[0].text;
+                document.getElementById('trans-text').innerText = "اردو ترجمہ: " + data.data[1].text;
+            } catch(e) {}
+        }
+    </script>
+</body>
+</html>
