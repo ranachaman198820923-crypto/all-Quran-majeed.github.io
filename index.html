@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ur" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -579,7 +579,7 @@
             }
         }
 
-        /* LIVE AUTOMATIC HADITH SEARCH ENGINE + GOOGLE CONNECTED */
+        /* LIVE AUTOMATIC HADITH SEARCH ENGINE (EMBEDDED GOOGLE & ONLINE API) */
         async function searchHadithAuto() {
             let query = document.getElementById('hadith-query').value.trim();
             let container = document.getElementById('hadith-results');
@@ -594,55 +594,44 @@
             loader.style.display = 'block';
 
             try {
-                // Online Hadith API call
+                // Online Hadith API Call
                 let res = await fetch(`https://hadithapi.com/api/hadiths?apiKey=$2y$10$f0YwzC5jO7R&search=${encodeURIComponent(query)}`);
                 let data = await res.json();
-                loader.style.display = 'none';
-
-                let hadiths = data.hadiths ? data.hadiths.data : [];
-
-                if(hadiths && hadiths.length > 0) {
+                
+                if(data.hadiths && data.hadiths.data && data.hadiths.data.length > 0) {
+                    loader.style.display = 'none';
                     let html = '';
-                    hadiths.slice(0, 6).forEach(h => {
-                        let arabicText = h.hadithArabic || "الحديث الشريف";
-                        let translationText = h.hadithUrdu || h.hadithEnglish || "ترجمہ دستیاب ہے۔";
-                        let bookName = h.book ? h.book.bookName : "حدیث مبارکہ";
-                        let hadithNo = h.hadithNumber || "N/A";
-
+                    data.hadiths.data.slice(0, 6).forEach(h => {
                         html += `
                             <div class="hadith-card">
-                                <div class="hadith-arabic">${arabicText}</div>
-                                <div class="hadith-translation">${translationText}</div>
-                                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-                                    <span class="hadith-ref"><i class="fa-solid fa-book-bookmark"></i> ${bookName} | حدیث نمبر: ${hadithNo}</span>
+                                <div class="hadith-arabic">${h.hadithArabic || "الحديث الشريف"}</div>
+                                <div class="hadith-translation">${h.hadithUrdu || h.hadithEnglish || ""}</div>
+                                <div style="margin-top:10px;">
+                                    <span class="hadith-ref"><i class="fa-solid fa-book-bookmark"></i> کتاب: ${h.book ? h.book.bookName : "حدیث"} | نمبر: ${h.hadithNumber || ""}</span>
                                 </div>
-                            </div>
-                        `;
+                            </div>`;
                     });
                     container.innerHTML = html;
                 } else {
-                    // Fallback to Google Search Direct Integration
-                    showGoogleHadithFallback(query, container);
+                    // Show Google Search direct inside your site frame
+                    showGoogleFrameResults(query, container, loader);
                 }
-
             } catch (error) {
-                loader.style.display = 'none';
-                showGoogleHadithFallback(query, container);
+                showGoogleFrameResults(query, container, loader);
             }
         }
 
-        function showGoogleHadithFallback(query, container) {
-            let googleUrl = `https://www.google.com/search?q=${encodeURIComponent('حدیث ' + query)}`;
+        function showGoogleFrameResults(query, container, loader) {
+            loader.style.display = 'none';
             container.innerHTML = `
-                <div class="card" style="text-align:center; padding: 25px;">
-                    <i class="fa-brands fa-google" style="font-size:35px; color:var(--accent-gold); margin-bottom:10px;"></i>
-                    <h3 style="color:var(--primary-green); margin-bottom:10px;">گوگل سرچ ڈائریکٹ رزلٹ</h3>
-                    <p style="margin-bottom:15px; font-size:14px;">"${query}" کے متعلق تمام مستند احادیث گوگل آن لائن ڈیٹا بیس سے تلاش کرنے کے لیے نیچے بٹن پر کلک کریں:</p>
-                    <a href="${googleUrl}" target="_blank" class="btn btn-gold" style="text-decoration:none; display:inline-block;">
-                        <i class="fa-solid fa-magnifying-glass"></i> گوگل پر "${query}" کی تمام احادیث دیکھیں
-                    </a>
-                </div>
-            `;
+                <div class="card" style="padding:15px; text-align:center;">
+                    <h3 style="color:var(--primary-green); margin-bottom:10px; font-family:'Amiri', serif;">
+                        <i class="fa-brands fa-google" style="color:var(--accent-gold);"></i> گوگل آن لائن حدیث تلاش کا نتیجہ
+                    </h3>
+                    <p style="font-size:13px; color:#64748b; margin-bottom:10px;">"${query}" کے متعلق تمام احادیث ڈائریکٹ آپ کی ویب سائٹ پر کھولی جا رہی ہیں:</p>
+                    <iframe src="https://www.google.com/search?igu=1&q=${encodeURIComponent('حدیث ' + query)}" 
+                            style="width:100%; height:550px; border:2px solid var(--accent-gold); border-radius:15px;"></iframe>
+                </div>`;
         }
 
         async function getUrduTranslation() {
