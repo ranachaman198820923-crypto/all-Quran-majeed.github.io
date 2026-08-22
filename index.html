@@ -1,1000 +1,256 @@
-"use client";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Al QURAN - القرآن الكريم</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2e7d32;
+      --primary-light: #4caf50;
+      --accent: #d4af37;
+      --bg: #f4f6f8;
+      --card-bg: #ffffff;
+      --text: #333333;
+    }
+    body.dark-mode {
+      --bg: #121212;
+      --card-bg: #1e1e1e;
+      --text: #ffffff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 70px; }
+    
+    /* Header */
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white; padding: 15px 20px; display: flex;
+      justify-content: space-between; align-items: center;
+      border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;
+    }
+    .header-title { font-size: 1.4rem; font-weight: bold; }
+    .theme-toggle { cursor: pointer; font-size: 1.2rem; }
 
-import { useEffect, useMemo, useRef, useState } from "react";
+    /* Date & Prayer Bar */
+    .info-card {
+      background: var(--card-bg); margin: 15px; padding: 15px;
+      border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .location-btn {
+      background: #ffebee; color: #c62828; border: none;
+      padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; cursor: pointer;
+    }
 
-type Ayah = {
-  number: number;
-  text: string;
-  numberInSurah: number;
-};
+    /* Resume Banner */
+    .resume-card {
+      background: linear-gradient(135deg, #c5a059, #d4af37);
+      color: white; margin: 0 15px 15px; padding: 20px;
+      border-radius: 15px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .resume-btn {
+      background: white; color: #8a6d3b; border: none;
+      padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer;
+    }
 
-type Surah = {
-  number: number;
-  name: string;
-  englishName: string;
-  englishNameTranslation: string;
-  numberOfAyahs: number;
-  revelationType: string;
-  ayahs: Ayah[];
-};
+    /* Grid Navigation */
+    .grid-container {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 0 15px;
+    }
+    .grid-card {
+      background: var(--card-bg); padding: 20px; border-radius: 15px;
+      text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); cursor: pointer;
+    }
+    .grid-card i { font-size: 2rem; color: var(--accent); margin-bottom: 10px; }
+    .grid-card h3 { font-size: 1rem; }
 
-type QuranResponse = {
-  code: number;
-  status: string;
-  data: Surah[];
-};
+    /* Main Content Sections */
+    .content-section { display: none; padding: 15px; }
+    .content-section.active { display: block; }
+    
+    /* Surah List */
+    .surah-item {
+      background: var(--card-bg); padding: 12px 15px; border-radius: 10px;
+      margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .surah-actions button {
+      background: transparent; border: 1px solid var(--primary); color: var(--primary);
+      padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-left: 5px;
+    }
 
-type Reciter = {
-  id: string;
-  name: string;
-  arabicName: string;
-  audioEdition: string;
-};
+    /* Reader View */
+    .reader-box {
+      background: var(--card-bg); padding: 20px; border-radius: 10px;
+      text-align: right; font-size: 1.5rem; line-height: 2.2; direction: rtl;
+    }
 
-/*
-  20 Reciters
-  Audio is loaded from Islamic Network's Quran audio CDN.
-*/
-const RECITERS: Reciter[] = [
-  {
-    id: "alafasy",
-    name: "Mishary Rashid Alafasy",
-    arabicName: "مشاري راشد العفاسي",
-    audioEdition: "ar.alafasy",
-  },
-  {
-    id: "sudais",
-    name: "Abdul Rahman Al-Sudais",
-    arabicName: "عبد الرحمن السديس",
-    audioEdition: "ar.abdurrahmaansudais",
-  },
-  {
-    id: "shuraim",
-    name: "Saud Al-Shuraim",
-    arabicName: "سعود الشريم",
-    audioEdition: "ar.sauds",
-  },
-  {
-    id: "maher",
-    name: "Maher Al-Muaiqly",
-    arabicName: "ماهر المعيقلي",
-    audioEdition: "ar.mahermuaiqly",
-  },
-  {
-    id: "husary",
-    name: "Mahmoud Khalil Al-Husary",
-    arabicName: "محمود خليل الحصري",
-    audioEdition: "ar.husary",
-  },
-  {
-    id: "minshawi",
-    name: "Mohamed Siddiq Al-Minshawi",
-    arabicName: "محمد صديق المنشاوي",
-    audioEdition: "ar.minshawi",
-  },
-  {
-    id: "abdulbasit",
-    name: "Abdul Basit Abdul Samad",
-    arabicName: "عبد الباسط عبد الصمد",
-    audioEdition: "ar.abdulbasitmurattal",
-  },
-  {
-    id: "ghamidi",
-    name: "Saad Al-Ghamdi",
-    arabicName: "سعد الغامدي",
-    audioEdition: "ar.ghamdi",
-  },
-  {
-    id: "ajmi",
-    name: "Ahmed Al-Ajmi",
-    arabicName: "أحمد العجمي",
-    audioEdition: "ar.ahmedajamy",
-  },
-  {
-    id: "dosari",
-    name: "Yasser Al-Dosari",
-    arabicName: "ياسر الدوسري",
-    audioEdition: "ar.yasserdossari",
-  },
-  {
-    id: "rifai",
-    name: "Hani Ar-Rifai",
-    arabicName: "هاني الرفاعي",
-    audioEdition: "ar.hanirifai",
-  },
-  {
-    id: "qatami",
-    name: "Nasser Al-Qatami",
-    arabicName: "ناصر القطامي",
-    audioEdition: "ar.nasser",
-  },
-  {
-    id: "jleel",
-    name: "Khalid Al-Jalil",
-    arabicName: "خالد الجليل",
-    audioEdition: "ar.khalidaljalil",
-  },
-  {
-    id: "ayyub",
-    name: "Muhammad Ayyub",
-    arabicName: "محمد أيوب",
-    audioEdition: "ar.muhammadayyoub",
-  },
-  {
-    id: "akhdar",
-    name: "Ibrahim Al-Akhdar",
-    arabicName: "إبراهيم الأخضر",
-    audioEdition: "ar.ibrahimakhder",
-  },
-  {
-    id: "matrood",
-    name: "Abdullah Al-Matrood",
-    arabicName: "عبدالله المطرود",
-    audioEdition: "ar.abdullahmatroud",
-  },
-  {
-    id: "juhani",
-    name: "Abdullah Al-Juhani",
-    arabicName: "عبدالله الجهني",
-    audioEdition: "ar.abdullahjuhani",
-  },
-  {
-    id: "balilah",
-    name: "Bandar Baleela",
-    arabicName: "بندر بليلة",
-    audioEdition: "ar.bandarbalilah",
-  },
-  {
-    id: "salamah",
-    name: "Ahmed Al-Hawashi",
-    arabicName: "أحمد الحواشي",
-    audioEdition: "ar.ahmedalhawashi",
-  },
-  {
-    id: "qari",
-    name: "Abdul Wali Al-Arkani",
-    arabicName: "عبد الولي الأركاني",
-    audioEdition: "ar.abdulwali",
-  },
-];
+    /* Audio Player Bar */
+    .audio-player {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: var(--card-bg); border-top: 1px solid #ccc;
+      padding: 10px 20px; display: flex; align-items: center; justify-content: space-between;
+    }
 
-const QURAN_API =
-  "https://api.alquran.cloud/v1/quran/quran-uthmani";
+    /* Reciter Selector */
+    select { padding: 8px; border-radius: 5px; width: 100%; margin-bottom: 15px; }
+  </style>
+</head>
+<body>
 
-function audioUrl(reciter: Reciter, surahNumber: number) {
-  return `https://cdn.islamic.network/quran/audio-surah/128/${reciter.audioEdition}/${surahNumber}.mp3`;
-}
+  <header>
+    <div class="header-title">Al Quran - القرآن الكريم</div>
+    <div class="theme-toggle" onclick="toggleTheme()"><i class="fas => fa-moon"></i></div>
+  </header>
 
-export default function Home() {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  <!-- Dashboard Section -->
+  <div id="home-view" class="content-section active">
+    <div class="info-card">
+      <div>
+        <h4 id="hijri-date">Rabi' al-awwal 8</h4>
+        <small id="gregorian-date">Saturday, 22 August</small>
+      </div>
+      <button class="location-btn" onclick="getLocation()"><i class="fas fa-location-arrow"></i> Enable Location</button>
+    </div>
 
-  const [surahs, setSurahs] = useState<Surah[]>([]);
-  const [selectedSurah, setSelectedSurah] = useState(1);
+    <div class="resume-card">
+      <div>
+        <h3>سُورَةُ الْبَقَرَةِ</h3>
+        <p>Juzz - 2</p>
+      </div>
+      <button class="resume-btn" onclick="openReader('Al-Baqarah')">Resume Reading</button>
+    </div>
 
-  const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(true);
+    <div style="padding: 0 15px 15px;">
+      <select id="reciter-select" onchange="changeReciter(this.value)">
+        <option value="ar.alafasy">Mishary Rashid Alafasy</option>
+        <option value="ar.abdulbasitmurattal">Abdul Basit (Murattal)</option>
+        <option value="ar.hudhaify">Ali Al-Hudhaify</option>
+      </select>
+    </div>
 
-  const [dark, setDark] = useState(false);
-  const [fontSize, setFontSize] = useState(29);
+    <div class="grid-container">
+      <div class="grid-card" onclick="showSection('surah-view')">
+        <i class="fas fa-list-ol"></i>
+        <h3>Surah Index</h3>
+      </div>
+      <div class="grid-card" onclick="showSection('juzz-view')">
+        <i class="fas fa-book-open"></i>
+        <h3>Juzz Index</h3>
+      </div>
+      <div class="grid-card" onclick="showSection('goto-view')">
+        <i class="fas fa-file-alt"></i>
+        <h3>Goto Page</h3>
+      </div>
+      <div class="grid-card" onclick="showSection('bookmark-view')">
+        <i class="fas fa-bookmark"></i>
+        <h3>Bookmarks</h3>
+      </div>
+    </div>
+  </div>
 
-  const [reciter, setReciter] = useState(RECITERS[0]);
-  const [showReciters, setShowReciters] = useState(false);
+  <!-- Surah Index Section -->
+  <div id="surah-view" class="content-section">
+    <button onclick="showSection('home-view')" style="margin-bottom:10px; padding: 5px 10px;">← Back</button>
+    <h2>Surah Index</h2>
+    <div id="surah-list" style="margin-top: 15px;"></div>
+  </div>
 
-  const [playing, setPlaying] = useState(false);
-  const [audioError, setAudioError] = useState(false);
+  <!-- Reader Section -->
+  <div id="reader-view" class="content-section">
+    <button onclick="showSection('surah-view')" style="margin-bottom:10px; padding: 5px 10px;">← Back</button>
+    <h2 id="reader-title" style="margin-bottom: 15px;">Surah</h2>
+    <div class="reader-box" id="reader-content">
+      بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+    </div>
+  </div>
 
-  const [bookmark, setBookmark] = useState<number | null>(null);
+  <!-- Audio Player -->
+  <div class="audio-player">
+    <div>
+      <strong id="audio-title">Select a Surah</strong>
+    </div>
+    <audio id="main-audio" controls>
+      <source id="audio-source" src="" type="audio/mp3">
+      Your browser does not support the audio element.
+    </audio>
+  </div>
 
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
+  <script>
+    const surahs = [
+      { id: 1, name: "Al-Fatiha", ar: "الفاتحة" },
+      { id: 2, name: "Al-Baqarah", ar: "البقرة" },
+      { id: 3, name: "Ali 'Imran", ar: "آل عمران" },
+      { id: 4, name: "An-Nisa'", ar: "النساء" },
+      { id: 5, name: "Al-Ma'idah", ar: "المائدة" },
+      { id: 6, name: "Al-An'am", ar: "الأنعام" },
+      { id: 7, name: "Al-A'raf", ar: "الأعراف" }
+    ];
 
-  const currentSurah = useMemo(
-    () =>
-      surahs.find(
-        (surah) => surah.number === selectedSurah
-      ),
-    [surahs, selectedSurah]
-  );
+    let currentReciter = "ar.alafasy";
 
-  /*
-    Load complete Quran.
-  */
-  useEffect(() => {
-    async function loadQuran() {
-      try {
-        const response = await fetch(QURAN_API);
+    // Toggle Theme
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+    }
 
-        if (!response.ok) {
-          throw new Error("Failed to load Quran");
-        }
+    // Switch Views
+    function showSection(sectionId) {
+      document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(sectionId).classList.add('active');
+    }
 
-        const json: QuranResponse = await response.json();
+    // Load Surah List
+    function loadSurahList() {
+      const container = document.getElementById('surah-list');
+      container.innerHTML = '';
+      surahs.forEach(s => {
+        container.innerHTML += `
+          <div class="surah-item">
+            <div>
+              <strong>${s.id}. ${s.name}</strong><br>
+              <small>${s.ar}</small>
+            </div>
+            <div class="surah-actions">
+              <button onclick="playAudio(${s.id}, '${s.name}')"><i class="fas fa-play"></i> Play</button>
+              <button onclick="openReader('${s.name}')"><i class="fas fa-book"></i> Read</button>
+            </div>
+          </div>
+        `;
+      });
+    }
 
-        setSurahs(json.data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
+    // Audio Playback using Al Quran Cloud API
+    function playAudio(surahNum, title) {
+      const audio = document.getElementById('main-audio');
+      const source = document.getElementById('audio-source');
+      document.getElementById('audio-title').innerText = title;
+      
+      // Using public audio API stream
+      source.src = `https://cdn.islamic.network/quran/audio/128/${currentReciter}/${surahNum}.mp3`;
+      audio.load();
+      audio.play();
+    }
+
+    function changeReciter(val) {
+      currentReciter = val;
+    }
+
+    function openReader(title) {
+      document.getElementById('reader-title').innerText = title;
+      showSection('reader-view');
+    }
+
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(() => {
+          alert("Location enabled for accurate prayer times.");
+        });
       }
     }
 
-    loadQuran();
-
-    const savedSurah =
-      localStorage.getItem("alquran-last-surah");
-
-    const savedBookmark =
-      localStorage.getItem("alquran-bookmark");
-
-    if (savedSurah) {
-      setSelectedSurah(Number(savedSurah));
-    }
-
-    if (savedBookmark) {
-      setBookmark(Number(savedBookmark));
-    }
-  }, []);
-
-  /*
-    Save last reading position.
-  */
-  useEffect(() => {
-    localStorage.setItem(
-      "alquran-last-surah",
-      String(selectedSurah)
-    );
-  }, [selectedSurah]);
-
-  /*
-    Filter/search.
-  */
-  const filteredSurahs = useMemo(() => {
-    const query = search.trim().toLowerCase();
-
-    if (!query) return surahs;
-
-    return surahs.filter(
-      (surah) =>
-        surah.number.toString() === query ||
-        surah.englishName
-          .toLowerCase()
-          .includes(query) ||
-        surah.englishNameTranslation
-          .toLowerCase()
-          .includes(query)
-    );
-  }, [surahs, search]);
-
-  /*
-    Select Surah.
-  */
-  function selectSurah(number: number) {
-    if (number < 1 || number > 114) return;
-
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-    }
-
-    setPlaying(false);
-    setCurrentTime(0);
-    setDuration(0);
-    setAudioError(false);
-    setSelectedSurah(number);
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  }
-
-  /*
-    Bookmark.
-  */
-  function toggleBookmark() {
-    if (!currentSurah) return;
-
-    if (bookmark === currentSurah.number) {
-      localStorage.removeItem("alquran-bookmark");
-      setBookmark(null);
-    } else {
-      localStorage.setItem(
-        "alquran-bookmark",
-        String(currentSurah.number)
-      );
-
-      setBookmark(currentSurah.number);
-    }
-  }
-
-  /*
-    Audio.
-  */
-  function playAudio() {
-    if (!audioRef.current) return;
-
-    audioRef.current
-      .play()
-      .then(() => {
-        setPlaying(true);
-      })
-      .catch((error) => {
-        console.error(error);
-        setAudioError(true);
-      });
-  }
-
-  function pauseAudio() {
-    audioRef.current?.pause();
-    setPlaying(false);
-  }
-
-  function nextSurah() {
-    if (selectedSurah < 114) {
-      selectSurah(selectedSurah + 1);
-    }
-  }
-
-  function previousSurah() {
-    if (selectedSurah > 1) {
-      selectSurah(selectedSurah - 1);
-    }
-  }
-
-  function formatTime(seconds: number) {
-    if (!Number.isFinite(seconds)) {
-      return "00:00";
-    }
-
-    const minutes = Math.floor(seconds / 60);
-    const secondsLeft = Math.floor(seconds % 60);
-
-    return `${String(minutes).padStart(2, "0")}:${String(
-      secondsLeft
-    ).padStart(2, "0")}`;
-  }
-
-  if (loading) {
-    return (
-      <main className="flex min-h-screen items-center justify-center bg-[#f7f8f4]">
-        <div className="text-center">
-          <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-[#0d5c46] border-t-transparent" />
-
-          <p className="mt-4 font-semibold text-[#0d5c46]">
-            Loading Holy Quran...
-          </p>
-        </div>
-      </main>
-    );
-  }
-
-  return (
-    <main
-      className={`min-h-screen pb-40 ${
-        dark
-          ? "bg-[#0b1511] text-white"
-          : "bg-[#f7f8f4] text-[#17251f]"
-      }`}
-    >
-      {/* ================= HEADER ================= */}
-
-      <header className="sticky top-0 z-50 bg-[#0d5c46] px-4 py-4 text-white shadow-lg">
-        <div className="mx-auto flex max-w-5xl items-center justify-between">
-          <button
-            onClick={() => window.history.back()}
-            className="rounded-xl px-3 py-2 text-2xl hover:bg-white/10"
-          >
-            ←
-          </button>
-
-          <div className="text-center">
-            <h1 className="text-xl font-bold">
-              Al QURAN
-            </h1>
-
-            <p className="text-xs opacity-80">
-              القرآن الكريم
-            </p>
-          </div>
-
-          <button
-            onClick={() => setDark(!dark)}
-            className="rounded-xl px-3 py-2 text-xl hover:bg-white/10"
-          >
-            {dark ? "☀️" : "🌙"}
-          </button>
-        </div>
-      </header>
-
-      <div className="mx-auto max-w-5xl px-4 py-6">
-
-        {/* ================= WELCOME ================= */}
-
-        <section className="rounded-3xl bg-[#0d5c46] p-6 text-white shadow-xl">
-          <p className="text-sm opacity-80">
-            Assalamu Alaikum
-          </p>
-
-          <h2 className="mt-2 text-3xl font-bold">
-            Read, Listen & Connect
-          </h2>
-
-          <p className="mt-2 max-w-xl text-sm opacity-90">
-            Read and listen to the Holy Quran anytime,
-            anywhere.
-          </p>
-
-          <button
-            onClick={() =>
-              document
-                .getElementById("quran-reader")
-                ?.scrollIntoView({
-                  behavior: "smooth",
-                })
-            }
-            className="mt-5 rounded-xl bg-white px-6 py-3 font-semibold text-[#0d5c46] shadow hover:bg-gray-100"
-          >
-            Continue Reading
-          </button>
-        </section>
-
-        {/* ================= SEARCH ================= */}
-
-        <section className="mt-5">
-          <input
-            value={search}
-            onChange={(event) =>
-              setSearch(event.target.value)
-            }
-            placeholder="Search Surah..."
-            className={`w-full rounded-2xl border px-5 py-4 outline-none focus:border-[#0d5c46] ${
-              dark
-                ? "border-gray-700 bg-[#14221c]"
-                : "border-gray-200 bg-white"
-            }`}
-          />
-        </section>
-
-        {/* ================= QUICK BUTTONS ================= */}
-
-        <section className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <button
-            onClick={() =>
-              document
-                .getElementById("surah-list")
-                ?.scrollIntoView({
-                  behavior: "smooth",
-                })
-            }
-            className={`rounded-2xl p-4 text-left shadow-sm transition hover:-translate-y-1 ${
-              dark ? "bg-[#14221c]" : "bg-white"
-            }`}
-          >
-            <div className="text-2xl">
-              📖
-            </div>
-
-            <div className="mt-2 font-semibold">
-              Read Quran
-            </div>
-          </button>
-
-          <button
-            onClick={() =>
-              document
-                .getElementById("audio-player")
-                ?.scrollIntoView({
-                  behavior: "smooth",
-                })
-            }
-            className={`rounded-2xl p-4 text-left shadow-sm transition hover:-translate-y-1 ${
-              dark ? "bg-[#14221c]" : "bg-white"
-            }`}
-          >
-            <div className="text-2xl">
-              🎧
-            </div>
-
-            <div className="mt-2 font-semibold">
-              Audio Quran
-            </div>
-          </button>
-
-          <button
-            onClick={toggleBookmark}
-            className={`rounded-2xl p-4 text-left shadow-sm transition hover:-translate-y-1 ${
-              dark ? "bg-[#14221c]" : "bg-white"
-            }`}
-          >
-            <div className="text-2xl">
-              🔖
-            </div>
-
-            <div className="mt-2 font-semibold">
-              {bookmark
-                ? "Bookmarked"
-                : "Bookmark"}
-            </div>
-          </button>
-
-          <button
-            onClick={() => setDark(!dark)}
-            className={`rounded-2xl p-4 text-left shadow-sm transition hover:-translate-y-1 ${
-              dark ? "bg-[#14221c]" : "bg-white"
-            }`}
-          >
-            <div className="text-2xl">
-              🌓
-            </div>
-
-            <div className="mt-2 font-semibold">
-              Appearance
-            </div>
-          </button>
-        </section>
-
-        {/* ================= SURAH LIST ================= */}
-
-        <section
-          id="surah-list"
-          className={`mt-7 rounded-3xl p-4 shadow-sm ${
-            dark ? "bg-[#14221c]" : "bg-white"
-          }`}
-        >
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-xl font-bold">
-              Surahs
-            </h2>
-
-            <span className="text-sm opacity-60">
-              {filteredSurahs.length} / 114
-            </span>
-          </div>
-
-          <div className="grid gap-2 sm:grid-cols-2">
-            {filteredSurahs.map((surah) => (
-              <button
-                key={surah.number}
-                onClick={() =>
-                  selectSurah(surah.number)
-                }
-                className={`flex items-center gap-3 rounded-2xl p-3 text-left transition ${
-                  selectedSurah === surah.number
-                    ? "bg-[#0d5c46] text-white"
-                    : dark
-                    ? "hover:bg-white/10"
-                    : "hover:bg-[#f0f5f1]"
-                }`}
-              >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0d5c46] font-bold text-white">
-                  {surah.number}
-                </span>
-
-                <span className="min-w-0 flex-1">
-                  <span className="block truncate font-semibold">
-                    {surah.englishName}
-                  </span>
-
-                  <span className="block text-xs opacity-60">
-                    {surah.numberOfAyahs} Ayahs
-                  </span>
-                </span>
-
-                <span className="font-serif text-xl">
-                  {surah.name}
-                </span>
-              </button>
-            ))}
-          </div>
-        </section>
-
-        {/* ================= QURAN READER ================= */}
-
-        {currentSurah && (
-          <section
-            id="quran-reader"
-            className={`mt-6 rounded-3xl border p-5 shadow-sm ${
-              dark
-                ? "border-[#26382f] bg-[#111c17]"
-                : "border-[#e5e7e3] bg-[#fffdf7]"
-            }`}
-          >
-            <div className="text-center">
-              <div className="font-serif text-5xl">
-                {currentSurah.name}
-              </div>
-
-              <h2 className="mt-2 text-2xl font-bold">
-                {currentSurah.englishName}
-              </h2>
-
-              <p className="text-sm opacity-60">
-                {
-                  currentSurah
-                    .englishNameTranslation
-                }{" "}
-                •{" "}
-                {currentSurah.numberOfAyahs} Ayahs
-              </p>
-
-              <button
-                onClick={toggleBookmark}
-                className={`mt-4 rounded-xl px-5 py-2 font-semibold ${
-                  bookmark === currentSurah.number
-                    ? "bg-[#0d5c46] text-white"
-                    : dark
-                    ? "bg-white/10"
-                    : "bg-gray-100"
-                }`}
-              >
-                {bookmark === currentSurah.number
-                  ? "★ Bookmarked"
-                  : "☆ Bookmark"}
-              </button>
-            </div>
-
-            {/* FONT SIZE */}
-
-            <div className="my-6 flex items-center justify-between rounded-2xl bg-black/5 p-3 dark:bg-white/5">
-              <span className="text-sm font-semibold">
-                Text Size
-              </span>
-
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() =>
-                    setFontSize((value) =>
-                      Math.max(20, value - 2)
-                    )
-                  }
-                  className="h-9 w-9 rounded-lg bg-[#0d5c46] text-white"
-                >
-                  A-
-                </button>
-
-                <span className="w-8 text-center text-sm">
-                  {fontSize}
-                </span>
-
-                <button
-                  onClick={() =>
-                    setFontSize((value) =>
-                      Math.min(50, value + 2)
-                    )
-                  }
-                  className="h-9 w-9 rounded-lg bg-[#0d5c46] text-white"
-                >
-                  A+
-                </button>
-              </div>
-            </div>
-
-            {/* REAL QURAN TEXT */}
-
-            <div
-              dir="rtl"
-              className="font-serif text-right"
-              style={{
-                fontSize: `${fontSize}px`,
-                lineHeight: 2.2,
-              }}
-            >
-              {currentSurah.ayahs.map(
-                (ayah) => (
-                  <div
-                    key={ayah.number}
-                    className="border-b border-black/5 py-3 dark:border-white/5"
-                  >
-                    <span>
-                      {ayah.text}
-                    </span>
-
-                    <span className="mr-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#0d5c46] align-middle text-xs text-white">
-                      {ayah.numberInSurah}
-                    </span>
-                  </div>
-                )
-              )}
-            </div>
-          </section>
-        )}
-
-        {/* ================= AUDIO PLAYER ================= */}
-
-        {currentSurah && (
-          <section
-            id="audio-player"
-            className="mt-5 rounded-3xl bg-[#0d5c46] p-5 text-white shadow-2xl"
-          >
-            <audio
-              ref={audioRef}
-              preload="metadata"
-              src={audioUrl(
-                reciter,
-                currentSurah.number
-              )}
-              onLoadedMetadata={(event) =>
-                setDuration(
-                  event.currentTarget.duration
-                )
-              }
-              onTimeUpdate={(event) =>
-                setCurrentTime(
-                  event.currentTarget.currentTime
-                )
-              }
-              onPlay={() => setPlaying(true)}
-              onPause={() => setPlaying(false)}
-              onError={() => setAudioError(true)}
-              onEnded={() => {
-                setPlaying(false);
-
-                if (selectedSurah < 114) {
-                  selectSurah(
-                    selectedSurah + 1
-                  );
-                }
-              }}
-            />
-
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs opacity-70">
-                  NOW PLAYING
-                </p>
-
-                <h3 className="mt-1 text-xl font-bold">
-                  {currentSurah.englishName}
-                </h3>
-
-                <p className="mt-1 text-sm opacity-80">
-                  {reciter.name}
-                </p>
-              </div>
-
-              <div className="text-4xl">
-                🎧
-              </div>
-            </div>
-
-            {/* PROGRESS */}
-
-            <input
-              type="range"
-              min="0"
-              max={duration || 0}
-              value={Math.min(
-                currentTime,
-                duration || 0
-              )}
-              step="0.1"
-              onChange={(event) => {
-                const value = Number(
-                  event.target.value
-                );
-
-                if (audioRef.current) {
-                  audioRef.current.currentTime =
-                    value;
-                }
-
-                setCurrentTime(value);
-              }}
-              className="mt-5 w-full accent-white"
-            />
-
-            <div className="flex justify-between text-xs opacity-70">
-              <span>
-                {formatTime(currentTime)}
-              </span>
-
-              <span>
-                {formatTime(duration)}
-              </span>
-            </div>
-
-            {/* CONTROLS */}
-
-            <div className="mt-5 flex items-center justify-center gap-5">
-              <button
-                onClick={previousSurah}
-                disabled={selectedSurah === 1}
-                className="rounded-full bg-white/10 px-4 py-3 disabled:opacity-30"
-              >
-                ⏮
-              </button>
-
-              <button
-                onClick={
-                  playing
-                    ? pauseAudio
-                    : playAudio
-                }
-                className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-2xl text-[#0d5c46] shadow-xl"
-              >
-                {playing ? "❚❚" : "▶"}
-              </button>
-
-              <button
-                onClick={nextSurah}
-                disabled={selectedSurah === 114}
-                className="rounded-full bg-white/10 px-4 py-3 disabled:opacity-30"
-              >
-                ⏭
-              </button>
-            </div>
-
-            {/* RECITERS */}
-
-            <div className="relative mt-5">
-              <button
-                onClick={() =>
-                  setShowReciters(
-                    !showReciters
-                  )
-                }
-                className="w-full rounded-2xl bg-white/10 px-4 py-3 text-left hover:bg-white/15"
-              >
-                <div className="text-xs opacity-60">
-                  RECITER
-                </div>
-
-                <div className="mt-1 flex items-center justify-between">
-                  <span className="font-semibold">
-                    {reciter.name}
-                  </span>
-
-                  <span>
-                    {showReciters ? "⌃" : "⌄"}
-                  </span>
-                </div>
-              </button>
-
-              {showReciters && (
-                <div className="absolute bottom-full left-0 right-0 z-50 mb-2 max-h-80 overflow-y-auto rounded-2xl bg-white p-2 text-[#17251f] shadow-2xl">
-                  {RECITERS.map(
-                    (item) => (
-                      <button
-                        key={item.id}
-                        onClick={() => {
-                          setReciter(item);
-                          setShowReciters(false);
-                          setPlaying(false);
-                          setAudioError(false);
-
-                          if (
-                            audioRef.current
-                          ) {
-                            audioRef.current.pause();
-                            audioRef.current.currentTime = 0;
-                            audioRef.current.load();
-                          }
-                        }}
-                        className={`w-full rounded-xl p-3 text-left hover:bg-[#edf4ef] ${
-                          reciter.id ===
-                          item.id
-                            ? "bg-[#0d5c46] text-white"
-                            : ""
-                        }`}
-                      >
-                        <div className="font-semibold">
-                          {item.name}
-                        </div>
-
-                        <div className="text-sm opacity-70">
-                          {item.arabicName}
-                        </div>
-                      </button>
-                    )
-                  )}
-                </div>
-              )}
-            </div>
-
-            {audioError && (
-              <p className="mt-4 rounded-xl bg-red-500/20 p-3 text-center text-sm">
-                Audio load نہیں ہو سکی۔ Internet
-                connection check کریں یا دوسرا
-                reciter منتخب کریں۔
-              </p>
-            )}
-          </section>
-        )}
-      </div>
-
-      {/* ================= BOTTOM NAV ================= */}
-
-      <nav
-        className={`fixed bottom-0 left-0 right-0 z-40 border-t p-3 shadow-2xl backdrop-blur ${
-          dark
-            ? "border-gray-800 bg-[#101914]/95"
-            : "border-gray-200 bg-white/95"
-        }`}
-      >
-        <div className="mx-auto flex max-w-5xl justify-around">
-          <button
-            onClick={() =>
-              window.scrollTo({
-                top: 0,
-                behavior: "smooth",
-              })
-            }
-            className="flex flex-col items-center text-[#0d5c46]"
-          >
-            <span className="text-xl">
-              ⌂
-            </span>
-
-            <span className="text-xs">
-              Home
-            </span>
-          </button>
-
-          <button
-            onClick={() =>
-              document
-                .getElementById("surah-list")
-                ?.scrollIntoView({
-                  behavior: "smooth",
-                })
-            }
-            className="flex flex-col items-center opacity-70"
-          >
-            <span className="text-xl">
-              📖
-            </span>
-
-            <span className="text-xs">
-              Quran
-            </span>
-          </button>
-
-          <button
-            onClick={() =>
-              document
-                .getElementById("audio-player")
-                ?.scrollIntoView({
-                  behavior: "smooth",
-                })
-            }
-            className="flex flex-col items-center opacity-70"
-          >
-            <span className="text-xl">
-              🎧
-            </span>
-
-            <span className="text-xs">
-              Audio
-            </span>
-          </button>
-
-          <button
-            onClick={toggleBookmark}
-            className="flex flex-col items-center opacity-70"
-          >
-            <span className="text-xl">
-              🔖
-            </span>
-
-            <span className="text-xs">
-              Saved
-            </span>
-          </button>
-
-          <button
-            onClick={() => setDark(!dark)}
-            className="flex flex-col items-center opacity-70"
-          >
-            <span className="text-xl">
-              ⚙️
-            </span>
-
-            <span className="text-xs">
-              Settings
-            </span>
-          </button>
-        </div>
-      </nav>
-    </main>
-  );
-}
+    // Initialize App
+    loadSurahList();
+  </script>
+</body>
+</html>
