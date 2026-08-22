@@ -1,1101 +1,1000 @@
-<!DOCTYPE html>
-<html lang="ur" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>اسلامی پورٹل</title>
-
-<style>
-:root{
-  --green:#0b6b50;
-  --dark:#063b2d;
-  --gold:#d6a84f;
-  --cream:#fffaf0;
-  --white:#ffffff;
-  --text:#19352d;
-  --muted:#6b7b75;
-  --shadow:0 10px 30px rgba(0,0,0,.10);
-}
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-body{
-  font-family:Tahoma,"Noto Nastaliq Urdu",Arial,sans-serif;
-  background:linear-gradient(135deg,#f8fff9,#fffaf0);
-  color:var(--text);
-  min-height:100vh;
-}
-
-button,input{
-  font-family:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-header{
-  background:linear-gradient(135deg,var(--dark),var(--green));
-  color:white;
-  padding:22px 16px;
-  position:sticky;
-  top:0;
-  z-index:1000;
-  box-shadow:0 5px 20px rgba(0,0,0,.18);
-}
-
-.header-inner{
-  max-width:1100px;
-  margin:auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-}
-
-.logo{
-  font-size:25px;
-  font-weight:bold;
-}
-
-.logo small{
-  display:block;
-  font-size:12px;
-  opacity:.8;
-  margin-top:4px;
-}
-
-.home-btn{
-  border:1px solid rgba(255,255,255,.35);
-  background:rgba(255,255,255,.12);
-  color:white;
-  padding:9px 15px;
-  border-radius:12px;
-}
-
-.hero{
-  max-width:1100px;
-  margin:30px auto;
-  padding:40px 22px;
-  text-align:center;
-}
-
-.hero h1{
-  font-size:38px;
-  color:var(--dark);
-  margin-bottom:12px;
-}
-
-.hero p{
-  color:var(--muted);
-  line-height:2;
-  font-size:16px;
-}
-
-.search-box{
-  max-width:650px;
-  margin:25px auto 0;
-  display:flex;
-  gap:8px;
-}
-
-.search-box input{
-  flex:1;
-  padding:15px;
-  border:1px solid #dce8e1;
-  border-radius:14px;
-  outline:none;
-  background:white;
-  font-size:15px;
-}
-
-.search-box button{
-  background:var(--green);
-  color:white;
-  border:0;
-  padding:0 20px;
-  border-radius:14px;
-}
-
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:10px 16px 60px;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:18px;
-}
-
-.card{
-  background:white;
-  border-radius:20px;
-  padding:24px 18px;
-  box-shadow:var(--shadow);
-  border:1px solid #edf2ee;
-  transition:.25s;
-}
-
-.card:hover{
-  transform:translateY(-4px);
-}
-
-.icon{
-  font-size:40px;
-  margin-bottom:12px;
-}
-
-.card h3{
-  color:var(--dark);
-  margin-bottom:8px;
-}
-
-.card p{
-  color:var(--muted);
-  line-height:1.8;
-  font-size:14px;
-  min-height:48px;
-}
-
-.primary{
-  width:100%;
-  margin-top:16px;
-  border:0;
-  background:var(--green);
-  color:white;
-  padding:12px;
-  border-radius:12px;
-  font-size:15px;
-}
-
-.secondary{
-  width:100%;
-  margin-top:9px;
-  border:1px solid #d9e6df;
-  background:#f8fbf9;
-  color:var(--dark);
-  padding:11px;
-  border-radius:12px;
-}
-
-.section{
-  display:none;
-  max-width:1000px;
-  margin:25px auto;
-  padding:20px 16px 50px;
-}
-
-.section.active{
-  display:block;
-}
-
-.section-head{
-  background:linear-gradient(135deg,var(--dark),var(--green));
-  color:white;
-  padding:25px 20px;
-  border-radius:20px;
-  margin-bottom:18px;
-}
-
-.section-head h2{
-  margin-bottom:7px;
-}
-
-.close-btn{
-  margin-top:15px;
-  background:white;
-  color:var(--dark);
-  border:0;
-  padding:10px 18px;
-  border-radius:11px;
-}
-
-.book-card{
-  background:white;
-  border-radius:18px;
-  padding:20px;
-  margin-bottom:14px;
-  box-shadow:var(--shadow);
-}
-
-.book-card h3{
-  color:var(--dark);
-  margin-bottom:8px;
-}
-
-.book-card p{
-  line-height:1.9;
-  color:var(--muted);
-}
-
-.book-buttons{
-  display:flex;
-  gap:9px;
-  flex-wrap:wrap;
-  margin-top:14px;
-}
-
-.book-buttons button,
-.book-buttons a{
-  text-decoration:none;
-  border:0;
-  padding:11px 16px;
-  border-radius:11px;
-  background:var(--green);
-  color:white;
-}
-
-.book-buttons .outline{
-  background:#f3f8f5;
-  color:var(--dark);
-  border:1px solid #dce8e1;
-}
-
-.reader{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.72);
-  z-index:3000;
-  padding:15px;
-}
-
-.reader.active{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.reader-box{
-  background:white;
-  width:min(1000px,100%);
-  height:min(92vh,850px);
-  border-radius:18px;
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-}
-
-.reader-top{
-  background:var(--dark);
-  color:white;
-  padding:12px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-}
-
-.reader-top button{
-  background:white;
-  color:var(--dark);
-  border:0;
-  padding:8px 13px;
-  border-radius:9px;
-}
-
-.reader-content{
-  flex:1;
-  padding:18px;
-  overflow:auto;
-  background:#f7f7f5;
-}
-
-.reader-content iframe{
-  width:100%;
-  height:100%;
-  min-height:600px;
-  border:0;
-  background:white;
-}
-
-.reader-bottom{
-  padding:10px;
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  border-top:1px solid #eee;
-}
-
-.reader-bottom button{
-  border:0;
-  background:var(--green);
-  color:white;
-  padding:9px 16px;
-  border-radius:10px;
-}
-
-.story-list{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:14px;
-}
-
-.story{
-  background:white;
-  border-radius:16px;
-  padding:18px;
-  box-shadow:var(--shadow);
-}
-
-.story h3{
-  color:var(--dark);
-  margin-bottom:7px;
-}
-
-.story p{
-  color:var(--muted);
-  line-height:1.8;
-  font-size:14px;
-}
-
-.story button{
-  width:100%;
-  margin-top:12px;
-  border:0;
-  background:var(--green);
-  color:white;
-  padding:10px;
-  border-radius:10px;
-}
-
-.story-reader{
-  display:none;
-  background:white;
-  border-radius:18px;
-  box-shadow:var(--shadow);
-  padding:25px;
-  line-height:2.2;
-  margin-top:20px;
-}
-
-.story-reader.active{
-  display:block;
-}
-
-.story-reader h2{
-  color:var(--dark);
-  margin-bottom:15px;
-}
-
-.story-reader .close-story{
-  background:#eee;
-  color:#333;
-  border:0;
-  padding:9px 16px;
-  border-radius:9px;
-  margin-bottom:15px;
-}
-
-.notice{
-  background:#fff8df;
-  border-right:5px solid var(--gold);
-  padding:15px;
-  border-radius:12px;
-  line-height:1.9;
-  margin-bottom:18px;
-}
-
-footer{
-  text-align:center;
-  padding:30px 15px;
-  color:var(--muted);
-  border-top:1px solid #e8eee9;
-  background:white;
-}
-
-.hidden{
-  display:none!important;
-}
-
-@media(max-width:600px){
-  .hero h1{
-    font-size:28px;
-  }
-
-  .header-inner{
-    align-items:flex-start;
-  }
-
-  .logo{
-    font-size:20px;
-  }
-
-  .search-box{
-    flex-direction:column;
-  }
-
-  .search-box button{
-    padding:13px;
-  }
-
-  .reader{
-    padding:5px;
-  }
-
-  .reader-box{
-    height:96vh;
-    border-radius:10px;
-  }
-}
-</style>
-</head>
-
-<body>
-
-<header>
-  <div class="header-inner">
-    <div class="logo">
-      🕌 اسلامی پورٹل
-      <small>علم، قرآن اور اسلامی مطالعہ</small>
-    </div>
-
-    <button class="home-btn" onclick="goHome()">🏠 ہوم</button>
-  </div>
-</header>
-
-<main>
-
-<section id="home" class="hero">
-  <h1>خوش آمدید اسلامی پورٹل میں</h1>
-  <p>
-    قرآن، سیرت، صحابہ کرام، اسلامی واقعات اور بچوں کے لیے مفید
-    دینی مطالعہ ایک خوبصورت جگہ پر۔
-  </p>
-
-  <div class="search-box">
-    <input id="searchInput" type="text"
-           placeholder="یہاں تلاش کریں..."
-           oninput="searchPortal()">
-    <button onclick="searchPortal()">تلاش</button>
-  </div>
-</section>
-
-<div class="container">
-
-  <div id="cards" class="grid">
-
-    <div class="card searchable">
-      <div class="icon">📖</div>
-      <h3>قرآن کریم</h3>
-      <p>قرآن کے مطالعے کے لیے ایک مکمل سیکشن۔</p>
-      <button class="primary" onclick="openSection('quran')">
-        قرآن کھولیں
-      </button>
-    </div>
-
-    <div class="card searchable">
-      <div class="icon">ﷺ</div>
-      <h3>سیرت النبی ﷺ</h3>
-      <p>حضور اکرم ﷺ کی مبارک زندگی کے مطالعے کے لیے۔</p>
-      <button class="primary" onclick="openSection('seerah')">
-        سیرت کھولیں
-      </button>
-    </div>
-
-    <div class="card searchable">
-      <div class="icon">👥</div>
-      <h3>حیات الصحابہ</h3>
-      <p>صحابہ کرام رضی اللہ عنہم کے واقعات اور مطالعہ۔</p>
-      <button class="primary" onclick="openSection('companions')">
-        حیات الصحابہ
-      </button>
-    </div>
-
-    <div class="card searchable">
-      <div class="icon">📚</div>
-      <h3>70 سچے اسلامی واقعات</h3>
-      <p>سیرت اور اسلامی تاریخ کے منتخب سچے واقعات۔</p>
-      <button class="primary" onclick="openSection('stories')">
-        واقعات کھولیں
-      </button>
-    </div>
-
-    <div class="card searchable">
-      <div class="icon">🧒</div>
-      <h3>بچوں کی اسلامی کہانیاں</h3>
-      <p>بچوں کے لیے نئی اور اصل اسلامی کہانیوں کا سیکشن۔</p>
-      <button class="primary" onclick="openSection('kids')">
-        کہانیاں کھولیں
-      </button>
-    </div>
-
-    <div class="card searchable">
-      <div class="icon">🕌</div>
-      <h3>نماز</h3>
-      <p>نماز کے بنیادی طریقے اور ضروری معلومات۔</p>
-      <button class="primary" onclick="openSection('namaz')">
-        نماز کھولیں
-      </button>
-    </div>
-
-  </div>
-</div>
-
-
-<!-- قرآن -->
-
-<section id="quran" class="section">
-
-  <div class="section-head">
-    <h2>📖 قرآن کریم</h2>
-    <p>قرآن کے مطالعے کا مرکزی سیکشن</p>
-    <button class="close-btn" onclick="closeSection('quran')">
-      ✕ بند کریں
-    </button>
-  </div>
-
-  <div class="book-card">
-    <h3>قرآن کریم آن لائن</h3>
-    <p>
-      ایک ہی بٹن سے قرآن کے مطالعے کے لیے آن لائن ریڈر کھولیں۔
-    </p>
-
-    <div class="book-buttons">
-      <a href="https://quran.com/" target="_blank">
-        📖 قرآن کھولیں
-      </a>
-    </div>
-  </div>
-
-</section>
-
-
-<!-- سیرت -->
-
-<section id="seerah" class="section">
-
-  <div class="section-head">
-    <h2>ﷺ سیرت النبی ﷺ</h2>
-    <p>سیرتِ رسول ﷺ کے مطالعے کے لیے کتاب ریڈر</p>
-
-    <button class="close-btn" onclick="closeSection('seerah')">
-      ✕ بند کریں
-    </button>
-  </div>
-
-  <div class="notice">
-    <strong>الرحيق المختوم</strong><br>
-    اس پورٹل میں مکمل کتاب کا متن دوبارہ نقل کرنے کے بجائے
-    دستیاب آن لائن مطالعہ/PDF کا لنک دیا گیا ہے۔
-  </div>
-
-  <div class="book-card">
-    <h3>📕 الرحيق المختوم</h3>
-
-    <p>
-      مصنف: صفی الرحمن مبارکپوری
-    </p>
-
-    <div class="book-buttons">
-
-      <button onclick="openReader(
-        'الرحيق المختوم',
-        'https://d1.islamhouse.com/data/sd/ih_books/single/sd_Raheeq_Makhtum.pdf'
-      )">
-        📖 کتاب پڑھیں
-      </button>
-
-      <a href="https://d1.islamhouse.com/data/sd/ih_books/single/sd_Raheeq_Makhtum.pdf"
-         target="_blank">
-        📄 PDF کھولیں
-      </a>
-
-    </div>
-  </div>
-
-</section>
-
-
-<!-- حیات الصحابہ -->
-
-<section id="companions" class="section">
-
-  <div class="section-head">
-    <h2>👥 حیات الصحابہ</h2>
-    <p>صحابہ کرام رضی اللہ عنہم کے حالات و واقعات</p>
-
-    <button class="close-btn" onclick="closeSection('companions')">
-      ✕ بند کریں
-    </button>
-  </div>
-
-  <div class="notice">
-    حیات الصحابہ کے لیے اپنی مجاز/قانونی PDF کا لنک یا فائل
-    بعد میں اسی ریڈر میں شامل کی جا سکتی ہے۔
-  </div>
-
-  <div class="book-card">
-    <h3>📚 حیات الصحابہ</h3>
-
-    <p>
-      کتاب کو مکمل کتابی انداز میں پڑھنے کے لیے ریڈر کا ڈھانچہ تیار ہے۔
-      اپنی مجاز PDF کا URL نیچے JavaScript میں دیا جا سکتا ہے۔
-    </p>
-
-    <div class="book-buttons">
-      <button onclick="showMessage(
-        'حیات الصحابہ کے لیے اپنی قانونی PDF کا URL code میں companionsPdf کے اندر درج کریں۔'
-      )">
-        📖 کتاب کھولیں
-      </button>
-    </div>
-  </div>
-
-</section>
-
-
-<!-- 70 واقعات -->
-
-<section id="stories" class="section">
-
-  <div class="section-head">
-    <h2>📚 70 سچے اسلامی واقعات</h2>
-
-    <p>
-      سیرتِ نبوی ﷺ اور اسلامی تاریخ کے منتخب واقعات
-    </p>
-
-    <button class="close-btn" onclick="closeSection('stories')">
-      ✕ بند کریں
-    </button>
-  </div>
-
-  <div class="notice">
-    یہ کتاب حافظ عبد الشکور کی تصنیف ہے اور اسلام ہاؤس پر
-    70 سچے اسلامی واقعات کے طور پر دستیاب ہے۔
-  </div>
-
-  <div class="book-card">
-
-    <h3>📘 اصل کتاب کا مطالعہ</h3>
-
-    <p>
-      اصل کتاب کو آن لائن کھولنے کے لیے نیچے بٹن استعمال کریں۔
-    </p>
-
-    <div class="book-buttons">
-
-      <a href="https://islamhouse.com/ur/books/320008"
-         target="_blank">
-        📖 اسلام ہاؤس پر پڑھیں
-      </a>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- بچوں کی کہانیاں -->
-
-<section id="kids" class="section">
-
-  <div class="section-head">
-    <h2>🧒 بچوں کی اسلامی کہانیاں</h2>
-
-    <p>
-      بچوں کے لیے اصل اور تفصیلی اسلامی کہانیاں
-    </p>
-
-    <button class="close-btn" onclick="closeSection('kids')">
-      ✕ بند کریں
-    </button>
-  </div>
-
-  <div class="notice">
-    یہاں ہم ایسی نئی کہانیاں شامل کر سکتے ہیں جو ہماری اپنی
-    لکھی ہوئی ہوں۔ کسی دوسری کتاب کی مکمل نقل نہیں کی جائے گی۔
-  </div>
-
-  <div id="storyList" class="story-list"></div>
-
-  <div id="storyReader" class="story-reader">
-    <button class="close-story" onclick="closeStory()">
-      ✕ کہانی بند کریں
-    </button>
-
-    <div id="storyContent"></div>
-  </div>
-
-</section>
-
-
-<!-- نماز -->
-
-<section id="namaz" class="section">
-
-  <div class="section-head">
-    <h2>🕌 نماز</h2>
-    <p>نماز کے بنیادی ارکان اور ضروری معلومات</p>
-
-    <button class="close-btn" onclick="closeSection('namaz')">
-      ✕ بند کریں
-    </button>
-  </div>
-
-  <div class="book-card">
-    <h3>نماز کا بنیادی طریقہ</h3>
-
-    <p>
-      یہاں نماز کی مکمل تعلیم، وضو، اذان، نیت، قیام، رکوع،
-      سجدہ، قعدہ اور سلام وغیرہ کے الگ الگ حصے شامل کیے جا سکتے ہیں۔
-    </p>
-
-    <button class="primary"
-            onclick="showMessage('نماز کا تفصیلی مواد اگلے مرحلے میں شامل کیا جا سکتا ہے۔')">
-      نماز کی تفصیل
-    </button>
-  </div>
-
-</section>
-
-</main>
-
-
-<!-- کتاب ریڈر -->
-
-<div id="reader" class="reader">
-
-  <div class="reader-box">
-
-    <div class="reader-top">
-
-      <strong id="readerTitle">
-        کتاب
-      </strong>
-
-      <button onclick="closeReader()">
-        ✕ بند کریں
-      </button>
-
-    </div>
-
-    <div class="reader-content">
-
-      <iframe id="readerFrame"
-              src=""
-              title="کتاب ریڈر">
-      </iframe>
-
-    </div>
-
-    <div class="reader-bottom">
-
-      <button onclick="closeReader()">
-        واپس جائیں
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<footer>
-  <p>© 2026 اسلامی پورٹل — اللہ ہمیں نفع بخش علم عطا فرمائے۔</p>
-</footer>
-
-
-<script>
-
-/* =========================
-   بنیادی Navigation
-========================= */
-
-function openSection(id){
-
-  document.querySelectorAll('.section')
-    .forEach(section => section.classList.remove('active'));
-
-  const target = document.getElementById(id);
-
-  if(target){
-    target.classList.add('active');
-
-    target.scrollIntoView({
-      behavior:'smooth',
-      block:'start'
-    });
-  }
-}
-
-
-function closeSection(id){
-
-  const target = document.getElementById(id);
-
-  if(target){
-    target.classList.remove('active');
-  }
-
-  window.scrollTo({
-    top:0,
-    behavior:'smooth'
-  });
-}
-
-
-function goHome(){
-
-  document.querySelectorAll('.section')
-    .forEach(section => section.classList.remove('active'));
-
-  window.scrollTo({
-    top:0,
-    behavior:'smooth'
-  });
-}
-
-
-/* =========================
-   Book Reader
-========================= */
-
-function openReader(title,url){
-
-  const reader = document.getElementById('reader');
-  const frame = document.getElementById('readerFrame');
-  const readerTitle = document.getElementById('readerTitle');
-
-  readerTitle.textContent = title;
-
-  frame.src = url;
-
-  reader.classList.add('active');
-
-  document.body.style.overflow='hidden';
-}
-
-
-function closeReader(){
-
-  const reader = document.getElementById('reader');
-  const frame = document.getElementById('readerFrame');
-
-  frame.src='';
-
-  reader.classList.remove('active');
-
-  document.body.style.overflow='';
-}
-
-
-/* ESC سے بند */
-
-document.addEventListener('keydown',function(e){
-
-  if(e.key === 'Escape'){
-
-    closeReader();
-
-    document.querySelectorAll('.section')
-      .forEach(section => section.classList.remove('active'));
-
-  }
-
-});
-
-
-/* =========================
-   Search
-========================= */
-
-function searchPortal(){
-
-  const query =
-    document.getElementById('searchInput')
-    .value
-    .trim()
-    .toLowerCase();
-
-  document.querySelectorAll('.searchable')
-    .forEach(card => {
-
-      const text =
-        card.innerText.toLowerCase();
-
-      if(!query || text.includes(query)){
-        card.style.display='';
-      }else{
-        card.style.display='none';
-      }
-
-    });
-}
-
-
-/* =========================
-   Message
-========================= */
-
-function showMessage(message){
-
-  alert(message);
-
-}
-
-
-/* =========================
-   بچوں کی اصل کہانیاں
-========================= */
-
-const kidsStories = [
-
+"use client";
+
+import { useEffect, useMemo, useRef, useState } from "react";
+
+type Ayah = {
+  number: number;
+  text: string;
+  numberInSurah: number;
+};
+
+type Surah = {
+  number: number;
+  name: string;
+  englishName: string;
+  englishNameTranslation: string;
+  numberOfAyahs: number;
+  revelationType: string;
+  ayahs: Ayah[];
+};
+
+type QuranResponse = {
+  code: number;
+  status: string;
+  data: Surah[];
+};
+
+type Reciter = {
+  id: string;
+  name: string;
+  arabicName: string;
+  audioEdition: string;
+};
+
+/*
+  20 Reciters
+  Audio is loaded from Islamic Network's Quran audio CDN.
+*/
+const RECITERS: Reciter[] = [
   {
-    title:'سچ بولنے والے بچے کا انعام',
-
-    text:`
-      <h2>سچ بولنے والے بچے کا انعام</h2>
-
-      <p>
-      ایک چھوٹے سے گاؤں میں ایک نیک دل بچہ رہتا تھا۔
-      وہ اپنے والدین کی بات مانتا اور ہمیشہ سچ بولنے کی کوشش کرتا تھا۔
-      ایک دن اسے راستے میں ایک تھیلی ملی۔
-      تھیلی میں کچھ رقم تھی۔
-      بچے نے سوچا کہ وہ اسے اپنے پاس رکھ سکتا ہے، لیکن فوراً اسے
-      یاد آیا کہ کسی دوسرے کا مال اپنے پاس رکھنا درست نہیں۔
-      </p>
-
-      <p>
-      وہ تھیلی لے کر اپنے والد کے پاس گیا اور سارا واقعہ بتایا۔
-      والد نے اسے سمجھایا کہ امانت اس شخص تک پہنچانی چاہیے جس کی ہے۔
-      دونوں نے گاؤں میں اعلان کروایا۔
-      کچھ دیر بعد ایک بوڑھا شخص آیا اور اس نے تھیلی کی نشانیاں بتائیں۔
-      تھیلی اسی کی تھی۔
-      </p>
-
-      <p>
-      بوڑھے شخص نے بچے کو دعا دی اور کہا:
-      "بیٹا! آج تم نے ثابت کر دیا کہ ایمان صرف بات کا نام نہیں،
-      بلکہ عمل کا نام بھی ہے۔"
-      </p>
-
-      <p>
-      بچے نے جواب دیا:
-      "میں نے تو صرف وہی کیا جو مجھے صحیح لگا۔"
-      </p>
-
-      <p>
-      اس واقعے سے بچے نے سیکھا کہ سچائی کبھی نقصان نہیں دیتی۔
-      انسان کو فوری فائدہ نہ بھی ملے، اللہ کے ہاں سچائی کی قدر ضرور ہوتی ہے۔
-      </p>
-    `
+    id: "alafasy",
+    name: "Mishary Rashid Alafasy",
+    arabicName: "مشاري راشد العفاسي",
+    audioEdition: "ar.alafasy",
   },
-
   {
-    title:'چھوٹا سا عمل، بڑی نیکی',
-
-    text:`
-      <h2>چھوٹا سا عمل، بڑی نیکی</h2>
-
-      <p>
-      ایک بچہ روزانہ مدرسے جاتے ہوئے راستے میں ایک بوڑھے آدمی کو دیکھتا تھا۔
-      ایک دن اس نے دیکھا کہ بوڑھا آدمی اپنا سامان اٹھانے میں مشکل محسوس کر رہا ہے۔
-      بچے نے فوراً اپنا بستہ ایک طرف رکھا اور سامان اٹھانے میں مدد کی۔
-      </p>
-
-      <p>
-      بوڑھے آدمی نے خوش ہو کر دعا دی۔
-      بچے نے سوچا کہ یہ تو بہت معمولی کام تھا۔
-      لیکن استاد نے اسے سمجھایا کہ نیکی کو کبھی معمولی نہیں سمجھنا چاہیے۔
-      </p>
-
-      <p>
-      اگر انسان کسی کی مشکل آسان کر دے، کسی بھوکے کو کھانا دے،
-      کسی پریشان شخص کو تسلی دے یا کسی راستے کی تکلیف دہ چیز ہٹا دے،
-      تو یہ سب اچھے اعمال ہیں۔
-      </p>
-
-      <p>
-      بچے نے اس دن فیصلہ کیا کہ وہ روزانہ کم از کم ایک نیکی ضرور کرے گا۔
-      کچھ ہی دنوں میں اس کی عادت بدل گئی اور وہ دوسروں کی مدد کرنے میں
-      خوشی محسوس کرنے لگا۔
-      </p>
-    `
-  }
-
+    id: "sudais",
+    name: "Abdul Rahman Al-Sudais",
+    arabicName: "عبد الرحمن السديس",
+    audioEdition: "ar.abdurrahmaansudais",
+  },
+  {
+    id: "shuraim",
+    name: "Saud Al-Shuraim",
+    arabicName: "سعود الشريم",
+    audioEdition: "ar.sauds",
+  },
+  {
+    id: "maher",
+    name: "Maher Al-Muaiqly",
+    arabicName: "ماهر المعيقلي",
+    audioEdition: "ar.mahermuaiqly",
+  },
+  {
+    id: "husary",
+    name: "Mahmoud Khalil Al-Husary",
+    arabicName: "محمود خليل الحصري",
+    audioEdition: "ar.husary",
+  },
+  {
+    id: "minshawi",
+    name: "Mohamed Siddiq Al-Minshawi",
+    arabicName: "محمد صديق المنشاوي",
+    audioEdition: "ar.minshawi",
+  },
+  {
+    id: "abdulbasit",
+    name: "Abdul Basit Abdul Samad",
+    arabicName: "عبد الباسط عبد الصمد",
+    audioEdition: "ar.abdulbasitmurattal",
+  },
+  {
+    id: "ghamidi",
+    name: "Saad Al-Ghamdi",
+    arabicName: "سعد الغامدي",
+    audioEdition: "ar.ghamdi",
+  },
+  {
+    id: "ajmi",
+    name: "Ahmed Al-Ajmi",
+    arabicName: "أحمد العجمي",
+    audioEdition: "ar.ahmedajamy",
+  },
+  {
+    id: "dosari",
+    name: "Yasser Al-Dosari",
+    arabicName: "ياسر الدوسري",
+    audioEdition: "ar.yasserdossari",
+  },
+  {
+    id: "rifai",
+    name: "Hani Ar-Rifai",
+    arabicName: "هاني الرفاعي",
+    audioEdition: "ar.hanirifai",
+  },
+  {
+    id: "qatami",
+    name: "Nasser Al-Qatami",
+    arabicName: "ناصر القطامي",
+    audioEdition: "ar.nasser",
+  },
+  {
+    id: "jleel",
+    name: "Khalid Al-Jalil",
+    arabicName: "خالد الجليل",
+    audioEdition: "ar.khalidaljalil",
+  },
+  {
+    id: "ayyub",
+    name: "Muhammad Ayyub",
+    arabicName: "محمد أيوب",
+    audioEdition: "ar.muhammadayyoub",
+  },
+  {
+    id: "akhdar",
+    name: "Ibrahim Al-Akhdar",
+    arabicName: "إبراهيم الأخضر",
+    audioEdition: "ar.ibrahimakhder",
+  },
+  {
+    id: "matrood",
+    name: "Abdullah Al-Matrood",
+    arabicName: "عبدالله المطرود",
+    audioEdition: "ar.abdullahmatroud",
+  },
+  {
+    id: "juhani",
+    name: "Abdullah Al-Juhani",
+    arabicName: "عبدالله الجهني",
+    audioEdition: "ar.abdullahjuhani",
+  },
+  {
+    id: "balilah",
+    name: "Bandar Baleela",
+    arabicName: "بندر بليلة",
+    audioEdition: "ar.bandarbalilah",
+  },
+  {
+    id: "salamah",
+    name: "Ahmed Al-Hawashi",
+    arabicName: "أحمد الحواشي",
+    audioEdition: "ar.ahmedalhawashi",
+  },
+  {
+    id: "qari",
+    name: "Abdul Wali Al-Arkani",
+    arabicName: "عبد الولي الأركاني",
+    audioEdition: "ar.abdulwali",
+  },
 ];
 
+const QURAN_API =
+  "https://api.alquran.cloud/v1/quran/quran-uthmani";
 
-/* کہانیاں دکھائیں */
-
-function loadStories(){
-
-  const list =
-    document.getElementById('storyList');
-
-  list.innerHTML='';
-
-  kidsStories.forEach((story,index)=>{
-
-    const div =
-      document.createElement('div');
-
-    div.className='story';
-
-    div.innerHTML=`
-      <h3>${story.title}</h3>
-      <p>
-        بچوں کے لیے سبق آموز اسلامی کہانی۔
-      </p>
-      <button onclick="openStory(${index})">
-        📖 کہانی پڑھیں
-      </button>
-    `;
-
-    list.appendChild(div);
-
-  });
-
+function audioUrl(reciter: Reciter, surahNumber: number) {
+  return `https://cdn.islamic.network/quran/audio-surah/128/${reciter.audioEdition}/${surahNumber}.mp3`;
 }
 
+export default function Home() {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-function openStory(index){
+  const [surahs, setSurahs] = useState<Surah[]>([]);
+  const [selectedSurah, setSelectedSurah] = useState(1);
 
-  const story =
-    kidsStories[index];
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  document.getElementById('storyContent')
-    .innerHTML = story.text;
+  const [dark, setDark] = useState(false);
+  const [fontSize, setFontSize] = useState(29);
 
-  document.getElementById('storyReader')
-    .classList.add('active');
+  const [reciter, setReciter] = useState(RECITERS[0]);
+  const [showReciters, setShowReciters] = useState(false);
 
-  document.getElementById('storyReader')
-    .scrollIntoView({
-      behavior:'smooth'
+  const [playing, setPlaying] = useState(false);
+  const [audioError, setAudioError] = useState(false);
+
+  const [bookmark, setBookmark] = useState<number | null>(null);
+
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  const currentSurah = useMemo(
+    () =>
+      surahs.find(
+        (surah) => surah.number === selectedSurah
+      ),
+    [surahs, selectedSurah]
+  );
+
+  /*
+    Load complete Quran.
+  */
+  useEffect(() => {
+    async function loadQuran() {
+      try {
+        const response = await fetch(QURAN_API);
+
+        if (!response.ok) {
+          throw new Error("Failed to load Quran");
+        }
+
+        const json: QuranResponse = await response.json();
+
+        setSurahs(json.data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadQuran();
+
+    const savedSurah =
+      localStorage.getItem("alquran-last-surah");
+
+    const savedBookmark =
+      localStorage.getItem("alquran-bookmark");
+
+    if (savedSurah) {
+      setSelectedSurah(Number(savedSurah));
+    }
+
+    if (savedBookmark) {
+      setBookmark(Number(savedBookmark));
+    }
+  }, []);
+
+  /*
+    Save last reading position.
+  */
+  useEffect(() => {
+    localStorage.setItem(
+      "alquran-last-surah",
+      String(selectedSurah)
+    );
+  }, [selectedSurah]);
+
+  /*
+    Filter/search.
+  */
+  const filteredSurahs = useMemo(() => {
+    const query = search.trim().toLowerCase();
+
+    if (!query) return surahs;
+
+    return surahs.filter(
+      (surah) =>
+        surah.number.toString() === query ||
+        surah.englishName
+          .toLowerCase()
+          .includes(query) ||
+        surah.englishNameTranslation
+          .toLowerCase()
+          .includes(query)
+    );
+  }, [surahs, search]);
+
+  /*
+    Select Surah.
+  */
+  function selectSurah(number: number) {
+    if (number < 1 || number > 114) return;
+
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+
+    setPlaying(false);
+    setCurrentTime(0);
+    setDuration(0);
+    setAudioError(false);
+    setSelectedSurah(number);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
     });
+  }
 
+  /*
+    Bookmark.
+  */
+  function toggleBookmark() {
+    if (!currentSurah) return;
+
+    if (bookmark === currentSurah.number) {
+      localStorage.removeItem("alquran-bookmark");
+      setBookmark(null);
+    } else {
+      localStorage.setItem(
+        "alquran-bookmark",
+        String(currentSurah.number)
+      );
+
+      setBookmark(currentSurah.number);
+    }
+  }
+
+  /*
+    Audio.
+  */
+  function playAudio() {
+    if (!audioRef.current) return;
+
+    audioRef.current
+      .play()
+      .then(() => {
+        setPlaying(true);
+      })
+      .catch((error) => {
+        console.error(error);
+        setAudioError(true);
+      });
+  }
+
+  function pauseAudio() {
+    audioRef.current?.pause();
+    setPlaying(false);
+  }
+
+  function nextSurah() {
+    if (selectedSurah < 114) {
+      selectSurah(selectedSurah + 1);
+    }
+  }
+
+  function previousSurah() {
+    if (selectedSurah > 1) {
+      selectSurah(selectedSurah - 1);
+    }
+  }
+
+  function formatTime(seconds: number) {
+    if (!Number.isFinite(seconds)) {
+      return "00:00";
+    }
+
+    const minutes = Math.floor(seconds / 60);
+    const secondsLeft = Math.floor(seconds % 60);
+
+    return `${String(minutes).padStart(2, "0")}:${String(
+      secondsLeft
+    ).padStart(2, "0")}`;
+  }
+
+  if (loading) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-[#f7f8f4]">
+        <div className="text-center">
+          <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-[#0d5c46] border-t-transparent" />
+
+          <p className="mt-4 font-semibold text-[#0d5c46]">
+            Loading Holy Quran...
+          </p>
+        </div>
+      </main>
+    );
+  }
+
+  return (
+    <main
+      className={`min-h-screen pb-40 ${
+        dark
+          ? "bg-[#0b1511] text-white"
+          : "bg-[#f7f8f4] text-[#17251f]"
+      }`}
+    >
+      {/* ================= HEADER ================= */}
+
+      <header className="sticky top-0 z-50 bg-[#0d5c46] px-4 py-4 text-white shadow-lg">
+        <div className="mx-auto flex max-w-5xl items-center justify-between">
+          <button
+            onClick={() => window.history.back()}
+            className="rounded-xl px-3 py-2 text-2xl hover:bg-white/10"
+          >
+            ←
+          </button>
+
+          <div className="text-center">
+            <h1 className="text-xl font-bold">
+              Al QURAN
+            </h1>
+
+            <p className="text-xs opacity-80">
+              القرآن الكريم
+            </p>
+          </div>
+
+          <button
+            onClick={() => setDark(!dark)}
+            className="rounded-xl px-3 py-2 text-xl hover:bg-white/10"
+          >
+            {dark ? "☀️" : "🌙"}
+          </button>
+        </div>
+      </header>
+
+      <div className="mx-auto max-w-5xl px-4 py-6">
+
+        {/* ================= WELCOME ================= */}
+
+        <section className="rounded-3xl bg-[#0d5c46] p-6 text-white shadow-xl">
+          <p className="text-sm opacity-80">
+            Assalamu Alaikum
+          </p>
+
+          <h2 className="mt-2 text-3xl font-bold">
+            Read, Listen & Connect
+          </h2>
+
+          <p className="mt-2 max-w-xl text-sm opacity-90">
+            Read and listen to the Holy Quran anytime,
+            anywhere.
+          </p>
+
+          <button
+            onClick={() =>
+              document
+                .getElementById("quran-reader")
+                ?.scrollIntoView({
+                  behavior: "smooth",
+                })
+            }
+            className="mt-5 rounded-xl bg-white px-6 py-3 font-semibold text-[#0d5c46] shadow hover:bg-gray-100"
+          >
+            Continue Reading
+          </button>
+        </section>
+
+        {/* ================= SEARCH ================= */}
+
+        <section className="mt-5">
+          <input
+            value={search}
+            onChange={(event) =>
+              setSearch(event.target.value)
+            }
+            placeholder="Search Surah..."
+            className={`w-full rounded-2xl border px-5 py-4 outline-none focus:border-[#0d5c46] ${
+              dark
+                ? "border-gray-700 bg-[#14221c]"
+                : "border-gray-200 bg-white"
+            }`}
+          />
+        </section>
+
+        {/* ================= QUICK BUTTONS ================= */}
+
+        <section className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <button
+            onClick={() =>
+              document
+                .getElementById("surah-list")
+                ?.scrollIntoView({
+                  behavior: "smooth",
+                })
+            }
+            className={`rounded-2xl p-4 text-left shadow-sm transition hover:-translate-y-1 ${
+              dark ? "bg-[#14221c]" : "bg-white"
+            }`}
+          >
+            <div className="text-2xl">
+              📖
+            </div>
+
+            <div className="mt-2 font-semibold">
+              Read Quran
+            </div>
+          </button>
+
+          <button
+            onClick={() =>
+              document
+                .getElementById("audio-player")
+                ?.scrollIntoView({
+                  behavior: "smooth",
+                })
+            }
+            className={`rounded-2xl p-4 text-left shadow-sm transition hover:-translate-y-1 ${
+              dark ? "bg-[#14221c]" : "bg-white"
+            }`}
+          >
+            <div className="text-2xl">
+              🎧
+            </div>
+
+            <div className="mt-2 font-semibold">
+              Audio Quran
+            </div>
+          </button>
+
+          <button
+            onClick={toggleBookmark}
+            className={`rounded-2xl p-4 text-left shadow-sm transition hover:-translate-y-1 ${
+              dark ? "bg-[#14221c]" : "bg-white"
+            }`}
+          >
+            <div className="text-2xl">
+              🔖
+            </div>
+
+            <div className="mt-2 font-semibold">
+              {bookmark
+                ? "Bookmarked"
+                : "Bookmark"}
+            </div>
+          </button>
+
+          <button
+            onClick={() => setDark(!dark)}
+            className={`rounded-2xl p-4 text-left shadow-sm transition hover:-translate-y-1 ${
+              dark ? "bg-[#14221c]" : "bg-white"
+            }`}
+          >
+            <div className="text-2xl">
+              🌓
+            </div>
+
+            <div className="mt-2 font-semibold">
+              Appearance
+            </div>
+          </button>
+        </section>
+
+        {/* ================= SURAH LIST ================= */}
+
+        <section
+          id="surah-list"
+          className={`mt-7 rounded-3xl p-4 shadow-sm ${
+            dark ? "bg-[#14221c]" : "bg-white"
+          }`}
+        >
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-xl font-bold">
+              Surahs
+            </h2>
+
+            <span className="text-sm opacity-60">
+              {filteredSurahs.length} / 114
+            </span>
+          </div>
+
+          <div className="grid gap-2 sm:grid-cols-2">
+            {filteredSurahs.map((surah) => (
+              <button
+                key={surah.number}
+                onClick={() =>
+                  selectSurah(surah.number)
+                }
+                className={`flex items-center gap-3 rounded-2xl p-3 text-left transition ${
+                  selectedSurah === surah.number
+                    ? "bg-[#0d5c46] text-white"
+                    : dark
+                    ? "hover:bg-white/10"
+                    : "hover:bg-[#f0f5f1]"
+                }`}
+              >
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0d5c46] font-bold text-white">
+                  {surah.number}
+                </span>
+
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate font-semibold">
+                    {surah.englishName}
+                  </span>
+
+                  <span className="block text-xs opacity-60">
+                    {surah.numberOfAyahs} Ayahs
+                  </span>
+                </span>
+
+                <span className="font-serif text-xl">
+                  {surah.name}
+                </span>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        {/* ================= QURAN READER ================= */}
+
+        {currentSurah && (
+          <section
+            id="quran-reader"
+            className={`mt-6 rounded-3xl border p-5 shadow-sm ${
+              dark
+                ? "border-[#26382f] bg-[#111c17]"
+                : "border-[#e5e7e3] bg-[#fffdf7]"
+            }`}
+          >
+            <div className="text-center">
+              <div className="font-serif text-5xl">
+                {currentSurah.name}
+              </div>
+
+              <h2 className="mt-2 text-2xl font-bold">
+                {currentSurah.englishName}
+              </h2>
+
+              <p className="text-sm opacity-60">
+                {
+                  currentSurah
+                    .englishNameTranslation
+                }{" "}
+                •{" "}
+                {currentSurah.numberOfAyahs} Ayahs
+              </p>
+
+              <button
+                onClick={toggleBookmark}
+                className={`mt-4 rounded-xl px-5 py-2 font-semibold ${
+                  bookmark === currentSurah.number
+                    ? "bg-[#0d5c46] text-white"
+                    : dark
+                    ? "bg-white/10"
+                    : "bg-gray-100"
+                }`}
+              >
+                {bookmark === currentSurah.number
+                  ? "★ Bookmarked"
+                  : "☆ Bookmark"}
+              </button>
+            </div>
+
+            {/* FONT SIZE */}
+
+            <div className="my-6 flex items-center justify-between rounded-2xl bg-black/5 p-3 dark:bg-white/5">
+              <span className="text-sm font-semibold">
+                Text Size
+              </span>
+
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() =>
+                    setFontSize((value) =>
+                      Math.max(20, value - 2)
+                    )
+                  }
+                  className="h-9 w-9 rounded-lg bg-[#0d5c46] text-white"
+                >
+                  A-
+                </button>
+
+                <span className="w-8 text-center text-sm">
+                  {fontSize}
+                </span>
+
+                <button
+                  onClick={() =>
+                    setFontSize((value) =>
+                      Math.min(50, value + 2)
+                    )
+                  }
+                  className="h-9 w-9 rounded-lg bg-[#0d5c46] text-white"
+                >
+                  A+
+                </button>
+              </div>
+            </div>
+
+            {/* REAL QURAN TEXT */}
+
+            <div
+              dir="rtl"
+              className="font-serif text-right"
+              style={{
+                fontSize: `${fontSize}px`,
+                lineHeight: 2.2,
+              }}
+            >
+              {currentSurah.ayahs.map(
+                (ayah) => (
+                  <div
+                    key={ayah.number}
+                    className="border-b border-black/5 py-3 dark:border-white/5"
+                  >
+                    <span>
+                      {ayah.text}
+                    </span>
+
+                    <span className="mr-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#0d5c46] align-middle text-xs text-white">
+                      {ayah.numberInSurah}
+                    </span>
+                  </div>
+                )
+              )}
+            </div>
+          </section>
+        )}
+
+        {/* ================= AUDIO PLAYER ================= */}
+
+        {currentSurah && (
+          <section
+            id="audio-player"
+            className="mt-5 rounded-3xl bg-[#0d5c46] p-5 text-white shadow-2xl"
+          >
+            <audio
+              ref={audioRef}
+              preload="metadata"
+              src={audioUrl(
+                reciter,
+                currentSurah.number
+              )}
+              onLoadedMetadata={(event) =>
+                setDuration(
+                  event.currentTarget.duration
+                )
+              }
+              onTimeUpdate={(event) =>
+                setCurrentTime(
+                  event.currentTarget.currentTime
+                )
+              }
+              onPlay={() => setPlaying(true)}
+              onPause={() => setPlaying(false)}
+              onError={() => setAudioError(true)}
+              onEnded={() => {
+                setPlaying(false);
+
+                if (selectedSurah < 114) {
+                  selectSurah(
+                    selectedSurah + 1
+                  );
+                }
+              }}
+            />
+
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs opacity-70">
+                  NOW PLAYING
+                </p>
+
+                <h3 className="mt-1 text-xl font-bold">
+                  {currentSurah.englishName}
+                </h3>
+
+                <p className="mt-1 text-sm opacity-80">
+                  {reciter.name}
+                </p>
+              </div>
+
+              <div className="text-4xl">
+                🎧
+              </div>
+            </div>
+
+            {/* PROGRESS */}
+
+            <input
+              type="range"
+              min="0"
+              max={duration || 0}
+              value={Math.min(
+                currentTime,
+                duration || 0
+              )}
+              step="0.1"
+              onChange={(event) => {
+                const value = Number(
+                  event.target.value
+                );
+
+                if (audioRef.current) {
+                  audioRef.current.currentTime =
+                    value;
+                }
+
+                setCurrentTime(value);
+              }}
+              className="mt-5 w-full accent-white"
+            />
+
+            <div className="flex justify-between text-xs opacity-70">
+              <span>
+                {formatTime(currentTime)}
+              </span>
+
+              <span>
+                {formatTime(duration)}
+              </span>
+            </div>
+
+            {/* CONTROLS */}
+
+            <div className="mt-5 flex items-center justify-center gap-5">
+              <button
+                onClick={previousSurah}
+                disabled={selectedSurah === 1}
+                className="rounded-full bg-white/10 px-4 py-3 disabled:opacity-30"
+              >
+                ⏮
+              </button>
+
+              <button
+                onClick={
+                  playing
+                    ? pauseAudio
+                    : playAudio
+                }
+                className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-2xl text-[#0d5c46] shadow-xl"
+              >
+                {playing ? "❚❚" : "▶"}
+              </button>
+
+              <button
+                onClick={nextSurah}
+                disabled={selectedSurah === 114}
+                className="rounded-full bg-white/10 px-4 py-3 disabled:opacity-30"
+              >
+                ⏭
+              </button>
+            </div>
+
+            {/* RECITERS */}
+
+            <div className="relative mt-5">
+              <button
+                onClick={() =>
+                  setShowReciters(
+                    !showReciters
+                  )
+                }
+                className="w-full rounded-2xl bg-white/10 px-4 py-3 text-left hover:bg-white/15"
+              >
+                <div className="text-xs opacity-60">
+                  RECITER
+                </div>
+
+                <div className="mt-1 flex items-center justify-between">
+                  <span className="font-semibold">
+                    {reciter.name}
+                  </span>
+
+                  <span>
+                    {showReciters ? "⌃" : "⌄"}
+                  </span>
+                </div>
+              </button>
+
+              {showReciters && (
+                <div className="absolute bottom-full left-0 right-0 z-50 mb-2 max-h-80 overflow-y-auto rounded-2xl bg-white p-2 text-[#17251f] shadow-2xl">
+                  {RECITERS.map(
+                    (item) => (
+                      <button
+                        key={item.id}
+                        onClick={() => {
+                          setReciter(item);
+                          setShowReciters(false);
+                          setPlaying(false);
+                          setAudioError(false);
+
+                          if (
+                            audioRef.current
+                          ) {
+                            audioRef.current.pause();
+                            audioRef.current.currentTime = 0;
+                            audioRef.current.load();
+                          }
+                        }}
+                        className={`w-full rounded-xl p-3 text-left hover:bg-[#edf4ef] ${
+                          reciter.id ===
+                          item.id
+                            ? "bg-[#0d5c46] text-white"
+                            : ""
+                        }`}
+                      >
+                        <div className="font-semibold">
+                          {item.name}
+                        </div>
+
+                        <div className="text-sm opacity-70">
+                          {item.arabicName}
+                        </div>
+                      </button>
+                    )
+                  )}
+                </div>
+              )}
+            </div>
+
+            {audioError && (
+              <p className="mt-4 rounded-xl bg-red-500/20 p-3 text-center text-sm">
+                Audio load نہیں ہو سکی۔ Internet
+                connection check کریں یا دوسرا
+                reciter منتخب کریں۔
+              </p>
+            )}
+          </section>
+        )}
+      </div>
+
+      {/* ================= BOTTOM NAV ================= */}
+
+      <nav
+        className={`fixed bottom-0 left-0 right-0 z-40 border-t p-3 shadow-2xl backdrop-blur ${
+          dark
+            ? "border-gray-800 bg-[#101914]/95"
+            : "border-gray-200 bg-white/95"
+        }`}
+      >
+        <div className="mx-auto flex max-w-5xl justify-around">
+          <button
+            onClick={() =>
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              })
+            }
+            className="flex flex-col items-center text-[#0d5c46]"
+          >
+            <span className="text-xl">
+              ⌂
+            </span>
+
+            <span className="text-xs">
+              Home
+            </span>
+          </button>
+
+          <button
+            onClick={() =>
+              document
+                .getElementById("surah-list")
+                ?.scrollIntoView({
+                  behavior: "smooth",
+                })
+            }
+            className="flex flex-col items-center opacity-70"
+          >
+            <span className="text-xl">
+              📖
+            </span>
+
+            <span className="text-xs">
+              Quran
+            </span>
+          </button>
+
+          <button
+            onClick={() =>
+              document
+                .getElementById("audio-player")
+                ?.scrollIntoView({
+                  behavior: "smooth",
+                })
+            }
+            className="flex flex-col items-center opacity-70"
+          >
+            <span className="text-xl">
+              🎧
+            </span>
+
+            <span className="text-xs">
+              Audio
+            </span>
+          </button>
+
+          <button
+            onClick={toggleBookmark}
+            className="flex flex-col items-center opacity-70"
+          >
+            <span className="text-xl">
+              🔖
+            </span>
+
+            <span className="text-xs">
+              Saved
+            </span>
+          </button>
+
+          <button
+            onClick={() => setDark(!dark)}
+            className="flex flex-col items-center opacity-70"
+          >
+            <span className="text-xl">
+              ⚙️
+            </span>
+
+            <span className="text-xs">
+              Settings
+            </span>
+          </button>
+        </div>
+      </nav>
+    </main>
+  );
 }
-
-
-function closeStory(){
-
-  document.getElementById('storyReader')
-    .classList.remove('active');
-
-}
-
-
-/* صفحہ لوڈ ہونے پر */
-
-document.addEventListener('DOMContentLoaded',function(){
-
-  loadStories();
-
-});
-
-</script>
-
-</body>
-</html>
