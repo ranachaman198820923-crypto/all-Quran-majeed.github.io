@@ -2,32 +2,36 @@
 <html lang="ur" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>اسلامک ٹولز | قرآن، نماز، سیرت اور اسلامی معلومات</title>
-
-<meta name="description"
-content="اسلامک ٹولز — قرآن مجید، اردو ترجمہ، تلاوت، نماز کے اوقات، سیرت النبی ﷺ، اسلامی واقعات اور بچوں کی اسلامی کہانیاں۔">
+<title>اسلامی پورٹل</title>
 
 <style>
+:root{
+  --green:#0b6b50;
+  --dark:#063b2d;
+  --gold:#d6a84f;
+  --cream:#fffaf0;
+  --white:#ffffff;
+  --text:#19352d;
+  --muted:#6b7b75;
+  --shadow:0 10px 30px rgba(0,0,0,.10);
+}
+
 *{
   box-sizing:border-box;
   margin:0;
   padding:0;
 }
 
-html{
-  scroll-behavior:smooth;
-}
-
 body{
-  font-family:Tahoma,Arial,sans-serif;
-  background:#f4f8f6;
-  color:#17352d;
-  line-height:1.9;
+  font-family:Tahoma,"Noto Nastaliq Urdu",Arial,sans-serif;
+  background:linear-gradient(135deg,#f8fff9,#fffaf0);
+  color:var(--text);
+  min-height:100vh;
 }
 
-button,input,select{
+button,input{
   font-family:inherit;
 }
 
@@ -35,133 +39,96 @@ button{
   cursor:pointer;
 }
 
-a{
-  text-decoration:none;
-}
-
 header{
+  background:linear-gradient(135deg,var(--dark),var(--green));
+  color:white;
+  padding:22px 16px;
   position:sticky;
   top:0;
   z-index:1000;
-  background:#063f31;
-  box-shadow:0 4px 20px rgba(0,0,0,.16);
+  box-shadow:0 5px 20px rgba(0,0,0,.18);
 }
 
-.nav{
-  max-width:1200px;
+.header-inner{
+  max-width:1100px;
   margin:auto;
-  padding:12px 18px;
   display:flex;
-  align-items:center;
   justify-content:space-between;
+  align-items:center;
   gap:15px;
 }
 
 .logo{
-  color:#fff;
   font-size:25px;
   font-weight:bold;
 }
 
-.logo span{
-  color:#f0d477;
+.logo small{
+  display:block;
+  font-size:12px;
+  opacity:.8;
+  margin-top:4px;
 }
 
-.navlinks{
-  display:flex;
-  flex-wrap:wrap;
-  gap:5px;
-  justify-content:center;
-}
-
-.navlinks button{
-  border:0;
-  background:transparent;
-  color:#fff;
-  padding:8px 10px;
-  border-radius:8px;
-}
-
-.navlinks button:hover{
+.home-btn{
+  border:1px solid rgba(255,255,255,.35);
   background:rgba(255,255,255,.12);
+  color:white;
+  padding:9px 15px;
+  border-radius:12px;
 }
 
 .hero{
-  min-height:560px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  max-width:1100px;
+  margin:30px auto;
+  padding:40px 22px;
   text-align:center;
-  padding:70px 20px;
-  color:white;
-  background:
-    radial-gradient(circle at 20% 20%,rgba(240,212,119,.15),transparent 30%),
-    linear-gradient(135deg,#043d2f,#08775b);
-}
-
-.hero-inner{
-  max-width:850px;
-}
-
-.bismillah{
-  color:#f0d477;
-  font-size:20px;
-  margin-bottom:18px;
 }
 
 .hero h1{
-  font-size:clamp(45px,8vw,80px);
-  line-height:1.2;
-}
-
-.hero h2{
-  color:#f0d477;
-  margin:12px 0 20px;
+  font-size:38px;
+  color:var(--dark);
+  margin-bottom:12px;
 }
 
 .hero p{
-  color:#e9f5f1;
-  font-size:18px;
-  margin-bottom:25px;
+  color:var(--muted);
+  line-height:2;
+  font-size:16px;
 }
 
-.btn{
-  border:0;
-  border-radius:10px;
-  padding:13px 24px;
-  margin:5px;
-  background:#f0d477;
-  color:#17352d;
-  font-weight:bold;
+.search-box{
+  max-width:650px;
+  margin:25px auto 0;
+  display:flex;
+  gap:8px;
 }
 
-.btn.dark{
-  background:rgba(255,255,255,.1);
+.search-box input{
+  flex:1;
+  padding:15px;
+  border:1px solid #dce8e1;
+  border-radius:14px;
+  outline:none;
+  background:white;
+  font-size:15px;
+}
+
+.search-box button{
+  background:var(--green);
   color:white;
-  border:1px solid rgba(255,255,255,.3);
+  border:0;
+  padding:0 20px;
+  border-radius:14px;
 }
 
-.section{
-  max-width:1200px;
+.container{
+  max-width:1100px;
   margin:auto;
-  padding:65px 18px;
+  padding:10px 16px 60px;
 }
 
-.title{
-  text-align:center;
-  margin-bottom:35px;
-}
-
-.title h2{
-  color:#075c47;
-  font-size:34px;
-}
-
-.title p{
-  color:#687872;
-}
-
-.cards{
+.grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:18px;
@@ -169,407 +136,313 @@ header{
 
 .card{
   background:white;
-  border:1px solid #e0ebe6;
   border-radius:20px;
-  padding:25px;
-  box-shadow:0 5px 25px rgba(0,0,0,.05);
+  padding:24px 18px;
+  box-shadow:var(--shadow);
+  border:1px solid #edf2ee;
+  transition:.25s;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+}
+
+.icon{
+  font-size:40px;
+  margin-bottom:12px;
 }
 
 .card h3{
-  color:#075c47;
+  color:var(--dark);
   margin-bottom:8px;
 }
 
 .card p{
-  color:#687872;
+  color:var(--muted);
+  line-height:1.8;
+  font-size:14px;
+  min-height:48px;
+}
+
+.primary{
+  width:100%;
+  margin-top:16px;
+  border:0;
+  background:var(--green);
+  color:white;
+  padding:12px;
+  border-radius:12px;
+  font-size:15px;
+}
+
+.secondary{
+  width:100%;
+  margin-top:9px;
+  border:1px solid #d9e6df;
+  background:#f8fbf9;
+  color:var(--dark);
+  padding:11px;
+  border-radius:12px;
+}
+
+.section{
+  display:none;
+  max-width:1000px;
+  margin:25px auto;
+  padding:20px 16px 50px;
+}
+
+.section.active{
+  display:block;
+}
+
+.section-head{
+  background:linear-gradient(135deg,var(--dark),var(--green));
+  color:white;
+  padding:25px 20px;
+  border-radius:20px;
+  margin-bottom:18px;
+}
+
+.section-head h2{
+  margin-bottom:7px;
+}
+
+.close-btn{
+  margin-top:15px;
+  background:white;
+  color:var(--dark);
+  border:0;
+  padding:10px 18px;
+  border-radius:11px;
+}
+
+.book-card{
+  background:white;
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:14px;
+  box-shadow:var(--shadow);
+}
+
+.book-card h3{
+  color:var(--dark);
+  margin-bottom:8px;
+}
+
+.book-card p{
+  line-height:1.9;
+  color:var(--muted);
+}
+
+.book-buttons{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+
+.book-buttons button,
+.book-buttons a{
+  text-decoration:none;
+  border:0;
+  padding:11px 16px;
+  border-radius:11px;
+  background:var(--green);
+  color:white;
+}
+
+.book-buttons .outline{
+  background:#f3f8f5;
+  color:var(--dark);
+  border:1px solid #dce8e1;
+}
+
+.reader{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.72);
+  z-index:3000;
+  padding:15px;
+}
+
+.reader.active{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.reader-box{
+  background:white;
+  width:min(1000px,100%);
+  height:min(92vh,850px);
+  border-radius:18px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+.reader-top{
+  background:var(--dark);
+  color:white;
+  padding:12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.reader-top button{
+  background:white;
+  color:var(--dark);
+  border:0;
+  padding:8px 13px;
+  border-radius:9px;
+}
+
+.reader-content{
+  flex:1;
+  padding:18px;
+  overflow:auto;
+  background:#f7f7f5;
+}
+
+.reader-content iframe{
+  width:100%;
+  height:100%;
+  min-height:600px;
+  border:0;
+  background:white;
+}
+
+.reader-bottom{
+  padding:10px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  border-top:1px solid #eee;
+}
+
+.reader-bottom button{
+  border:0;
+  background:var(--green);
+  color:white;
+  padding:9px 16px;
+  border-radius:10px;
+}
+
+.story-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:14px;
+}
+
+.story{
+  background:white;
+  border-radius:16px;
+  padding:18px;
+  box-shadow:var(--shadow);
+}
+
+.story h3{
+  color:var(--dark);
+  margin-bottom:7px;
+}
+
+.story p{
+  color:var(--muted);
+  line-height:1.8;
   font-size:14px;
 }
 
-.icon{
-  font-size:35px;
-  margin-bottom:10px;
+.story button{
+  width:100%;
+  margin-top:12px;
+  border:0;
+  background:var(--green);
+  color:white;
+  padding:10px;
+  border-radius:10px;
 }
 
-.click-card{
-  cursor:pointer;
-  transition:.2s;
-}
-
-.click-card:hover{
-  transform:translateY(-3px);
-  border-color:#075c47;
-}
-
-.panel{
+.story-reader{
+  display:none;
   background:white;
-  border-radius:24px;
-  padding:28px;
-  box-shadow:0 7px 30px rgba(0,0,0,.06);
+  border-radius:18px;
+  box-shadow:var(--shadow);
+  padding:25px;
+  line-height:2.2;
+  margin-top:20px;
+}
+
+.story-reader.active{
+  display:block;
+}
+
+.story-reader h2{
+  color:var(--dark);
+  margin-bottom:15px;
+}
+
+.story-reader .close-story{
+  background:#eee;
+  color:#333;
+  border:0;
+  padding:9px 16px;
+  border-radius:9px;
+  margin-bottom:15px;
+}
+
+.notice{
+  background:#fff8df;
+  border-right:5px solid var(--gold);
+  padding:15px;
+  border-radius:12px;
+  line-height:1.9;
+  margin-bottom:18px;
+}
+
+footer{
+  text-align:center;
+  padding:30px 15px;
+  color:var(--muted);
+  border-top:1px solid #e8eee9;
+  background:white;
 }
 
 .hidden{
   display:none!important;
 }
 
-/* نماز */
+@media(max-width:600px){
+  .hero h1{
+    font-size:28px;
+  }
 
-.prayer-box{
-  background:linear-gradient(135deg,#075c47,#0b8566);
-  color:white;
-  border-radius:25px;
-  padding:25px;
-}
+  .header-inner{
+    align-items:flex-start;
+  }
 
-.form{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
-  gap:10px;
-  margin-bottom:20px;
-}
+  .logo{
+    font-size:20px;
+  }
 
-.form input,
-.form select,
-.form button{
-  width:100%;
-  padding:12px;
-  border:0;
-  border-radius:9px;
-}
-
-.form button{
-  background:#f0d477;
-  color:#17352d;
-  font-weight:bold;
-}
-
-.status{
-  text-align:center;
-  min-height:28px;
-  margin:10px 0;
-}
-
-.location{
-  text-align:center;
-  margin-bottom:20px;
-}
-
-.location h3{
-  color:#f0d477;
-}
-
-.next{
-  max-width:600px;
-  margin:auto;
-  text-align:center;
-  background:rgba(255,255,255,.1);
-  border-radius:17px;
-  padding:18px;
-  margin-bottom:20px;
-}
-
-.next strong{
-  display:block;
-  color:#f0d477;
-  font-size:25px;
-}
-
-.prayer-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
-  gap:10px;
-}
-
-.prayer{
-  background:rgba(255,255,255,.1);
-  padding:16px 8px;
-  border-radius:14px;
-  text-align:center;
-}
-
-.prayer.active{
-  outline:2px solid #f0d477;
-}
-
-.prayer b{
-  display:block;
-  font-size:24px;
-}
-
-/* قرآن */
-
-.quran-main-button{
-  width:100%;
-  min-height:180px;
-  border:0;
-  border-radius:25px;
-  color:white;
-  background:linear-gradient(135deg,#063f31,#0b8566);
-  padding:30px;
-  font-size:30px;
-  font-weight:bold;
-}
-
-.quran-main-button small{
-  display:block;
-  font-size:15px;
-  color:#f0d477;
-  margin-top:8px;
-}
-
-.quran-panel{
-  margin-top:25px;
-}
-
-.quran-controls{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:10px;
-  margin-bottom:20px;
-}
-
-.quran-controls input,
-.quran-controls select,
-.quran-controls button{
-  width:100%;
-  padding:12px;
-  border:1px solid #d9e5e0;
-  border-radius:9px;
-  background:white;
-}
-
-.quran-controls button{
-  background:#075c47;
-  color:white;
-  border:0;
-  font-weight:bold;
-}
-
-.surah-list{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
-  gap:10px;
-  max-height:500px;
-  overflow:auto;
-}
-
-.surah{
-  padding:15px;
-  background:#f8fcfa;
-  border:1px solid #dce9e3;
-  border-radius:14px;
-  cursor:pointer;
-}
-
-.surah:hover,
-.surah.active{
-  background:#e7f4ef;
-  border-color:#075c47;
-}
-
-.surah-number{
-  display:inline-flex;
-  width:32px;
-  height:32px;
-  border-radius:50%;
-  align-items:center;
-  justify-content:center;
-  background:#075c47;
-  color:white;
-}
-
-.surah h3{
-  color:#075c47;
-}
-
-.reading{
-  margin-top:25px;
-}
-
-.reading-head{
-  background:#063f31;
-  color:white;
-  text-align:center;
-  padding:22px;
-  border-radius:18px;
-  margin-bottom:18px;
-}
-
-.reading-head h2{
-  color:#f0d477;
-}
-
-.audio-player{
-  background:#075c47;
-  padding:20px;
-  border-radius:18px;
-  color:white;
-  margin-bottom:18px;
-}
-
-.audio-player select{
-  padding:9px;
-  border-radius:8px;
-  margin-bottom:10px;
-}
-
-audio{
-  width:100%;
-}
-
-.ayah{
-  background:#fffdf5;
-  border:1px solid #e5ddbd;
-  border-radius:18px;
-  padding:22px;
-  margin-bottom:12px;
-  transition:.2s;
-}
-
-.ayah.playing{
-  background:#e5f4ef;
-  border:2px solid #075c47;
-}
-
-.ayah-number{
-  display:inline-flex;
-  width:34px;
-  height:34px;
-  border-radius:50%;
-  background:#075c47;
-  color:white;
-  align-items:center;
-  justify-content:center;
-}
-
-.arabic{
-  font-family:"Traditional Arabic","Amiri",serif;
-  font-size:34px;
-  line-height:2.4;
-  margin-top:10px;
-}
-
-.translation{
-  border-top:1px solid #e2d9b9;
-  margin-top:15px;
-  padding-top:12px;
-  color:#687872;
-}
-
-.ayah button{
-  margin-top:15px;
-  border:0;
-  border-radius:8px;
-  padding:9px 15px;
-  background:#075c47;
-  color:white;
-}
-
-.reader-nav{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin-top:20px;
-}
-
-.reader-nav button{
-  border:0;
-  border-radius:9px;
-  padding:11px 18px;
-  background:#075c47;
-  color:white;
-}
-
-/* مواد */
-
-.content-area{
-  background:white;
-  border-radius:22px;
-  padding:30px;
-  line-height:2;
-}
-
-.content-area h2{
-  color:#075c47;
-  margin-bottom:18px;
-}
-
-.content-area h3{
-  color:#075c47;
-  margin-top:25px;
-  margin-bottom:8px;
-}
-
-.content-area p{
-  margin-bottom:14px;
-}
-
-.back{
-  border:0;
-  background:#075c47;
-  color:white;
-  padding:10px 18px;
-  border-radius:8px;
-  margin-bottom:20px;
-}
-
-/* modal */
-
-.modal{
-  position:fixed;
-  inset:0;
-  z-index:3000;
-  background:rgba(0,0,0,.65);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:15px;
-}
-
-.modal-box{
-  width:min(900px,100%);
-  max-height:90vh;
-  overflow:auto;
-  background:white;
-  border-radius:22px;
-  padding:25px;
-}
-
-.modal-box h2{
-  color:#075c47;
-}
-
-.close{
-  float:left;
-  border:0;
-  background:#eee;
-  border-radius:8px;
-  padding:7px 12px;
-}
-
-/* footer */
-
-footer{
-  background:#043d2f;
-  color:white;
-  text-align:center;
-  padding:40px 20px;
-}
-
-footer h2{
-  color:#f0d477;
-}
-
-@media(max-width:750px){
-  .nav{
+  .search-box{
     flex-direction:column;
   }
 
-  .hero{
-    min-height:500px;
+  .search-box button{
+    padding:13px;
   }
 
-  .arabic{
-    font-size:28px;
+  .reader{
+    padding:5px;
+  }
+
+  .reader-box{
+    height:96vh;
+    border-radius:10px;
   }
 }
 </style>
@@ -578,1470 +451,647 @@ footer h2{
 <body>
 
 <header>
-  <div class="nav">
-
+  <div class="header-inner">
     <div class="logo">
-      اسلامک <span>ٹولز</span>
+      🕌 اسلامی پورٹل
+      <small>علم، قرآن اور اسلامی مطالعہ</small>
     </div>
 
-    <div class="navlinks">
-      <button onclick="go('home')">ہوم</button>
-      <button onclick="go('tools')">اسلامی ٹولز</button>
-      <button onclick="go('prayer')">نماز</button>
-      <button onclick="openQuran()">قرآن مجید</button>
-      <button onclick="go('seerah')">سیرت النبی ﷺ</button>
-      <button onclick="go('events')">اسلامی واقعات</button>
-      <button onclick="go('stories')">بچوں کی کہانیاں</button>
-    </div>
-
+    <button class="home-btn" onclick="goHome()">🏠 ہوم</button>
   </div>
 </header>
 
-<!-- HOME -->
+<main>
 
-<section class="hero" id="home">
+<section id="home" class="hero">
+  <h1>خوش آمدید اسلامی پورٹل میں</h1>
+  <p>
+    قرآن، سیرت، صحابہ کرام، اسلامی واقعات اور بچوں کے لیے مفید
+    دینی مطالعہ ایک خوبصورت جگہ پر۔
+  </p>
 
-  <div class="hero-inner">
-
-    <div class="bismillah">
-      بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ
-    </div>
-
-    <h1>اسلامک ٹولز</h1>
-
-    <h2>دین کی ضروری سہولیات ایک جگہ</h2>
-
-    <p>
-      قرآن مجید، نماز، سیرت النبی ﷺ،
-      اسلامی واقعات اور بچوں کی اسلامی کہانیاں۔
-    </p>
-
-    <button class="btn" onclick="openQuran()">
-      📖 قرآن مجید
-    </button>
-
-    <button class="btn dark" onclick="go('tools')">
-      اسلامی ٹولز
-    </button>
-
+  <div class="search-box">
+    <input id="searchInput" type="text"
+           placeholder="یہاں تلاش کریں..."
+           oninput="searchPortal()">
+    <button onclick="searchPortal()">تلاش</button>
   </div>
-
 </section>
 
-<!-- TOOLS -->
+<div class="container">
 
-<section class="section" id="tools">
+  <div id="cards" class="grid">
 
-  <div class="title">
-    <h2>اسلامی ٹولز</h2>
-    <p>تمام اہم سہولیات ایک جگہ</p>
-  </div>
-
-  <div class="cards">
-
-    <div class="card click-card" onclick="go('prayer')">
-      <div class="icon">🕌</div>
-      <h3>نماز کے اوقات</h3>
-      <p>اپنے شہر کے مطابق نماز کے اوقات دیکھیں۔</p>
-    </div>
-
-    <div class="card click-card" onclick="openQuran()">
+    <div class="card searchable">
       <div class="icon">📖</div>
-      <h3>قرآن مجید</h3>
-      <p>قرآن، اردو ترجمہ اور تلاوت ایک ہی سیکشن میں۔</p>
+      <h3>قرآن کریم</h3>
+      <p>قرآن کے مطالعے کے لیے ایک مکمل سیکشن۔</p>
+      <button class="primary" onclick="openSection('quran')">
+        قرآن کھولیں
+      </button>
     </div>
 
-    <div class="card click-card" onclick="go('seerah')">
+    <div class="card searchable">
       <div class="icon">ﷺ</div>
       <h3>سیرت النبی ﷺ</h3>
-      <p>رسول اللہ ﷺ کی مبارک زندگی کے مختلف مراحل۔</p>
+      <p>حضور اکرم ﷺ کی مبارک زندگی کے مطالعے کے لیے۔</p>
+      <button class="primary" onclick="openSection('seerah')">
+        سیرت کھولیں
+      </button>
     </div>
 
-    <div class="card click-card" onclick="go('events')">
+    <div class="card searchable">
+      <div class="icon">👥</div>
+      <h3>حیات الصحابہ</h3>
+      <p>صحابہ کرام رضی اللہ عنہم کے واقعات اور مطالعہ۔</p>
+      <button class="primary" onclick="openSection('companions')">
+        حیات الصحابہ
+      </button>
+    </div>
+
+    <div class="card searchable">
       <div class="icon">📚</div>
-      <h3>اسلامی واقعات</h3>
-      <p>انبیاء اور اہم اسلامی واقعات پڑھیں۔</p>
+      <h3>70 سچے اسلامی واقعات</h3>
+      <p>سیرت اور اسلامی تاریخ کے منتخب سچے واقعات۔</p>
+      <button class="primary" onclick="openSection('stories')">
+        واقعات کھولیں
+      </button>
     </div>
 
-    <div class="card click-card" onclick="go('stories')">
-      <div class="icon">👦</div>
-      <h3>بچوں کی کہانیاں</h3>
-      <p>بچوں کے لیے سبق آموز اسلامی کہانیاں۔</p>
+    <div class="card searchable">
+      <div class="icon">🧒</div>
+      <h3>بچوں کی اسلامی کہانیاں</h3>
+      <p>بچوں کے لیے نئی اور اصل اسلامی کہانیوں کا سیکشن۔</p>
+      <button class="primary" onclick="openSection('kids')">
+        کہانیاں کھولیں
+      </button>
     </div>
 
+    <div class="card searchable">
+      <div class="icon">🕌</div>
+      <h3>نماز</h3>
+      <p>نماز کے بنیادی طریقے اور ضروری معلومات۔</p>
+      <button class="primary" onclick="openSection('namaz')">
+        نماز کھولیں
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- قرآن -->
+
+<section id="quran" class="section">
+
+  <div class="section-head">
+    <h2>📖 قرآن کریم</h2>
+    <p>قرآن کے مطالعے کا مرکزی سیکشن</p>
+    <button class="close-btn" onclick="closeSection('quran')">
+      ✕ بند کریں
+    </button>
+  </div>
+
+  <div class="book-card">
+    <h3>قرآن کریم آن لائن</h3>
+    <p>
+      ایک ہی بٹن سے قرآن کے مطالعے کے لیے آن لائن ریڈر کھولیں۔
+    </p>
+
+    <div class="book-buttons">
+      <a href="https://quran.com/" target="_blank">
+        📖 قرآن کھولیں
+      </a>
+    </div>
   </div>
 
 </section>
 
-<!-- PRAYER -->
 
-<section class="section" id="prayer">
+<!-- سیرت -->
 
-  <div class="title">
-    <h2>🕌 نماز کے اوقات</h2>
-    <p>شہر یا موجودہ مقام کے مطابق اوقات حاصل کریں۔</p>
-  </div>
+<section id="seerah" class="section">
 
-  <div class="prayer-box">
-
-    <div class="form">
-
-      <input id="city" value="Lahore" placeholder="شہر">
-
-      <input id="country" value="Pakistan" placeholder="ملک">
-
-      <select id="school">
-        <option value="1">حنفی</option>
-        <option value="0">شافعی / معیاری</option>
-      </select>
-
-      <button onclick="loadPrayer()">
-        اوقات حاصل کریں
-      </button>
-
-      <button onclick="myLocation()">
-        📍 میری جگہ
-      </button>
-
-    </div>
-
-    <div class="status" id="prayerStatus">
-      اوقات حاصل کیے جا رہے ہیں...
-    </div>
-
-    <div class="location">
-      <h3 id="locationName">لاہور، پاکستان</h3>
-      <div id="dateText"></div>
-      <div id="hijriText"></div>
-    </div>
-
-    <div class="next">
-      اگلی نماز
-      <strong id="nextPrayer">---</strong>
-      <span id="countdown">---</span>
-    </div>
-
-    <div class="prayer-grid">
-
-      <div class="prayer" id="p-fajr">
-        فجر
-        <b id="fajr">--:--</b>
-      </div>
-
-      <div class="prayer">
-        طلوع
-        <b id="sunrise">--:--</b>
-      </div>
-
-      <div class="prayer" id="p-dhuhr">
-        ظہر
-        <b id="dhuhr">--:--</b>
-      </div>
-
-      <div class="prayer" id="p-asr">
-        عصر
-        <b id="asr">--:--</b>
-      </div>
-
-      <div class="prayer" id="p-maghrib">
-        مغرب
-        <b id="maghrib">--:--</b>
-      </div>
-
-      <div class="prayer" id="p-isha">
-        عشاء
-        <b id="isha">--:--</b>
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-<!-- QURAN -->
-
-<section class="section" id="quran">
-
-  <div class="title">
-    <h2>📖 قرآن مجید</h2>
-    <p>ایک بٹن سے مکمل قرآن سیکشن کھولیں۔</p>
-  </div>
-
-  <button class="quran-main-button" onclick="openQuran()">
-    📖 قرآن مجید
-    <small>
-      114 سورتیں • عربی متن • اردو ترجمہ • آڈیو تلاوت
-    </small>
-  </button>
-
-  <div class="panel quran-panel hidden" id="quranPanel">
-
-    <div class="quran-controls">
-
-      <input
-        id="surahSearch"
-        placeholder="سورت تلاش کریں..."
-        oninput="filterSurahs()">
-
-      <select id="surahSelect">
-        <option value="">سورت منتخب کریں</option>
-      </select>
-
-      <select id="reciter">
-
-        <option value="ar.alafasy">
-          مشاری راشد العفاسی
-        </option>
-
-        <option value="ar.abdulbasitmurattal">
-          عبدالباسط عبدالصمد
-        </option>
-
-        <option value="ar.husary">
-          محمود خلیل الحصری
-        </option>
-
-        <option value="ar.minshawi">
-          محمد صدیق المنشاوی
-        </option>
-
-      </select>
-
-      <button onclick="loadSurah()">
-        سورت کھولیں
-      </button>
-
-    </div>
-
-    <div class="status" id="quranStatus">
-      114 سورتیں تیار ہیں۔
-    </div>
-
-    <div class="surah-list" id="surahList"></div>
-
-    <div class="reading hidden" id="reading">
-
-      <div class="reading-head">
-
-        <h2 id="surahTitle">---</h2>
-
-        <div id="surahInfo">---</div>
-
-      </div>
-
-      <div class="audio-player">
-
-        <select id="audioReciter" onchange="reloadAudio()">
-
-          <option value="ar.alafasy">
-            مشاری راشد العفاسی
-          </option>
-
-          <option value="ar.abdulbasitmurattal">
-            عبدالباسط عبدالصمد
-          </option>
-
-          <option value="ar.husary">
-            محمود خلیل الحصری
-          </option>
-
-          <option value="ar.minshawi">
-            محمد صدیق المنشاوی
-          </option>
-
-        </select>
-
-        <audio id="audio" controls></audio>
-
-      </div>
-
-      <div id="ayahs"></div>
-
-      <div class="reader-nav">
-
-        <button onclick="previousSurah()">
-          ← پچھلی سورت
-        </button>
-
-        <button onclick="nextSurah()">
-          اگلی سورت →
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-<!-- SEERAH -->
-
-<section class="section" id="seerah">
-
-  <div class="title">
+  <div class="section-head">
     <h2>ﷺ سیرت النبی ﷺ</h2>
-    <p>رسول اللہ ﷺ کی مبارک زندگی کے اہم مراحل۔</p>
+    <p>سیرتِ رسول ﷺ کے مطالعے کے لیے کتاب ریڈر</p>
+
+    <button class="close-btn" onclick="closeSection('seerah')">
+      ✕ بند کریں
+    </button>
   </div>
 
-  <div class="cards" id="seerahCards"></div>
+  <div class="notice">
+    <strong>الرحيق المختوم</strong><br>
+    اس پورٹل میں مکمل کتاب کا متن دوبارہ نقل کرنے کے بجائے
+    دستیاب آن لائن مطالعہ/PDF کا لنک دیا گیا ہے۔
+  </div>
 
-  <div class="content-area hidden" id="seerahContent"></div>
+  <div class="book-card">
+    <h3>📕 الرحيق المختوم</h3>
+
+    <p>
+      مصنف: صفی الرحمن مبارکپوری
+    </p>
+
+    <div class="book-buttons">
+
+      <button onclick="openReader(
+        'الرحيق المختوم',
+        'https://d1.islamhouse.com/data/sd/ih_books/single/sd_Raheeq_Makhtum.pdf'
+      )">
+        📖 کتاب پڑھیں
+      </button>
+
+      <a href="https://d1.islamhouse.com/data/sd/ih_books/single/sd_Raheeq_Makhtum.pdf"
+         target="_blank">
+        📄 PDF کھولیں
+      </a>
+
+    </div>
+  </div>
 
 </section>
 
-<!-- EVENTS -->
 
-<section class="section" id="events">
+<!-- حیات الصحابہ -->
 
-  <div class="title">
-    <h2>📚 اسلامی واقعات</h2>
-    <p>اہم اسلامی واقعات پڑھیں۔</p>
+<section id="companions" class="section">
+
+  <div class="section-head">
+    <h2>👥 حیات الصحابہ</h2>
+    <p>صحابہ کرام رضی اللہ عنہم کے حالات و واقعات</p>
+
+    <button class="close-btn" onclick="closeSection('companions')">
+      ✕ بند کریں
+    </button>
   </div>
 
-  <div class="cards" id="eventCards"></div>
+  <div class="notice">
+    حیات الصحابہ کے لیے اپنی مجاز/قانونی PDF کا لنک یا فائل
+    بعد میں اسی ریڈر میں شامل کی جا سکتی ہے۔
+  </div>
 
-  <div class="content-area hidden" id="eventContent"></div>
+  <div class="book-card">
+    <h3>📚 حیات الصحابہ</h3>
+
+    <p>
+      کتاب کو مکمل کتابی انداز میں پڑھنے کے لیے ریڈر کا ڈھانچہ تیار ہے۔
+      اپنی مجاز PDF کا URL نیچے JavaScript میں دیا جا سکتا ہے۔
+    </p>
+
+    <div class="book-buttons">
+      <button onclick="showMessage(
+        'حیات الصحابہ کے لیے اپنی قانونی PDF کا URL code میں companionsPdf کے اندر درج کریں۔'
+      )">
+        📖 کتاب کھولیں
+      </button>
+    </div>
+  </div>
 
 </section>
 
-<!-- STORIES -->
 
-<section class="section" id="stories">
+<!-- 70 واقعات -->
 
-  <div class="title">
-    <h2>👦 بچوں کی اسلامی کہانیاں</h2>
-    <p>سبق آموز کہانیاں اور آخر میں واضح سبق۔</p>
+<section id="stories" class="section">
+
+  <div class="section-head">
+    <h2>📚 70 سچے اسلامی واقعات</h2>
+
+    <p>
+      سیرتِ نبوی ﷺ اور اسلامی تاریخ کے منتخب واقعات
+    </p>
+
+    <button class="close-btn" onclick="closeSection('stories')">
+      ✕ بند کریں
+    </button>
   </div>
 
-  <div class="cards" id="storyCards"></div>
+  <div class="notice">
+    یہ کتاب حافظ عبد الشکور کی تصنیف ہے اور اسلام ہاؤس پر
+    70 سچے اسلامی واقعات کے طور پر دستیاب ہے۔
+  </div>
 
-  <div class="content-area hidden" id="storyContent"></div>
+  <div class="book-card">
+
+    <h3>📘 اصل کتاب کا مطالعہ</h3>
+
+    <p>
+      اصل کتاب کو آن لائن کھولنے کے لیے نیچے بٹن استعمال کریں۔
+    </p>
+
+    <div class="book-buttons">
+
+      <a href="https://islamhouse.com/ur/books/320008"
+         target="_blank">
+        📖 اسلام ہاؤس پر پڑھیں
+      </a>
+
+    </div>
+
+  </div>
 
 </section>
+
+
+<!-- بچوں کی کہانیاں -->
+
+<section id="kids" class="section">
+
+  <div class="section-head">
+    <h2>🧒 بچوں کی اسلامی کہانیاں</h2>
+
+    <p>
+      بچوں کے لیے اصل اور تفصیلی اسلامی کہانیاں
+    </p>
+
+    <button class="close-btn" onclick="closeSection('kids')">
+      ✕ بند کریں
+    </button>
+  </div>
+
+  <div class="notice">
+    یہاں ہم ایسی نئی کہانیاں شامل کر سکتے ہیں جو ہماری اپنی
+    لکھی ہوئی ہوں۔ کسی دوسری کتاب کی مکمل نقل نہیں کی جائے گی۔
+  </div>
+
+  <div id="storyList" class="story-list"></div>
+
+  <div id="storyReader" class="story-reader">
+    <button class="close-story" onclick="closeStory()">
+      ✕ کہانی بند کریں
+    </button>
+
+    <div id="storyContent"></div>
+  </div>
+
+</section>
+
+
+<!-- نماز -->
+
+<section id="namaz" class="section">
+
+  <div class="section-head">
+    <h2>🕌 نماز</h2>
+    <p>نماز کے بنیادی ارکان اور ضروری معلومات</p>
+
+    <button class="close-btn" onclick="closeSection('namaz')">
+      ✕ بند کریں
+    </button>
+  </div>
+
+  <div class="book-card">
+    <h3>نماز کا بنیادی طریقہ</h3>
+
+    <p>
+      یہاں نماز کی مکمل تعلیم، وضو، اذان، نیت، قیام، رکوع،
+      سجدہ، قعدہ اور سلام وغیرہ کے الگ الگ حصے شامل کیے جا سکتے ہیں۔
+    </p>
+
+    <button class="primary"
+            onclick="showMessage('نماز کا تفصیلی مواد اگلے مرحلے میں شامل کیا جا سکتا ہے۔')">
+      نماز کی تفصیل
+    </button>
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- کتاب ریڈر -->
+
+<div id="reader" class="reader">
+
+  <div class="reader-box">
+
+    <div class="reader-top">
+
+      <strong id="readerTitle">
+        کتاب
+      </strong>
+
+      <button onclick="closeReader()">
+        ✕ بند کریں
+      </button>
+
+    </div>
+
+    <div class="reader-content">
+
+      <iframe id="readerFrame"
+              src=""
+              title="کتاب ریڈر">
+      </iframe>
+
+    </div>
+
+    <div class="reader-bottom">
+
+      <button onclick="closeReader()">
+        واپس جائیں
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
 
 <footer>
-
-  <h2>اسلامک ٹولز</h2>
-
-  <p>
-    قرآن، نماز اور اسلامی معلومات کا آسان پلیٹ فارم
-  </p>
-
-  <br>
-
-  <p>
-    © 2026 اسلامک ٹولز
-  </p>
-
+  <p>© 2026 اسلامی پورٹل — اللہ ہمیں نفع بخش علم عطا فرمائے۔</p>
 </footer>
+
 
 <script>
 
 /* =========================
-   بنیادی نیویگیشن
+   بنیادی Navigation
 ========================= */
 
-function go(id){
+function openSection(id){
 
-  const el=document.getElementById(id);
+  document.querySelectorAll('.section')
+    .forEach(section => section.classList.remove('active'));
 
-  if(el){
-    el.scrollIntoView({
-      behavior:"smooth",
-      block:"start"
+  const target = document.getElementById(id);
+
+  if(target){
+    target.classList.add('active');
+
+    target.scrollIntoView({
+      behavior:'smooth',
+      block:'start'
     });
   }
 }
 
-/* =========================
-   قرآن
-========================= */
 
-const surahs=[
-"الفاتحہ","البقرۃ","آل عمران","النساء","المائدۃ","الانعام",
-"الاعراف","الانفال","التوبۃ","یونس","ہود","یوسف","الرعد",
-"ابراہیم","الحجر","النحل","الاسراء","الکہف","مریم","طٰہٰ",
-"الانبیاء","الحج","المؤمنون","النور","الفرقان","الشعراء",
-"النمل","القصص","العنکبوت","الروم","لقمان","السجدۃ","الاحزاب",
-"سبا","فاطر","یٰسین","الصافات","ص","الزمر","غافر","فصلت",
-"الشوریٰ","الزخرف","الدخان","الجاثیۃ","الاحقاف","محمد","الفتح",
-"الحجرات","ق","الذاریات","الطور","النجم","القمر","الرحمن",
-"الواقعۃ","الحدید","المجادلۃ","الحشر","الممتحنۃ","الصف",
-"الجمعۃ","المنافقون","التغابن","الطلاق","التحریم","الملک",
-"القلم","الحاقۃ","المعارج","نوح","الجن","المزمل","المدثر",
-"القیامۃ","الانسان","المرسلات","النبأ","النازعات","عبس",
-"التکویر","الانفطار","المطففین","الانشقاق","البروج","الطارق",
-"الاعلیٰ","الغاشیۃ","الفجر","البلد","الشمس","اللیل","الضحیٰ",
-"الشرح","التین","العلق","القدر","البینۃ","الزلزال","العادیات",
-"القارعۃ","التکاثر","العصر","الہمزۃ","الفیل","قریش","الماعون",
-"الکوثر","الکافرون","النصر","المسد","الاخلاص","الفلق","الناس"
-];
+function closeSection(id){
 
-let currentSurah=0;
-let audioAyahs=[];
-let audioIndex=0;
-let audioLoaded=false;
+  const target = document.getElementById(id);
 
-function buildSurahList(){
+  if(target){
+    target.classList.remove('active');
+  }
 
-  const list=document.getElementById("surahList");
-  const select=document.getElementById("surahSelect");
-
-  list.innerHTML="";
-  select.innerHTML=
-    '<option value="">سورت منتخب کریں</option>';
-
-  surahs.forEach((name,index)=>{
-
-    const div=document.createElement("div");
-
-    div.className="surah";
-
-    div.dataset.number=index+1;
-
-    div.innerHTML=`
-      <span class="surah-number">${index+1}</span>
-      <h3>${name}</h3>
-    `;
-
-    div.onclick=()=>{
-      select.value=index+1;
-      loadSurah();
-    };
-
-    list.appendChild(div);
-
-    const option=document.createElement("option");
-
-    option.value=index+1;
-    option.textContent=
-      `${index+1}. ${name}`;
-
-    select.appendChild(option);
-
+  window.scrollTo({
+    top:0,
+    behavior:'smooth'
   });
 }
 
-function openQuran(){
 
-  const panel=document.getElementById("quranPanel");
+function goHome(){
 
-  panel.classList.remove("hidden");
+  document.querySelectorAll('.section')
+    .forEach(section => section.classList.remove('active'));
 
-  go("quran");
-
-  if(!document.getElementById("surahList").children.length){
-    buildSurahList();
-  }
+  window.scrollTo({
+    top:0,
+    behavior:'smooth'
+  });
 }
 
-function filterSurahs(){
 
-  const q=
-    document.getElementById("surahSearch")
+/* =========================
+   Book Reader
+========================= */
+
+function openReader(title,url){
+
+  const reader = document.getElementById('reader');
+  const frame = document.getElementById('readerFrame');
+  const readerTitle = document.getElementById('readerTitle');
+
+  readerTitle.textContent = title;
+
+  frame.src = url;
+
+  reader.classList.add('active');
+
+  document.body.style.overflow='hidden';
+}
+
+
+function closeReader(){
+
+  const reader = document.getElementById('reader');
+  const frame = document.getElementById('readerFrame');
+
+  frame.src='';
+
+  reader.classList.remove('active');
+
+  document.body.style.overflow='';
+}
+
+
+/* ESC سے بند */
+
+document.addEventListener('keydown',function(e){
+
+  if(e.key === 'Escape'){
+
+    closeReader();
+
+    document.querySelectorAll('.section')
+      .forEach(section => section.classList.remove('active'));
+
+  }
+
+});
+
+
+/* =========================
+   Search
+========================= */
+
+function searchPortal(){
+
+  const query =
+    document.getElementById('searchInput')
     .value
+    .trim()
     .toLowerCase();
 
-  document.querySelectorAll(".surah")
-    .forEach(card=>{
+  document.querySelectorAll('.searchable')
+    .forEach(card => {
 
-      const number=
-        Number(card.dataset.number);
+      const text =
+        card.innerText.toLowerCase();
 
-      const text=
-        `${surahs[number-1]} ${number}`
-        .toLowerCase();
+      if(!query || text.includes(query)){
+        card.style.display='';
+      }else{
+        card.style.display='none';
+      }
 
-      card.style.display=
-        text.includes(q) ? "" : "none";
     });
 }
 
-async function loadSurah(number){
 
-  const select=
-    document.getElementById("surahSelect");
+/* =========================
+   Message
+========================= */
 
-  const selected=
-    Number(number || select.value);
+function showMessage(message){
 
-  if(!selected){
+  alert(message);
 
-    document.getElementById("quranStatus")
-      .textContent=
-      "پہلے کوئی سورت منتخب کریں۔";
-
-    return;
-  }
-
-  currentSurah=selected;
-
-  select.value=selected;
-
-  document.querySelectorAll(".surah")
-    .forEach(x=>{
-      x.classList.toggle(
-        "active",
-        Number(x.dataset.number)===selected
-      );
-    });
-
-  const status=
-    document.getElementById("quranStatus");
-
-  status.textContent=
-    "سورت لوڈ ہو رہی ہے...";
-
-  try{
-
-    const url=
-      `https://api.alquran.cloud/v1/surah/${selected}/editions/quran-uthmani,ur.jalandhry`;
-
-    const response=await fetch(url);
-
-    const json=await response.json();
-
-    if(json.code!==200){
-      throw new Error("Quran API error");
-    }
-
-    const arabic=json.data[0];
-    const urdu=json.data[1];
-
-    renderAyahs(arabic,urdu);
-
-    await loadAudio();
-
-    status.textContent=
-      "سورت کامیابی سے کھل گئی۔";
-
-    document.getElementById("reading")
-      .classList.remove("hidden");
-
-    document.getElementById("reading")
-      .scrollIntoView({
-        behavior:"smooth",
-        block:"start"
-      });
-
-  }catch(error){
-
-    console.error(error);
-
-    status.textContent=
-      "قرآن کا ڈیٹا حاصل نہیں ہوسکا۔ براہِ کرم انٹرنیٹ چیک کریں۔";
-  }
 }
 
-function renderAyahs(arabic,urdu){
 
-  document.getElementById("surahTitle")
-    .textContent=
-    `${arabic.number}. ${arabic.name}`;
+/* =========================
+   بچوں کی اصل کہانیاں
+========================= */
 
-  document.getElementById("surahInfo")
-    .textContent=
-    `${arabic.numberOfAyahs} آیات`;
+const kidsStories = [
 
-  const container=
-    document.getElementById("ayahs");
+  {
+    title:'سچ بولنے والے بچے کا انعام',
 
-  container.innerHTML="";
+    text:`
+      <h2>سچ بولنے والے بچے کا انعام</h2>
 
-  arabic.ayahs.forEach((ayah,index)=>{
+      <p>
+      ایک چھوٹے سے گاؤں میں ایک نیک دل بچہ رہتا تھا۔
+      وہ اپنے والدین کی بات مانتا اور ہمیشہ سچ بولنے کی کوشش کرتا تھا۔
+      ایک دن اسے راستے میں ایک تھیلی ملی۔
+      تھیلی میں کچھ رقم تھی۔
+      بچے نے سوچا کہ وہ اسے اپنے پاس رکھ سکتا ہے، لیکن فوراً اسے
+      یاد آیا کہ کسی دوسرے کا مال اپنے پاس رکھنا درست نہیں۔
+      </p>
 
-    const translation=
-      urdu.ayahs[index]
-      ? urdu.ayahs[index].text
-      : "";
+      <p>
+      وہ تھیلی لے کر اپنے والد کے پاس گیا اور سارا واقعہ بتایا۔
+      والد نے اسے سمجھایا کہ امانت اس شخص تک پہنچانی چاہیے جس کی ہے۔
+      دونوں نے گاؤں میں اعلان کروایا۔
+      کچھ دیر بعد ایک بوڑھا شخص آیا اور اس نے تھیلی کی نشانیاں بتائیں۔
+      تھیلی اسی کی تھی۔
+      </p>
 
-    const box=document.createElement("div");
+      <p>
+      بوڑھے شخص نے بچے کو دعا دی اور کہا:
+      "بیٹا! آج تم نے ثابت کر دیا کہ ایمان صرف بات کا نام نہیں،
+      بلکہ عمل کا نام بھی ہے۔"
+      </p>
 
-    box.className="ayah";
+      <p>
+      بچے نے جواب دیا:
+      "میں نے تو صرف وہی کیا جو مجھے صحیح لگا۔"
+      </p>
 
-    box.id=`ayah-${index}`;
+      <p>
+      اس واقعے سے بچے نے سیکھا کہ سچائی کبھی نقصان نہیں دیتی۔
+      انسان کو فوری فائدہ نہ بھی ملے، اللہ کے ہاں سچائی کی قدر ضرور ہوتی ہے۔
+      </p>
+    `
+  },
 
-    box.innerHTML=`
+  {
+    title:'چھوٹا سا عمل، بڑی نیکی',
 
-      <div class="ayah-number">
-        ${ayah.numberInSurah}
-      </div>
+    text:`
+      <h2>چھوٹا سا عمل، بڑی نیکی</h2>
 
-      <div class="arabic">
-        ${ayah.text}
-      </div>
+      <p>
+      ایک بچہ روزانہ مدرسے جاتے ہوئے راستے میں ایک بوڑھے آدمی کو دیکھتا تھا۔
+      ایک دن اس نے دیکھا کہ بوڑھا آدمی اپنا سامان اٹھانے میں مشکل محسوس کر رہا ہے۔
+      بچے نے فوراً اپنا بستہ ایک طرف رکھا اور سامان اٹھانے میں مدد کی۔
+      </p>
 
-      <div class="translation">
-        <strong>اردو ترجمہ:</strong><br>
-        ${translation}
-      </div>
+      <p>
+      بوڑھے آدمی نے خوش ہو کر دعا دی۔
+      بچے نے سوچا کہ یہ تو بہت معمولی کام تھا۔
+      لیکن استاد نے اسے سمجھایا کہ نیکی کو کبھی معمولی نہیں سمجھنا چاہیے۔
+      </p>
 
-      <button onclick="playAyah(${index})">
-        ▶ آیت سنیں
+      <p>
+      اگر انسان کسی کی مشکل آسان کر دے، کسی بھوکے کو کھانا دے،
+      کسی پریشان شخص کو تسلی دے یا کسی راستے کی تکلیف دہ چیز ہٹا دے،
+      تو یہ سب اچھے اعمال ہیں۔
+      </p>
+
+      <p>
+      بچے نے اس دن فیصلہ کیا کہ وہ روزانہ کم از کم ایک نیکی ضرور کرے گا۔
+      کچھ ہی دنوں میں اس کی عادت بدل گئی اور وہ دوسروں کی مدد کرنے میں
+      خوشی محسوس کرنے لگا۔
+      </p>
+    `
+  }
+
+];
+
+
+/* کہانیاں دکھائیں */
+
+function loadStories(){
+
+  const list =
+    document.getElementById('storyList');
+
+  list.innerHTML='';
+
+  kidsStories.forEach((story,index)=>{
+
+    const div =
+      document.createElement('div');
+
+    div.className='story';
+
+    div.innerHTML=`
+      <h3>${story.title}</h3>
+      <p>
+        بچوں کے لیے سبق آموز اسلامی کہانی۔
+      </p>
+      <button onclick="openStory(${index})">
+        📖 کہانی پڑھیں
       </button>
     `;
 
-    container.appendChild(box);
+    list.appendChild(div);
+
   });
+
 }
 
-async function loadAudio(){
 
-  const reciter=
-    document.getElementById("audioReciter").value;
+function openStory(index){
 
-  const audio=
-    document.getElementById("audio");
+  const story =
+    kidsStories[index];
 
-  audio.pause();
+  document.getElementById('storyContent')
+    .innerHTML = story.text;
 
-  audioLoaded=false;
+  document.getElementById('storyReader')
+    .classList.add('active');
 
-  try{
-
-    const url=
-      `https://api.alquran.cloud/v1/surah/${currentSurah}/${reciter}`;
-
-    const response=await fetch(url);
-
-    const json=await response.json();
-
-    if(json.code!==200){
-      throw new Error("Audio error");
-    }
-
-    audioAyahs=json.data.ayahs || [];
-
-    audioIndex=0;
-
-    audioLoaded=true;
-
-    if(audioAyahs[0]){
-      audio.src=audioAyahs[0].audio;
-    }
-
-    audio.onended=nextAudioAyah;
-
-  }catch(error){
-
-    console.error(error);
-
-    audioAyahs=[];
-    audioLoaded=false;
-  }
-}
-
-function playAyah(index){
-
-  if(!audioLoaded || !audioAyahs[index]){
-
-    document.getElementById("quranStatus")
-      .textContent=
-      "اس آیت کی آڈیو ابھی دستیاب نہیں۔";
-
-    return;
-  }
-
-  audioIndex=index;
-
-  const audio=
-    document.getElementById("audio");
-
-  audio.src=audioAyahs[index].audio;
-
-  audio.load();
-
-  audio.play().catch(()=>{});
-
-  highlightAyah(index);
-}
-
-function nextAudioAyah(){
-
-  if(audioIndex+1>=audioAyahs.length){
-
-    clearHighlight();
-
-    return;
-  }
-
-  audioIndex++;
-
-  const audio=
-    document.getElementById("audio");
-
-  audio.src=
-    audioAyahs[audioIndex].audio;
-
-  audio.load();
-
-  audio.play().catch(()=>{});
-
-  highlightAyah(audioIndex);
-}
-
-function highlightAyah(index){
-
-  clearHighlight();
-
-  const el=
-    document.getElementById(
-      `ayah-${index}`
-    );
-
-  if(!el) return;
-
-  el.classList.add("playing");
-
-  el.scrollIntoView({
-    behavior:"smooth",
-    block:"center"
-  });
-}
-
-function clearHighlight(){
-
-  document.querySelectorAll(".ayah")
-    .forEach(x=>{
-      x.classList.remove("playing");
+  document.getElementById('storyReader')
+    .scrollIntoView({
+      behavior:'smooth'
     });
+
 }
 
-async function reloadAudio(){
 
-  if(!currentSurah) return;
+function closeStory(){
 
-  const selected=
-    document.getElementById("audioReciter").value;
+  document.getElementById('storyReader')
+    .classList.remove('active');
 
-  document.getElementById("reciter").value=selected;
-
-  await loadAudio();
 }
 
-function nextSurah(){
 
-  if(currentSurah<114){
-    loadSurah(currentSurah+1);
-  }
-}
+/* صفحہ لوڈ ہونے پر */
 
-function previousSurah(){
+document.addEventListener('DOMContentLoaded',function(){
 
-  if(currentSurah>1){
-    loadSurah(currentSurah-1);
-  }
-}
-
-/* =========================
-   سیرت
-========================= */
-
-const seerah=[
-{
-title:"ولادتِ مبارک",
-text:`
-رسول اللہ ﷺ کی ولادتِ مبارک مکہ مکرمہ میں ہوئی۔
-آپ ﷺ قریش کے معزز خاندان بنو ہاشم سے تھے۔
-آپ ﷺ کی پیدائش کے سال کو عامُ الفیل کہا جاتا ہے۔
-
-سیرتِ نبوی ﷺ کا مطالعہ ہمیں آپ ﷺ کی زندگی،
-اخلاق، صبر، رحمت، عدل اور اللہ تعالیٰ کی اطاعت
-سے سبق حاصل کرنے کا موقع دیتا ہے۔
-`
-},
-{
-title:"بچپن اور جوانی",
-text:`
-آپ ﷺ نے بچپن اور جوانی میں اپنی قوم کے درمیان
-اعلیٰ اخلاق اور پاکیزگی کی وجہ سے ممتاز مقام حاصل کیا۔
-لوگ آپ ﷺ کو الصادق اور الامین کے لقب سے یاد کرتے تھے۔
-
-آپ ﷺ نے زندگی بھر سچائی، امانت، انصاف اور حسنِ اخلاق
-کو اختیار فرمایا۔
-`
-},
-{
-title:"نبوت کا آغاز",
-text:`
-چالیس سال کی عمر میں غارِ حرا میں آپ ﷺ پر وحی کا آغاز ہوا۔
-حضرت جبرائیل علیہ السلام اللہ تعالیٰ کا پیغام لے کر آئے۔
-
-یہی وہ عظیم موقع تھا جس سے نبوت اور قرآن کے نزول کا آغاز ہوا۔
-`
-},
-{
-title:"مکی دور",
-text:`
-مکہ مکرمہ میں آپ ﷺ نے لوگوں کو توحید، آخرت، عبادت،
-عدل اور اچھے اخلاق کی دعوت دی۔
-
-مسلمانوں کو شدید مخالفت اور تکالیف کا سامنا کرنا پڑا،
-لیکن رسول اللہ ﷺ نے صبر اور ثابت قدمی اختیار فرمائی۔
-`
-},
-{
-title:"ہجرتِ مدینہ",
-text:`
-اللہ تعالیٰ کے حکم سے رسول اللہ ﷺ نے مکہ مکرمہ سے مدینہ
-منورہ کی طرف ہجرت فرمائی۔
-
-ہجرت اسلامی تاریخ کا ایک عظیم واقعہ ہے اور اسی نسبت سے
-اسلامی ہجری تقویم کا آغاز ہوا۔
-`
-},
-{
-title:"مدینہ منورہ",
-text:`
-مدینہ منورہ میں رسول اللہ ﷺ نے اسلامی معاشرے کی بنیاد رکھی۔
-مسلمانوں کے درمیان اخوت قائم کی، مسجد نبوی تعمیر ہوئی،
-اور عدل و انصاف پر مبنی معاشرتی نظام تشکیل پایا۔
-`
-},
-{
-title:"فتح مکہ",
-text:`
-فتح مکہ کے موقع پر رسول اللہ ﷺ نے طاقت کے باوجود
-عام معافی اور رحم کا عظیم نمونہ پیش فرمایا۔
-
-یہ واقعہ آپ ﷺ کے عفو، رحمت اور بلند اخلاق کی بڑی مثال ہے۔
-`
-},
-{
-title:"آخری ایام",
-text:`
-رسول اللہ ﷺ نے اپنی زندگی کے آخری حصے میں بھی امت کو
-اللہ تعالیٰ کی عبادت، نماز، حقوق العباد، حسنِ اخلاق اور
-قرآن و سنت سے وابستگی کی تاکید فرمائی۔
-
-آپ ﷺ کی سیرت قیامت تک مسلمانوں کے لیے بہترین نمونہ ہے۔
-`
-}
-];
-
-function buildSeerah(){
-
-  const cards=
-    document.getElementById("seerahCards");
-
-  cards.innerHTML="";
-
-  seerah.forEach((item,index)=>{
-
-    const card=document.createElement("div");
-
-    card.className="card click-card";
-
-    card.innerHTML=`
-      <div class="icon">ﷺ</div>
-      <h3>${item.title}</h3>
-      <p>مزید پڑھنے کے لیے کھولیں</p>
-    `;
-
-    card.onclick=()=>{
-      showContent(
-        "seerahContent",
-        item.title,
-        item.text
-      );
-    };
-
-    cards.appendChild(card);
-  });
-}
-
-/* =========================
-   اسلامی واقعات
-========================= */
-
-const events=[
-{
-title:"حضرت آدم علیہ السلام",
-text:`
-قرآن مجید میں حضرت آدم علیہ السلام کی تخلیق اور
-اللہ تعالیٰ کی طرف سے انہیں علم عطا کیے جانے کا ذکر ہے۔
-اللہ تعالیٰ نے فرشتوں کو آدم علیہ السلام کے سامنے
-سجدۂ تعظیمی کا حکم دیا۔
-
-شیطان نے تکبر کیا اور اللہ تعالیٰ کے حکم کی مخالفت کی۔
-اس واقعے میں تکبر سے بچنے، اللہ تعالیٰ کی اطاعت اور
-توبہ کی اہمیت کا عظیم سبق ملتا ہے۔
-`
-},
-{
-title:"حضرت نوح علیہ السلام",
-text:`
-حضرت نوح علیہ السلام نے اپنی قوم کو طویل عرصے تک
-اللہ تعالیٰ کی عبادت اور توحید کی دعوت دی۔
-
-قوم کی بڑی تعداد نے مخالفت کی۔ اللہ تعالیٰ کے حکم سے
-حضرت نوح علیہ السلام نے کشتی بنائی۔ یہ واقعہ ایمان،
-صبر اور اللہ تعالیٰ کے حکم پر بھروسے کا اہم سبق دیتا ہے۔
-`
-},
-{
-title:"حضرت ابراہیم علیہ السلام",
-text:`
-حضرت ابراہیم علیہ السلام نے اپنی قوم کو توحید کی دعوت دی۔
-انہوں نے بت پرستی کی مخالفت کی اور اللہ تعالیٰ کی وحدانیت
-پر مضبوطی سے قائم رہے۔
-
-آپ علیہ السلام کی زندگی قربانی، توکل اور اللہ تعالیٰ
-کی اطاعت کا عظیم نمونہ ہے۔
-`
-},
-{
-title:"حضرت یوسف علیہ السلام",
-text:`
-حضرت یوسف علیہ السلام کی زندگی میں آزمائش، صبر،
-پاک دامنی، معافی اور اللہ تعالیٰ پر اعتماد کے بہت سے اسباق ہیں۔
-
-ان کے بھائیوں نے ان کے ساتھ سخت معاملہ کیا، مگر بعد میں
-اللہ تعالیٰ نے انہیں عزت اور اقتدار عطا فرمایا۔
-انہوں نے بدلہ لینے کے بجائے معافی اور حسنِ سلوک کا راستہ اختیار کیا۔
-`
-},
-{
-title:"حضرت یونس علیہ السلام",
-text:`
-حضرت یونس علیہ السلام کا واقعہ اللہ تعالیٰ کی رحمت،
-توبہ اور دعا کی اہمیت یاد دلاتا ہے۔
-
-مشکل ترین حالت میں اللہ تعالیٰ کو پکارنا اور اپنی غلطی
-پر رجوع کرنا مومن کے لیے اہم سبق ہے۔
-`
-},
-{
-title:"اصحابِ کہف",
-text:`
-اصحابِ کہف ایمان والے نوجوان تھے جنہوں نے اپنے ایمان کی
-حفاظت کے لیے پناہ اختیار کی۔ قرآن مجید میں ان کا واقعہ
-تفصیل سے بیان ہوا ہے۔
-
-یہ واقعہ ایمان پر ثابت قدمی اور اللہ تعالیٰ کی قدرت کی
-یاد دہانی کراتا ہے۔
-`
-},
-{
-title:"اصحابِ فیل",
-text:`
-اصحابِ فیل کا واقعہ مکہ مکرمہ اور کعبہ کی حفاظت کے حوالے
-سے قرآن مجید کی سورۃ الفیل میں بیان ہوا ہے۔
-
-یہ واقعہ اللہ تعالیٰ کی قدرت اور اس کی حفاظت کی یاد دلاتا ہے۔
-`
-}
-];
-
-function buildEvents(){
-
-  const cards=
-    document.getElementById("eventCards");
-
-  cards.innerHTML="";
-
-  events.forEach(item=>{
-
-    const card=document.createElement("div");
-
-    card.className="card click-card";
-
-    card.innerHTML=`
-      <div class="icon">📚</div>
-      <h3>${item.title}</h3>
-      <p>واقعہ پڑھنے کے لیے کلک کریں</p>
-    `;
-
-    card.onclick=()=>{
-      showContent(
-        "eventContent",
-        item.title,
-        item.text
-      );
-    };
-
-    cards.appendChild(card);
-  });
-}
-
-/* =========================
-   بچوں کی کہانیاں
-========================= */
-
-const stories=[
-{
-title:"سچ بولنے والا بچہ",
-text:`
-ایک بچے کو راستے میں ایک قیمتی چیز ملی۔
-اس کے پاس یہ موقع تھا کہ وہ اسے اپنے پاس رکھ لے،
-لیکن اس نے سوچا کہ امانت واپس کرنا درست ہے۔
-
-اس نے مالک کو تلاش کیا اور وہ چیز واپس کردی۔
-مالک نے بچے کی سچائی اور امانت داری کی تعریف کی۔
-
-سبق:
-سچائی اور امانت داری ہمیشہ اچھی صفات ہیں۔
-مسلمان کو مشکل وقت میں بھی سچ کا ساتھ دینا چاہیے۔
-`
-},
-{
-title:"والدین کا احترام",
-text:`
-ایک بچہ اپنے والدین کی خدمت کرتا تھا۔ جب والدین کو
-کسی کام کی ضرورت ہوتی تو وہ خوشی سے ان کی مدد کرتا۔
-
-وہ ان کے ساتھ نرم لہجے میں بات کرتا اور ان کی ضروریات
-کا خیال رکھتا۔
-
-سبق:
-والدین کے ساتھ حسنِ سلوک، نرمی اور احترام اسلامی
-اخلاق کا اہم حصہ ہے۔
-`
-},
-{
-title:"امانت داری",
-text:`
-ایک بچے کو اپنے دوست کی کتاب ملی۔ دوست وہاں موجود نہیں تھا۔
-بچے نے کتاب اپنے پاس رکھنے کے بجائے محفوظ رکھی اور
-دوست کے واپس آنے پر اسے دے دی۔
-
-دوست نے اس کا شکریہ ادا کیا اور دونوں کی دوستی مزید مضبوط ہوئی۔
-
-سبق:
-دوسروں کی چیزوں کی حفاظت کرنا اور امانت واپس کرنا
-بہترین اخلاق میں شامل ہے۔
-`
-},
-{
-title:"نیکی کا چھوٹا کام",
-text:`
-ایک بچے نے راستے سے ایک نقصان دہ چیز ہٹا دی تاکہ کوئی
-دوسرا شخص اس سے نہ ٹکرائے۔
-
-اس نے سوچا کہ چھوٹا سا اچھا کام بھی اللہ تعالیٰ کے ہاں
-قابلِ قدر ہو سکتا ہے۔
-
-سبق:
-نیکی کو کبھی چھوٹا نہ سمجھیں۔ اچھے کام کی عادت بنائیں۔
-`
-}
-];
-
-function buildStories(){
-
-  const cards=
-    document.getElementById("storyCards");
-
-  cards.innerHTML="";
-
-  stories.forEach(item=>{
-
-    const card=document.createElement("div");
-
-    card.className="card click-card";
-
-    card.innerHTML=`
-      <div class="icon">📖</div>
-      <h3>${item.title}</h3>
-      <p>مکمل کہانی پڑھنے کے لیے کلک کریں</p>
-    `;
-
-    card.onclick=()=>{
-      showContent(
-        "storyContent",
-        item.title,
-        item.text
-      );
-    };
-
-    cards.appendChild(card);
-  });
-}
-
-/* =========================
-   Content viewer
-========================= */
-
-function showContent(id,title,text){
-
-  const box=
-    document.getElementById(id);
-
-  box.classList.remove("hidden");
-
-  box.innerHTML=`
-    <button
-      class="back"
-      onclick="hideContent('${id}')">
-      ← واپس
-    </button>
-
-    <h2>${title}</h2>
-
-    ${text
-      .trim()
-      .split("\n\n")
-      .map(p=>`<p>${p.trim()}</p>`)
-      .join("")
-    }
-  `;
-
-  box.scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
-}
-
-function hideContent(id){
-
-  document
-    .getElementById(id)
-    .classList.add("hidden");
-}
-
-/* =========================
-   نماز
-========================= */
-
-let prayerData=null;
-let countdownTimer=null;
-
-function cleanTime(value){
-
-  if(!value) return "--:--";
-
-  return value.split(" ")[0];
-}
-
-async function loadPrayer(){
-
-  const city=
-    document.getElementById("city").value.trim();
-
-  const country=
-    document.getElementById("country").value.trim();
-
-  const school=
-    document.getElementById("school").value;
-
-  const status=
-    document.getElementById("prayerStatus");
-
-  if(!city || !country){
-
-    status.textContent=
-      "شہر اور ملک درج کریں۔";
-
-    return;
-  }
-
-  status.textContent=
-    "نماز کے اوقات حاصل کیے جا رہے ہیں...";
-
-  const d=new Date();
-
-  const date=
-    String(d.getDate()).padStart(2,"0")+
-    "-"+
-    String(d.getMonth()+1).padStart(2,"0")+
-    "-"+
-    d.getFullYear();
-
-  const url=
-    `https://api.aladhan.com/v1/timingsByCity/${date}`+
-    `?city=${encodeURIComponent(city)}`+
-    `&country=${encodeURIComponent(country)}`+
-    `&method=1`+
-    `&school=${school}`;
-
-  try{
-
-    const response=await fetch(url);
-
-    const json=await response.json();
-
-    if(json.code!==200){
-      throw new Error();
-    }
-
-    prayerData=json.data;
-
-    renderPrayer(
-      json.data,
-      `${city}، ${country}`
-    );
-
-    status.textContent=
-      "نماز کے اوقات حاصل ہوگئے۔";
-
-  }catch(error){
-
-    console.error(error);
-
-    status.textContent=
-      "نماز کے اوقات حاصل نہیں ہوسکے۔";
-  }
-}
-
-function renderPrayer(data,location){
-
-  const t=data.timings;
-
-  document.getElementById("locationName")
-    .textContent=location;
-
-  document.getElementById("dateText")
-    .textContent=
-    "عیسوی تاریخ: "+
-    data.date.readable;
-
-  document.getElementById("hijriText")
-    .textContent=
-    "ہجری تاریخ: "+
-    data.date.hijri.date+
-    " — "+
-    data.date.hijri.month.ar;
-
-  document.getElementById("fajr")
-    .textContent=cleanTime(t.Fajr);
-
-  document.getElementById("sunrise")
-    .textContent=cleanTime(t.Sunrise);
-
-  document.getElementById("dhuhr")
-    .textContent=cleanTime(t.Dhuhr);
-
-  document.getElementById("asr")
-    .textContent=cleanTime(t.Asr);
-
-  document.getElementById("maghrib")
-    .textContent=cleanTime(t.Maghrib);
-
-  document.getElementById("isha")
-    .textContent=cleanTime(t.Isha);
-
-  calculateNextPrayer();
-}
-
-function calculateNextPrayer(){
-
-  if(!prayerData) return;
-
-  const t=prayerData.timings;
-
-  const list=[
-    ["فجر",cleanTime(t.Fajr),"p-fajr"],
-    ["ظہر",cleanTime(t.Dhuhr),"p-dhuhr"],
-    ["عصر",cleanTime(t.Asr),"p-asr"],
-    ["مغرب",cleanTime(t.Maghrib),"p-maghrib"],
-    ["عشاء",cleanTime(t.Isha),"p-isha"]
-  ];
-
-  document.querySelectorAll(".prayer")
-    .forEach(x=>x.classList.remove("active"));
-
-  const now=new Date();
-
-  let next=null;
-
-  for(const item of list){
-
-    const parts=item[1].split(":");
-
-    if(parts.length!==2) continue;
-
-    const target=new Date();
-
-    target.setHours(
-      Number(parts[0]),
-      Number(parts[1]),
-      0,
-      0
-    );
-
-    if(target>now){
-
-      next={
-        name:item[0],
-        target,
-        box:item[2],
-        time:item[1]
-      };
-
-      break;
-    }
-  }
-
-  if(!next){
-
-    const item=list[0];
-
-    const parts=item[1].split(":");
-
-    const target=new Date();
-
-    target.setDate(
-      target.getDate()+1
-    );
-
-    target.setHours(
-      Number(parts[0]),
-      Number(parts[1]),
-      0,
-      0
-    );
-
-    next={
-      name:item[0],
-      target,
-      box:item[2],
-      time:item[1]
-    };
-  }
-
-  document.getElementById("nextPrayer")
-    .textContent=
-    `${next.name} — ${next.time}`;
-
-  document.getElementById(next.box)
-    .classList.add("active");
-
-  startCountdown(next.target);
-}
-
-function startCountdown(target){
-
-  clearInterval(countdownTimer);
-
-  function update(){
-
-    let diff=target-new Date();
-
-    if(diff<=0){
-
-      calculateNextPrayer();
-
-      return;
-    }
-
-    const hours=
-      Math.floor(
-        diff/(1000*60*60)
-      );
-
-    diff%=1000*60*60;
-
-    const minutes=
-      Math.floor(
-        diff/(1000*60)
-      );
-
-    diff%=1000*60;
-
-    const seconds=
-      Math.floor(
-        diff/1000
-      );
-
-    document.getElementById("countdown")
-      .textContent=
-      `${hours} گھنٹے، ${minutes} منٹ، ${seconds} سیکنڈ باقی`;
-  }
-
-  update();
-
-  countdownTimer=
-    setInterval(update,1000);
-}
-
-function myLocation(){
-
-  const status=
-    document.getElementById("prayerStatus");
-
-  if(!navigator.geolocation){
-
-    status.textContent=
-      "آپ کے براؤزر میں لوکیشن دستیاب نہیں۔";
-
-    return;
-  }
-
-  status.textContent=
-    "آپ کی موجودہ جگہ حاصل کی جا رہی ہے...";
-
-  navigator.geolocation.getCurrentPosition(
-    async position=>{
-
-      const lat=position.coords.latitude;
-      const lon=position.coords.longitude;
-
-      const d=new Date();
-
-      const date=
-        String(d.getDate()).padStart(2,"0")+
-        "-"+
-        String(d.getMonth()+1).padStart(2,"0")+
-        "-"+
-        d.getFullYear();
-
-      const school=
-        document.getElementById("school").value;
-
-      try{
-
-        const url=
-          `https://api.aladhan.com/v1/timings/${date}`+
-          `?latitude=${lat}`+
-          `&longitude=${lon}`+
-          `&method=1`+
-          `&school=${school}`;
-
-        const response=await fetch(url);
-
-        const json=await response.json();
-
-        if(json.code!==200){
-          throw new Error();
-        }
-
-        prayerData=json.data;
-
-        renderPrayer(
-          json.data,
-          "آپ کی موجودہ جگہ"
-        );
-
-        status.textContent=
-          "موجودہ جگہ کے اوقات حاصل ہوگئے۔";
-
-      }catch(error){
-
-        status.textContent=
-          "موجودہ جگہ کے اوقات حاصل نہیں ہوسکے۔";
-      }
-    },
-    ()=>{
-      status.textContent=
-        "لوکیشن کی اجازت نہیں ملی۔";
-    }
-  );
-}
-
-/* =========================
-   START
-========================= */
-
-document.addEventListener("DOMContentLoaded",()=>{
-
-  buildSurahList();
-  buildSeerah();
-  buildEvents();
-  buildStories();
-
-  loadPrayer();
+  loadStories();
 
 });
 
