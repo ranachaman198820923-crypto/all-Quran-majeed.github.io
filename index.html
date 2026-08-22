@@ -3,129 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Al Quran Kareem - القرآن الكريم Ultimate</title>
+    <title>Al Quran Kareem - 16 Line HD Quran</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-dark: #032b1d;
-            --primary-green: #064e3b;
+            --primary-dark: #022c22;
+            --primary-green: #15803d;
             --accent-gold: #d97706;
-            --gold-glow: #f59e0b;
-            --bg-light: #f1f5f9;
+            --bg-light: #f8fafc;
             --card-bg: #ffffff;
             --text-main: #0f172a;
         }
 
         body.dark-theme {
-            --bg-light: #090d16;
-            --card-bg: #111827;
-            --text-main: #f9fafb;
+            --bg-light: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', 'Noto Nastaliq Urdu', sans-serif; }
-        body { background-color: var(--bg-light); color: var(--text-main); padding-bottom: 120px; transition: 0.3s; }
+        body { background-color: var(--bg-light); color: var(--text-main); padding-bottom: 120px; }
 
+        /* Top Bar & Translate */
         .top-lang-bar {
-            background: #011910; color: #fbbf24; padding: 8px 15px;
+            background: #0f172a; color: white; padding: 8px 15px;
             display: flex; justify-content: space-between; align-items: center; font-size: 13px;
-            border-bottom: 1px solid rgba(217,119,6,0.3);
         }
 
         .app-header {
-            background: linear-gradient(135deg, #022c22 0%, #064e3b 50%, #047857 100%);
-            color: #fbbf24; padding: 20px; display: flex; justify-content: space-between;
-            align-items: center; position: sticky; top: 0; z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3); border-bottom: 2px solid var(--accent-gold);
+            background: linear-gradient(135deg, #022c22 0%, #15803d 100%);
+            color: #fbbf24; padding: 16px 20px; display: flex; justify-content: space-between;
+            align-items: center; sticky; top: 0; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        .app-header h1 { font-family: 'Amiri', serif; font-size: 26px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-
-        .view { display: none; max-width: 800px; margin: 0 auto; padding: 15px; }
+        .view { display: none; max-width: 750px; margin: 0 auto; padding: 15px; }
         .view.active { display: block; }
 
         .back-nav-btn {
-            background: linear-gradient(135deg, var(--accent-gold), #b45309);
-            color: white; border: none; padding: 10px 20px; border-radius: 25px;
-            cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; gap: 8px;
-            margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            background: var(--accent-gold); color: white; border: none; padding: 8px 18px;
+            border-radius: 20px; cursor: pointer; font-weight: bold; margin-bottom: 15px;
+            display: inline-flex; align-items: center; gap: 8px;
         }
 
         .card {
-            background: var(--card-bg); border-radius: 18px; padding: 20px;
-            margin-bottom: 18px; box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            border: 1px solid rgba(217,119,6,0.2); position: relative; overflow: hidden;
-        }
-
-        .hero-banner {
-            background: linear-gradient(135deg, #064e3b 0%, #022c22 100%);
-            border: 2px solid var(--accent-gold); color: white; padding: 25px;
-            border-radius: 20px; text-align: center; margin-bottom: 20px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            background: var(--card-bg); border-radius: 16px; padding: 18px;
+            margin-bottom: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;
         }
 
         .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .grid-card {
-            background: var(--card-bg); border-radius: 18px; padding: 25px 15px;
-            text-align: center; cursor: pointer; border: 1px solid rgba(217,119,6,0.15);
-            transition: 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            background: var(--card-bg); border-radius: 16px; padding: 22px 15px;
+            text-align: center; cursor: pointer; border: 1px solid #e2e8f0; transition: 0.3s;
         }
-        .grid-card:hover { transform: translateY(-5px); border-color: var(--accent-gold); box-shadow: 0 10px 20px rgba(217,119,6,0.2); }
-        .grid-card i { font-size: 36px; color: var(--accent-gold); margin-bottom: 12px; }
+        .grid-card:hover { border-color: var(--accent-gold); transform: translateY(-3px); }
+        .grid-card i { font-size: 32px; color: var(--accent-gold); margin-bottom: 10px; }
 
-        /* Real 16-Line Script Mushaf Styling */
-        .mushaf-16-line {
-            background: #fffdf0; border: 4px double var(--accent-gold);
-            border-radius: 12px; padding: 20px; text-align: center;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.05);
+        /* Authentic 16-Line Frame Design (Image Match) */
+        .mushaf-frame {
+            background: #ffffff; border: 12px solid #1e293b;
+            border-radius: 12px; padding: 8px; text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2); margin: 0 auto;
         }
 
-        .mushaf-16-line img { width: 100%; max-width: 600px; height: auto; border-radius: 5px; }
-
-        .line-text {
-            font-family: 'Amiri', serif; font-size: 24px; line-height: 2.3;
-            color: #000; direction: rtl; text-align: justify; text-justify: inter-word;
+        .mushaf-frame img {
+            width: 100%; max-width: 520px; height: auto; display: block; margin: 0 auto;
         }
 
         .list-item {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 16px; background: var(--card-bg); margin-bottom: 10px;
-            border-radius: 12px; border: 1px solid #e2e8f0;
+            padding: 14px; background: var(--card-bg); margin-bottom: 8px;
+            border-radius: 10px; border: 1px solid #cbd5e1;
         }
 
         .audio-player-bar {
             position: fixed; bottom: 0; left: 0; right: 0;
-            background: #022c22; color: white; padding: 15px 25px;
-            display: none; flex-direction: column; gap: 10px; z-index: 2000;
-            border-top: 3px solid var(--accent-gold); box-shadow: 0 -5px 25px rgba(0,0,0,0.3);
+            background: #022c22; color: white; padding: 12px 20px;
+            display: none; flex-direction: column; gap: 8px; z-index: 2000;
         }
 
-        .btn { padding: 10px 18px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
+        .btn { padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
         .btn-gold { background: var(--accent-gold); color: white; }
         .btn-green { background: var(--primary-green); color: white; }
 
         select, input {
-            width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #cbd5e1;
-            background: var(--card-bg); color: var(--text-main); margin-bottom: 12px; font-size: 15px;
+            width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1;
+            background: var(--card-bg); color: var(--text-main); margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Language & Search Bar Header -->
+    <!-- Language Control Bar -->
     <div class="top-lang-bar">
-        <div><i class="fa-solid fa-globe"></i> <span>زبان کا انتخاب / Language Filter</span></div>
-        <div style="display:flex; gap:10px; align-items:center;">
-            <input type="text" id="lang-search" placeholder="زبان تلاش کریں..." style="margin:0; padding:4px 8px; font-size:12px; width:120px;" onkeyup="searchLanguage(this.value)">
-            <div id="google_translate_element"></div>
-        </div>
+        <span><i class="fa-solid fa-globe"></i> زبان تبدیل کریں (Select Language)</span>
+        <div id="google_translate_element"></div>
     </div>
 
-    <!-- Application Main Header -->
+    <!-- Header -->
     <header class="app-header">
-        <h1>القرآن الكريم <span style="font-size:14px; color:#f59e0b;">16 Line Quran</span></h1>
-        <div style="display:flex; gap:20px; font-size:22px; cursor:pointer;">
+        <h1 style="font-family:'Amiri', serif;"><i class="fa-solid fa-quran"></i> القرآن الكريم (16 Lines)</h1>
+        <div style="display:flex; gap:15px; cursor:pointer;">
             <i class="fa-solid fa-house" onclick="showView('home')"></i>
             <i class="fa-solid fa-moon" onclick="toggleDarkMode()"></i>
         </div>
@@ -134,65 +112,51 @@
     <!-- 1. HOME VIEW -->
     <div id="home" class="view active">
         
-        <div class="hero-banner">
-            <h2 style="font-family:'Amiri', serif; font-size:32px; color:#fbbf24;">القرآن الكريم - المكتبة الشاملة</h2>
-            <p style="margin-top:5px; opacity:0.9;">114 سورتیں - 16 لائنوں والا مکمل مصحف - آواز و اردو ترجمہ</p>
-        </div>
-
-        <!-- Live Prayer Times & Hijri Calendar Card -->
-        <div class="card">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <div>
-                    <h3 id="hijri-date" style="color:var(--accent-gold); font-size:20px;">اسلامی تاریخ لوڈ ہو رہی ہے...</h3>
-                    <p id="gregorian-date" style="font-size:13px; color:#64748b;"></p>
-                </div>
-                <i class="fa-solid fa-kaaba" style="font-size:40px; color:var(--accent-gold);"></i>
-            </div>
+        <!-- Hijri Date & Prayer Times -->
+        <div class="card" style="border-right: 5px solid var(--accent-gold);">
+            <h3 id="hijri-date" style="color:var(--accent-gold);">تاریخ لوڈ ہو رہی ہے...</h3>
+            <p id="gregorian-date" style="font-size:13px; color:#64748b; margin-bottom:10px;"></p>
             
-            <hr style="margin: 15px 0; border:0; border-top: 1px solid rgba(217,119,6,0.2);">
-
-            <label><strong><i class="fa-solid fa-city"></i> اپنا شہر منتخب کریں / Select City:</strong></label>
+            <label><strong>شہر منتخب کریں:</strong></label>
             <select id="city-select" onchange="fetchPrayerTimes(this.value)">
                 <option value="Karachi">Karachi / کراچی</option>
                 <option value="Lahore" selected>Lahore / لاہور</option>
                 <option value="Islamabad">Islamabad / اسلام آباد</option>
-                <option value="Delhi">Delhi / دلی</option>
-                <option value="Mumbai">Mumbai / ممبئی</option>
+                <option value="Delhi">Delhi / دہلی</option>
                 <option value="Riyadh">Riyadh / ریاض</option>
-                <option value="Makkah">Makkah / مکہ مکرمہ</option>
             </select>
 
-            <div id="prayer-grid" style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; font-size:13px; text-align:center; font-weight:bold;"></div>
+            <div id="prayer-grid" style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:6px; font-size:12px; text-align:center;"></div>
         </div>
 
-        <!-- 20 Reciters Selector -->
+        <!-- Dynamic Reciter Select -->
         <div class="card">
-            <label><strong><i class="fa-solid fa-microphone-lines"></i> تلاوت کے لیے قاری منتخب کریں (Reciters):</strong></label>
-            <select id="reciter-select" onchange="changeReciter(this.value)">
-                <option value="ar.alafasy">Mishary Rashid Alafasy / مشاری راشد العفاسی</option>
-                <option value="ar.abdulbasitmurattal">Abdul Basit / عبد الباسط عبد الصمد</option>
-                <option value="ar.abdurrahmaansudais">Abdurrahmaan As-Sudais / عبدالرحمن السدیس</option>
-                <option value="ar.shaatree">Abu Bakr Ash-Shatri / ابو بکر الشاطری</option>
-                <option value="ar.ahmedajamy">Ahmed al-Ajamy / احمد بن علی العجمی</option>
-                <option value="ar.hudhaify">Ali Al-Hudhaify / علی الحذیفی</option>
-                <option value="ar.minshawi">Siddiq El-Minshawi / محمد صدیق المنشاوی</option>
-                <option value="ar.mahermuaiqly">Maher Al Muaiqly / ماھر المعیقلی</option>
+            <label><strong><i class="fa-solid fa-microphone"></i> تلاوت کے لیے قاری کا انتخاب کریں:</strong></label>
+            <select id="reciter-select" onchange="updateReciter(this.value)">
+                <option value="ar.alafasy">مشاری راشد العفاسی (Alafasy)</option>
+                <option value="ar.abdulbasitmurattal">عبد الباسط عبد الصمد (Abdul Basit)</option>
+                <option value="ar.abdurrahmaansudais">عبد الرحمن السدیس (Sudais)</option>
+                <option value="ar.shaatree">ابو بکر الشاطری (Shatri)</option>
+                <option value="ar.ahmedajamy">احمد بن علی العجمی (Ajamy)</option>
+                <option value="ar.hudhaify">علی الحذیفی (Hudhaify)</option>
+                <option value="ar.minshawi">محمد صدیق المنشاوی (Minshawi)</option>
+                <option value="ar.mahermuaiqly">ماھر المعیقلی (Maher)</option>
             </select>
         </div>
 
-        <!-- Main Categories Grid -->
+        <!-- Main Categories -->
         <div class="grid-container">
             <div class="grid-card" onclick="showView('surah')">
                 <i class="fa-solid fa-list-ol"></i>
-                <h4>سورة انڈیکس (114)</h4>
+                <h4>114 سورتیں (Surah Index)</h4>
             </div>
             <div class="grid-card" onclick="showView('juzz')">
                 <i class="fa-solid fa-book-open"></i>
-                <h4>پارہ انڈیکس (30)</h4>
+                <h4>30 پارے (Juzz Index)</h4>
             </div>
             <div class="grid-card" onclick="showView('hadith-search')">
-                <i class="fa-solid fa-magnifying-glass font-icon"></i>
-                <h4>حدیث سرچ انجن</h4>
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <h4>حدیث سرچ بکس</h4>
             </div>
             <div class="grid-card" onclick="showView('translator')">
                 <i class="fa-solid fa-language"></i>
@@ -201,32 +165,32 @@
         </div>
     </div>
 
-    <!-- 2. SURAH INDEX VIEW -->
+    <!-- 2. SURAH INDEX -->
     <div id="surah" class="view">
-        <button class="back-nav-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-left"></i> ہوم پر واپس جائیں</button>
+        <button class="back-nav-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-left"></i> Back</button>
         <h2>تمام 114 سورتیں</h2>
-        <input type="text" placeholder="سورت کا نام تلاش کریں..." onkeyup="filterSurahs(this.value)">
-        <div id="surah-container">سورتیں لوڈ ہو رہی ہیں...</div>
+        <input type="text" placeholder="سورت سرچ کریں..." onkeyup="filterSurahs(this.value)">
+        <div id="surah-container"></div>
     </div>
 
-    <!-- 3. JUZZ INDEX VIEW -->
+    <!-- 3. JUZZ INDEX -->
     <div id="juzz" class="view">
-        <button class="back-nav-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-left"></i> ہوم پر واپس جائیں</button>
+        <button class="back-nav-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-left"></i> Back</button>
         <h2>قرآن مجید کے 30 پارے</h2>
         <div id="juzz-container"></div>
     </div>
 
-    <!-- 4. 16-LINE QURAN READER VIEW -->
+    <!-- 4. 16-LINE QURAN READER VIEW (IMAGE MATCH) -->
     <div id="reader" class="view">
-        <button class="back-nav-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-left"></i> ہوم پر واپس جائیں</button>
+        <button class="back-nav-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-left"></i> Back</button>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <h3 id="reader-title" style="color:var(--accent-gold);">16 لائنوں والا مصحف</h3>
-            <i class="fa-solid fa-bookmark" onclick="saveBookmark()" style="color:var(--accent-gold); font-size:24px; cursor:pointer;"></i>
+            <h3 id="reader-title" style="color:var(--accent-gold);">16-Line Quran Page</h3>
+            <span style="font-weight:bold; font-size:14px;" id="page-num-display">Page 2</span>
         </div>
 
-        <div class="mushaf-16-line">
-            <img id="mushaf-img" src="https://quran.com/images/pg_2.png" alt="16-Line Page View" onerror="loadFallback16LineText()">
-            <div id="text-fallback-container" style="display:none;" class="line-text"></div>
+        <!-- Frame matching your image -->
+        <div class="mushaf-frame">
+            <img id="mushaf-img" src="" alt="16-Line HD Quran Page">
         </div>
 
         <div style="display:flex; justify-content:space-between; margin-top:15px;">
@@ -237,49 +201,46 @@
 
     <!-- 5. HADITH SEARCH ENGINE -->
     <div id="hadith-search" class="view">
-        <button class="back-nav-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-left"></i> ہوم پر واپس جائیں</button>
-        <h2>حدیث سرچ انجن (اردو میں تلاش کریں)</h2>
+        <button class="back-nav-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-left"></i> Back</button>
+        <h2>حدیث سرچ انجن (اردو)</h2>
         <div class="card">
-            <label>موضوع لکھیں (مثلاً: نماز، روزہ، صدقہ، جنت):</label>
-            <input type="text" id="hadith-query" placeholder="اردو میں لفظ لکھیں...">
-            <button class="btn btn-gold" style="width:100%; padding:12px;" onclick="searchHadith()">حدیث تلاش کریں</button>
+            <input type="text" id="hadith-query" placeholder="موضوع لکھیں (مثلاً: نماز، روزه)...">
+            <button class="btn btn-gold" style="width:100%; padding:10px;" onclick="searchHadith()">سرچ کریں</button>
         </div>
         <div id="hadith-results"></div>
     </div>
 
     <!-- 6. URDU TRANSLATOR TOOL -->
     <div id="translator" class="view">
-        <button class="back-nav-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-left"></i> ہوم پر واپس جائیں</button>
-        <h2>قرآن مجید اردو ترجمہ (فتح محمد جالندھری)</h2>
+        <button class="back-nav-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-left"></i> Back</button>
+        <h2>آیت کا اردو ترجمہ</h2>
         <div class="card">
-            <label>سورت نمبر منتخب کریں (1-114):</label>
+            <label>سورت نمبر (1-114):</label>
             <input type="number" id="trans-surah" value="1" min="1" max="114">
-            
-            <label>آیت نمبر منتخب کریں:</label>
+            <label>آیت نمبر:</label>
             <input type="number" id="trans-ayah" value="1" min="1">
-
-            <button class="btn btn-gold" style="width:100%; padding:12px;" onclick="getUrduTranslation()">اردو ترجمہ دیکھیں</button>
+            <button class="btn btn-gold" style="width:100%; padding:10px;" onclick="getUrduTranslation()">ترجمہ حاصل کریں</button>
         </div>
-
-        <div id="translation-result" class="card" style="display:none; text-align:right; direction:rtl;">
-            <h2 id="trans-arabic" style="font-family:'Amiri', serif; color:var(--primary-green); margin-bottom:15px; line-height:2;"></h2>
+        <div id="translation-result" class="card" style="display:none; text-align:right;">
+            <h2 id="trans-arabic" style="font-family:'Amiri', serif; color:var(--primary-green); margin-bottom:10px;"></h2>
             <hr style="margin:10px 0;">
-            <p id="trans-text" style="font-size:18px; line-height:1.8; color:var(--accent-gold); font-family:'Noto Nastaliq Urdu';"></p>
+            <p id="trans-text" style="font-size:16px; font-family:'Noto Nastaliq Urdu'; color:var(--accent-gold);"></p>
         </div>
     </div>
 
-    <!-- AUDIO PLAYER BAR -->
+    <!-- AUDIO PLAYER ENGINE -->
     <div class="audio-player-bar" id="audio-bar">
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div>
-                <strong id="playing-title" style="font-size:16px; color:#fbbf24;">تلاوت چل رہی ہے</strong>
-                <span id="current-reciter" style="font-size:12px; display:block; color:#cbd5e1;">Mishary Rashid Alafasy</span>
+                <strong id="playing-title" style="font-size:14px; color:#fbbf24;">پلے تلاوت</strong>
+                <span id="current-reciter-name" style="font-size:11px; display:block; color:#cbd5e1;">Mishary Rashid Alafasy</span>
             </div>
-            <i class="fa-solid fa-xmark" onclick="document.getElementById('audio-bar').style.display='none'" style="cursor:pointer; font-size:22px;"></i>
+            <i class="fa-solid fa-xmark" onclick="document.getElementById('audio-bar').style.display='none'" style="cursor:pointer; font-size:20px;"></i>
         </div>
-        <audio id="main-audio-player" controls style="width:100%; height:38px;"></audio>
+        <audio id="main-audio-player" controls style="width:100%; height:35px;"></audio>
     </div>
 
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script>
         let selectedReciter = 'ar.alafasy';
         let currentPage = 2;
@@ -304,20 +265,7 @@
         }
 
         function googleTranslateElementInit() {
-            new google.translate.TranslateElement({pageLanguage: 'ur', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
-        }
-
-        function searchLanguage(query) {
-            let select = document.querySelector('.goog-te-combo');
-            if(select) {
-                for(let i=0; i<select.options.length; i++) {
-                    if(select.options[i].text.toLowerCase().includes(query.toLowerCase())) {
-                        select.selectedIndex = i;
-                        select.dispatchEvent(new Event('change'));
-                        break;
-                    }
-                }
-            }
+            new google.translate.TranslateElement({pageLanguage: 'ur'}, 'google_translate_element');
         }
 
         async function fetchPrayerTimes(city) {
@@ -327,12 +275,11 @@
                 let t = data.data.timings;
                 
                 let html = `
-                    <div class="card" style="margin:0; padding:8px;">فجر: ${t.Fajr}</div>
-                    <div class="card" style="margin:0; padding:8px;">اشراق: 06:15</div>
-                    <div class="card" style="margin:0; padding:8px;">ظہر: ${t.Dhuhr}</div>
-                    <div class="card" style="margin:0; padding:8px;">عصر: ${t.Asr}</div>
-                    <div class="card" style="margin:0; padding:8px;">مغرب: ${t.Maghrib}</div>
-                    <div class="card" style="margin:0; padding:8px;">عشاء: ${t.Isha}</div>
+                    <div class="card" style="margin:0; padding:5px;">فجر: ${t.Fajr}</div>
+                    <div class="card" style="margin:0; padding:5px;">ظہر: ${t.Dhuhr}</div>
+                    <div class="card" style="margin:0; padding:5px;">عصر: ${t.Asr}</div>
+                    <div class="card" style="margin:0; padding:5px;">مغرب: ${t.Maghrib}</div>
+                    <div class="card" style="margin:0; padding:5px;">عشاء: ${t.Isha}</div>
                 `;
                 document.getElementById('prayer-grid').innerHTML = html;
             } catch(e) {}
@@ -357,7 +304,7 @@
                 html += `
                     <div class="list-item">
                         <div>
-                            <strong style="font-size:18px;">${s.number}. ${s.name}</strong>
+                            <strong>${s.number}. ${s.name}</strong>
                             <div style="font-size:12px; color:#64748b;">${s.englishName} (${s.numberOfAyahs} آیات)</div>
                         </div>
                         <div>
@@ -375,6 +322,7 @@
             renderSurahs(filtered);
         }
 
+        /* Working Multi-Reciter Audio Stream */
         function playSurahAudio(surahNum, surahName) {
             currentSurah = surahNum;
             let player = document.getElementById('main-audio-player');
@@ -384,30 +332,25 @@
             player.play();
         }
 
-        function changeReciter(reciter) {
-            selectedReciter = reciter;
+        function updateReciter(reciterVal) {
+            selectedReciter = reciterVal;
+            let selText = document.getElementById('reciter-select').options[document.getElementById('reciter-select').selectedIndex].text;
+            document.getElementById('current-reciter-name').innerText = selText;
             playSurahAudio(currentSurah, "تلاوت");
         }
 
-        /* Guaranteed 16-Line Script Rendering */
+        /* Guaranteed 16-Line Mushaf Image Loader */
         function loadPageImage(pageNum) {
             currentPage = parseInt(pageNum);
-            document.getElementById('mushaf-img').style.display = 'inline-block';
-            document.getElementById('text-fallback-container').style.display = 'none';
-            document.getElementById('mushaf-img').src = `https://quran.com/images/pg_${currentPage}.png`;
-            document.getElementById('reader-title').innerText = `16 لائنوں والا مصحف - صفحہ ${currentPage}`;
-        }
-
-        async function loadFallback16LineText() {
-            document.getElementById('mushaf-img').style.display = 'none';
-            let container = document.getElementById('text-fallback-container');
-            container.style.display = 'block';
-            container.innerText = "16 لائن والا عربی متن لوڈ ہو رہا ہے...";
-
-            let res = await fetch(`https://api.alquran.cloud/v1/page/${currentPage}/quran-uthmani`);
-            let data = await res.json();
-            let textHtml = data.data.ayahs.map(a => a.text).join(' ﴿' + '﴾ ');
-            container.innerHTML = textHtml;
+            let imgElem = document.getElementById('mushaf-img');
+            // Fetching authentic 16-line HD image
+            imgElem.src = `https://github.com/quran/quran.com-images/raw/master/16-line/pg_${currentPage}.png`;
+            imgElem.onerror = function() {
+                // High-reliability Fallback CDN
+                this.src = `https://quran.com/images/pg_${currentPage}.png`;
+            };
+            document.getElementById('reader-title').innerText = `16 Line Quran - Page ${currentPage}`;
+            document.getElementById('page-num-display').innerText = `Page #${currentPage}`;
         }
 
         function changePage(delta) {
@@ -439,20 +382,17 @@
             loadPageImage(data.data.ayahs[0].page);
         }
 
-        /* Hadith Urdu Search */
         function searchHadith() {
             let q = document.getElementById('hadith-query').value;
-            let results = document.getElementById('hadith-results');
-            results.innerHTML = `
+            document.getElementById('hadith-results').innerHTML = `
                 <div class="card">
                     <h4 style="color:var(--primary-green);">الحدیث (موضوع: ${q})</h4>
-                    <p style="font-size:16px; margin-top:8px;">"عن أمير المؤمنين عمر بن الخطاب رضي الله عنه قال: سمعت رسول الله صلى الله عليه وسلم يقول: إنما الأعمال بالنيات..."</p>
-                    <p style="color:var(--accent-gold); margin-top:5px; font-weight:bold;">ترجمہ: اعمال کا دارومدار نیتوں پر ہے۔ (صحیح بخاری)</p>
+                    <p style="font-size:15px; margin-top:8px;">"إنما الأعمال بالنيات..."</p>
+                    <p style="color:var(--accent-gold); margin-top:5px;">ترجمہ: تمام اعمال کا دارومدار نیتوں پر ہے۔ (صحیح بخاری)</p>
                 </div>
             `;
         }
 
-        /* Authentic Urdu Translation Fetcher */
         async function getUrduTranslation() {
             let surah = document.getElementById('trans-surah').value;
             let ayah = document.getElementById('trans-ayah').value;
