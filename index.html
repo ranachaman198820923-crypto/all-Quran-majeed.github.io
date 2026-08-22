@@ -1,453 +1,51 @@
-<!DOCTYPE html>
-<html lang="ur" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>القرآن الکریم والحدیث</title>
-    <!-- Google Fonts for Islamic Calligraphy & Urdu -->
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        :root {
-            --primary-green: #0d5c3a;
-            --accent-gold: #d4af37;
-            --bg-light: #f8f9fa;
-            --card-bg: #ffffff;
-            --text-dark: #222222;
-            --text-muted: #555555;
-            --border-color: #e0e0e0;
-        }
+// آن لائن حدیث سرچ کرنے کا فنکشن
+async function searchHadithOnline() {
+    const query = document.getElementById('hadithInput').value.trim();
+    const resultsContainer = document.getElementById('hadithResults');
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Noto Nastaliq Urdu', 'Amiri', serif;
-        }
+    if (!query) {
+        resultsContainer.innerHTML = '<p style="text-align:center;">براہِ مہربانی کوئی لفظ یا موضوع لکھیں۔</p>';
+        return;
+    }
 
-        body {
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            direction: rtl;
-            padding-bottom: 30px;
-        }
+    resultsContainer.innerHTML = '<p style="text-align:center;">تلاش جاری ہے...</p>';
 
-        /* ----- اوپر والا سبز ڈبہ (Header) ----- */
-        .app-header {
-            background: linear-gradient(135deg, #094028, #0d5c3a);
-            color: white;
-            text-align: center;
-            padding: 25px 15px;
-            border-bottom-left-radius: 25px;
-            border-bottom-right-radius: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            border-bottom: 3px solid var(--accent-gold);
-        }
+    try {
+        // آن لائن حدیث API کے ذریعے سرچ
+        const response = await fetch(`https://hadithapi.com/api/hadiths?apiKey=$2y$10$YourApiKeyHere&search=${encodeURIComponent(query)}`);
+        const data = await response.json();
 
-        .header-subtitle {
-            font-family: 'Amiri', serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--accent-gold);
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
-            margin-bottom: 5px;
-        }
-
-        .header-title {
-            font-size: 1.2rem;
-            color: #ffffff;
-            opacity: 0.95;
-        }
-
-        /* ----- نیویگیشن ٹیبز ----- */
-        .nav-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 20px 15px;
-        }
-
-        .tab-btn {
-            background: var(--card-bg);
-            border: 2px solid var(--primary-green);
-            color: var(--primary-green);
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .tab-btn.active, .tab-btn:hover {
-            background: var(--primary-green);
-            color: white;
-        }
-
-        /* ----- کنٹینر ----- */
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* ----- نیچے والا حصہ (Bottom UI) - نیا خوبصورت ڈیزائن ----- */
-        .section-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            border-right: 5px solid var(--accent-gold);
-            border-top: 1px solid #f0f0f0;
-            border-left: 1px solid #f0f0f0;
-            border-bottom: 1px solid #f0f0f0;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .section-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 15px;
-            border-bottom: 1px dashed var(--border-color);
-            padding-bottom: 10px;
-        }
-
-        .card-header i {
-            font-size: 1.4rem;
-            color: var(--primary-green);
-            background: #e8f5e9;
-            padding: 10px;
-            border-radius: 50%;
-        }
-
-        .card-title {
-            font-size: 1.3rem;
-            color: var(--primary-green);
-            font-weight: bold;
-        }
-
-        /* سرچ باکس کا نیا ڈیزائن */
-        .search-box {
-            position: relative;
-            margin-bottom: 15px;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 12px 45px 12px 15px;
-            border: 2px solid var(--border-color);
-            border-radius: 25px;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .search-input:focus {
-            border-color: var(--primary-green);
-        }
-
-        .search-icon {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-        }
-
-        /* حدیث کی ڈسپلے لسٹ */
-        .hadith-item {
-            background: #fafafa;
-            border: 1px solid #eeeeee;
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 10px;
-            line-height: 2;
-        }
-
-        .hadith-arabic {
-            font-family: 'Amiri', serif;
-            font-size: 1.3rem;
-            color: #0d5c3a;
-            direction: rtl;
-            text-align: right;
-            margin-bottom: 8px;
-        }
-
-        .hadith-urdu {
-            font-size: 1rem;
-            color: #333;
-            line-height: 2.2;
-        }
-
-        .hadith-ref {
-            font-size: 0.85rem;
-            color: var(--accent-gold);
-            font-weight: bold;
-            margin-top: 5px;
-            display: inline-block;
-        }
-
-        /* ----- 16 لائنز قرآن مجید لے آؤٹ ----- */
-        .quran-page-16line {
-            background-color: #fffdf7;
-            border: 8px double var(--primary-green);
-            border-radius: 8px;
-            padding: 15px 10px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
-            margin-top: 15px;
-        }
-
-        .quran-line {
-            font-family: 'Scheherazade New', 'Amiri', serif;
-            font-size: 1.4rem;
-            line-height: 2.3rem;
-            text-align: center;
-            border-bottom: 1px solid #f0e6d2;
-            padding: 2px 0;
-            color: #111;
-            word-spacing: 2px;
-            display: block;
-            height: 2.3rem;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-
-        .quran-line:last-child {
-            border-bottom: none;
-        }
-
-        .surah-header {
-            background: linear-gradient(90deg, transparent, #e8f5e9, transparent);
-            text-align: center;
-            font-family: 'Amiri', serif;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary-green);
-            padding: 5px 0;
-            margin: 10px 0;
-            border-top: 2px solid var(--accent-gold);
-            border-bottom: 2px solid var(--accent-gold);
-        }
-
-        .no-result {
-            text-align: center;
-            color: #d9534f;
-            padding: 15px;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- اوپر والا سبز ڈبہ -->
-    <header class="app-header">
-        <div class="header-subtitle">القرآن الکریم والحدیث</div>
-        <div class="header-title">جامع اسلامی ایپلیکیشن</div>
-    </header>
-
-    <!-- نيویگيشن ٹیبز -->
-    <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('home')"><i class="fa-solid fa-house"></i> ہوم پیج</button>
-        <button class="tab-btn" onclick="switchTab('quran')"><i class="fa-solid fa-book-quran"></i> قرآن مجید (16 لائن)</button>
-        <button class="tab-btn" onclick="switchTab('hadith')"><i class="fa-solid fa-book-open"></i> احادیث مبارکہ</button>
-    </div>
-
-    <div class="container">
-
-        <!-- 1. ہوم پیج (نیچے والا حصہ خوبصورت لے آؤٹ کے ساتھ) -->
-        <div id="home" class="tab-content active">
-            
-            <div class="section-card">
-                <div class="card-header">
-                    <i class="fa-solid fa-star-and-crescent"></i>
-                    <div class="card-title">آج کی آیہ مبارکہ</div>
-                </div>
-                <div class="hadith-arabic">فَاذْكُرُونِي أَذْكُرْكُمْ وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ</div>
-                <div class="hadith-urdu">پس تم مجھے یاد رکھو، میں تمہیں یاد رکھوں گا، اور میرا شکر ادا کرو اور میری ناشکری نہ کرو۔</div>
-                <span class="hadith-ref">(سورة البقرة: 152)</span>
-            </div>
-
-            <div class="section-card">
-                <div class="card-header">
-                    <i class="fa-solid fa-hands-praying"></i>
-                    <div class="card-title">آج کی حدیث مبارکہ</div>
-                </div>
-                <div class="hadith-arabic">إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ</div>
-                <div class="hadith-urdu">تمام اعمال کا دارومدار نیتوں پر ہے۔</div>
-                <span class="hadith-ref">(صحیح بخاری: 1)</span>
-            </div>
-
-            <div class="section-card">
-                <div class="card-header">
-                    <i class="fa-solid fa-clock"></i>
-                    <div class="card-title">اوقاتِ نماز</div>
-                </div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; text-align: center;">
-                    <div style="background: #f0fdf4; padding: 10px; border-radius: 8px;"><b>فجر:</b> 04:30 AM</div>
-                    <div style="background: #f0fdf4; padding: 10px; border-radius: 8px;"><b>ظہر:</b> 12:15 PM</div>
-                    <div style="background: #f0fdf4; padding: 10px; border-radius: 8px;"><b>عصر:</b> 04:45 PM</div>
-                    <div style="background: #f0fdf4; padding: 10px; border-radius: 8px;"><b>مغرب:</b> 06:50 PM</div>
-                    <div style="background: #f0fdf4; padding: 10px; border-radius: 8px;"><b>عشاء:</b> 08:15 PM</div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- 2. قرآن مجید (16 لائنوں والا فارمیٹ) -->
-        <div id="quran" class="tab-content">
-            <div class="section-card">
-                <div class="card-header">
-                    <i class="fa-solid fa-book-quran"></i>
-                    <div class="card-title">سورۃ الفاتحہ - 16 لائن روایتی صفحہ</div>
-                </div>
-
-                <!-- 16 Line Format Box -->
-                <div class="quran-page-16line">
-                    <div class="surah-header">سُورَةُ الْفَاتِحَةِ</div>
-                    <div class="quran-line">بِسْمِ اللَّهِ الرَّحْمٰنِ الرَّحِيمِ</div>
-                    <div class="quran-line">الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ۝١</div>
-                    <div class="quran-line">الرَّحْمٰنِ الرَّحِيمِ ۝٢</div>
-                    <div class="quran-line">مَالِكِ يَوْمِ الدِّينِ ۝٣</div>
-                    <div class="quran-line">إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ۝٤</div>
-                    <div class="quran-line">اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ۝٥</div>
-                    <div class="quran-line">صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ ۝٦</div>
-                    <div class="quran-line">غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ ۝٧</div>
-                    <div class="quran-line">--- صفحہ کی باقی لائنیں ---</div>
-                    <div class="quran-line">صَدَقَ اللَّهُ الْعَلِيُّ الْعَظِيمُ</div>
-                    <div class="quran-line">۔</div>
-                    <div class="quran-line">۔</div>
-                    <div class="quran-line">۔</div>
-                    <div class="quran-line">۔</div>
-                    <div class="quran-line">۔</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 3. حدیث سرچ کا مکمل کام کرنے والا بخش -->
-        <div id="hadith" class="tab-content">
-            <div class="section-card">
-                <div class="card-header">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <div class="card-title">حدیث سرچ کریں</div>
-                </div>
-
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                    <input type="text" id="hadithInput" class="search-input" placeholder="حدیث کا لفظ یا موضوع لکھیں (مثلاً: نیت، نماز، علم)..." onkeyup="searchHadith()">
-                </div>
-
-                <div id="hadithResults">
-                    <!-- سرچ کی گئی احادیث یہاں دکھیں گی -->
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <script>
-        // احادیث کا ڈیٹا بیس (Data Collection)
-        const hadithsDatabase = [
-            {
-                arabic: "إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ",
-                urdu: "اعمال کا دارومدار صرف نیتوں پر ہے۔",
-                keywords: ["نیت", "اعمال", "بخاری"],
-                ref: "صحیح بخاری: 1"
-            },
-            {
-                arabic: "طَلَبُ الْعِلْمِ فَرِيضَةٌ عَلَى كُلِّ مُسْلِمٍ",
-                urdu: "علم حاصل کرنا ہر مسلمان پر فرض ہے۔",
-                keywords: ["علم", "فرض", "مسلمان"],
-                ref: "سنن ابن ماجہ: 224"
-            },
-            {
-                arabic: "الصَّلَاةُ عِمَادُ الدِّينِ",
-                urdu: "نماز دین کا ستون ہے۔",
-                keywords: ["نماز", "دین", "ستون"],
-                ref: "شعب الایمان: 2550"
-            },
-            {
-                arabic: "الStudio الطُّهُورُ شَطْرُ الْإِيمَانِ",
-                urdu: "پاکیزگی اور طہارت نصف ایمان ہے۔",
-                keywords: ["پاکیزگی", "طہارت", "ایمان", "صفائی"],
-                ref: "صحیح مسلم: 223"
-            },
-            {
-                arabic: "خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ",
-                urdu: "تم میں سے بہترین شخص وہ ہے جو قرآن سیکھے اور سکھائے۔",
-                keywords: ["قرآن", "بہترین", "تعلیم"],
-                ref: "صحیح بخاری: 5027"
-            }
-        ];
-
-        // ٹیبز تبدیل کرنے کا فنکشن
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
-
-            if(tabId === 'hadith') {
-                searchHadith(); // حدیث والے ٹیب پر آتے ہی تمام فہرست دکھائے
-            }
-        }
-
-        // حدیث سرچ کا مکمل فعال اور بگز سے پاک فنکشن
-        function searchHadith() {
-            const query = document.getElementById('hadithInput').value.trim().toLowerCase();
-            const resultsContainer = document.getElementById('hadithResults');
+        if (data.hadiths && data.hadiths.data.length > 0) {
             resultsContainer.innerHTML = '';
-
-            const filteredHadiths = hadithsDatabase.filter(item => {
-                if (query === '') return true; // اگر سرچ باکس خالی ہو تو تمام احادیث دکھائے
-                return item.urdu.toLowerCase().includes(query) || 
-                       item.arabic.includes(query) || 
-                       item.keywords.some(key => key.toLowerCase().includes(query));
+            data.hadiths.data.forEach(item => {
+                resultsContainer.innerHTML += `
+                    <div class="hadith-item" style="border-bottom: 1px solid #ccc; padding: 10px 0;">
+                        <p class="arabic" style="font-size: 1.2rem; font-weight: bold;">${item.hadithArabic || ''}</p>
+                        <p class="urdu" style="margin-top: 5px;">${item.hadithUrdu || item.hadithEnglish || ''}</p>
+                        <small style="color: #0d5c3a;"><b>حوالہ:</b> ${item.book.bookName} - حدیث نمبر: ${item.hadithNumber}</small>
+                    </div>
+                `;
             });
-
-            if (filteredHadiths.length === 0) {
-                resultsContainer.innerHTML = `<div class="no-result"><i class="fa-solid fa-circle-exclamation"></i> معذرت، اس لفظ سے متعلق کوئی حدیث نہیں ملی۔ کوئی دوسرا لفظ لکھ کر سرچ کریں۔</div>`;
-            } else {
-                filteredHadiths.forEach(item => {
-                    const hadithCard = `
-                        <div class="hadith-item">
-                            <div class="hadith-arabic">${item.arabic}</div>
-                            <div class="hadith-urdu">${item.urdu}</div>
-                            <span class="hadith-ref"><i class="fa-solid fa-bookmark"></i> ${item.ref}</span>
-                        </div>
-                    `;
-                    resultsContainer.innerHTML += hadithCard;
-                });
-            }
+        } else {
+            // اگر API میں نہ ملے تو گوگل پر ڈائریکٹ تلاش کا لنک دیں
+            resultsContainer.innerHTML = `
+                <div style="text-align:center; padding: 15px;">
+                    <p>معذرت، ایپ کے آن لائن لوکل ڈیٹا بیس میں یہ لفظ نہیں ملا۔</p>
+                    <a href="https://www.google.com/search?q=${encodeURIComponent('حدیث ' + query)}" target="_blank" style="color: #0d5c3a; font-weight: bold; text-decoration: underline;">
+                        گوگل پر "${query}" حدیث سرچ کرنے کے لیے یہاں کلک کریں
+                    </a>
+                </div>
+            `;
         }
-
-        // شروعاتی طور پر احادیث لوڈ کریں
-        window.onload = function() {
-            searchHadith();
-        };
-    </script>
-</body>
-</html>
+    } catch (error) {
+        // انٹرنیٹ نہ ہونے یا ناکامی پر گوگل سرچ کا بیک اپ
+        resultsContainer.innerHTML = `
+            <div style="text-align:center; padding: 15px;">
+                <p>آن لائن سرچ سے رابطہ نہیں ہو سکا۔</p>
+                <a href="https://www.google.com/search?q=${encodeURIComponent('حدیث ' + query)}" target="_blank" style="color: #0d5c3a; font-weight: bold; text-decoration: underline;">
+                    گوگل (Google) پر براہِ راست تلاش کریں
+                </a>
+            </div>
+        `;
+    }
+}
