@@ -292,21 +292,21 @@
             </select>
         </div>
 
-        <!-- Main Categories Grid -->
+        <!-- Main Categories Grid (صرف یہاں ہوم پیج کے مین بٹن دبانے پر ایک بار ایڈ آئے گا) -->
         <div class="grid-container">
-            <div class="grid-card" onclick="showView('surah')">
+            <div class="grid-card" onclick="triggerMainAdAndOpen('surah')">
                 <i class="fa-solid fa-book-quran"></i>
                 <h4>114 سورتیں (Surahs)</h4>
             </div>
-            <div class="grid-card" onclick="showView('juzz')">
+            <div class="grid-card" onclick="triggerMainAdAndOpen('juzz')">
                 <i class="fa-solid fa-layer-group"></i>
                 <h4>30 پارے (Juzz)</h4>
             </div>
-            <div class="grid-card" onclick="showView('hadith-search')">
+            <div class="grid-card" onclick="triggerMainAdAndOpen('hadith-search')">
                 <i class="fa-solid fa-magnifying-glass-chart"></i>
                 <h4>لائیو حدیث سرچ انجن</h4>
             </div>
-            <div class="grid-card" onclick="showView('translator')">
+            <div class="grid-card" onclick="triggerMainAdAndOpen('translator')">
                 <i class="fa-solid fa-language"></i>
                 <h4>آیت کا اردو ترجمہ</h4>
             </div>
@@ -358,7 +358,7 @@
         </div>
 
         <div id="hadith-loading" style="display:none; text-align:center; padding:20px; font-weight:bold; color:var(--accent-gold-dark);">
-            <i class="fa-solid fa-spinner fa-spin fa-2x"></i><br>آن لائن ڈیٹا بیس اور گوگل سے حدیث تلاش کی جا रही ہے...
+            <i class="fa-solid fa-spinner fa-spin fa-2x"></i><br>آن لائن ڈیٹا بیس اور گوگل سے حدیث تلاش کی جا رہی ہے...
         </div>
 
         <div id="hadith-results"></div>
@@ -405,22 +405,43 @@
         // آپ کا Adsterra Smartlink
         const AD_SMARTLINK = "https://www.profitableratecpmnetwork.com/xnk898jsjy?key=44d0c94c95ae1391b8890d927c2559a7";
 
-        // اشتہار صرف اس وقت کھلے گا جب خاص بٹن یا لنک کاپی دبایا جائے گا
         function openAdLink() {
             window.open(AD_SMARTLINK, '_blank');
         }
 
-        function triggerAdAndCopy() {
-            openAdLink();
-            copyWebsiteLink();
-        }
-
+        // جیسے ہی ایپ ڈاؤن لوڈ ہو کر کھلے گی، ایک بار اشتہار کھل جائے گا
         window.onload = function() {
+            openAdLink();
             fetchSurahs();
             loadJuzzList();
             fetchPrayerTimes('Lahore');
             setDates();
         };
+
+        // صرف مین ہوم بٹن دبانے پر ایک بار ایڈ کھل کر آگے جائے گا
+        function triggerMainAdAndOpen(viewId) {
+            openAdLink();
+            showView(viewId);
+        }
+
+        // کاپی لنک والا بٹن (ایپ میں 100% کام کرنے والا طریقہ)
+        function triggerAdAndCopy() {
+            openAdLink();
+            
+            const dummyInput = document.createElement('input');
+            document.body.appendChild(dummyInput);
+            dummyInput.value = window.location.href;
+            dummyInput.select();
+            try {
+                document.execCommand('copy');
+                let toast = document.getElementById('toast-msg');
+                toast.style.display = 'block';
+                setTimeout(() => { toast.style.display = 'none'; }, 2500);
+            } catch (err) {
+                alert("لنک کاپی کرنے میں مسئلہ پیش آیا۔");
+            }
+            document.body.removeChild(dummyInput);
+        }
 
         function showView(viewId) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -430,14 +451,6 @@
 
         function toggleDarkMode() {
             document.body.classList.toggle('dark-theme');
-        }
-
-        function copyWebsiteLink() {
-            navigator.clipboard.writeText(window.location.href).then(() => {
-                let toast = document.getElementById('toast-msg');
-                toast.style.display = 'block';
-                setTimeout(() => { toast.style.display = 'none'; }, 2500);
-            });
         }
 
         function filterLanguages(query) {
@@ -534,7 +547,7 @@
             playSurahAudio(currentSurah, "تلاوت");
         }
 
-        /* 16-LINE HD QURAN PAGE LOADER */
+        /* 16-LINE QURAN READER (اندر کوئی ایڈ نہیں آئے گا) */
         function loadPageImage(pageNum) {
             currentPage = parseInt(pageNum);
             if(currentPage < 1) currentPage = 1;
@@ -589,7 +602,6 @@
             }
         }
 
-        /* LIVE AUTOMATIC HADITH SEARCH ENGINE */
         async function searchHadithAuto() {
             let query = document.getElementById('hadith-query').value.trim();
             let container = document.getElementById('hadith-results');
