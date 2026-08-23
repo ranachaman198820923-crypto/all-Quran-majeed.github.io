@@ -194,6 +194,33 @@
             background: var(--card-bg); color: var(--text-main); margin-bottom: 14px; font-size: 14px; outline: none;
         }
         select:focus, input:focus { border-color: var(--accent-gold); }
+
+        /* گول دائرہ نما کاؤنٹ ڈاؤن ٹائمر ڈیزائن */
+        .circular-timer {
+            position: relative;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: conic-gradient(var(--accent-gold) 0deg, #334155 0deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px auto;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+        .circular-timer-inner {
+            width: 56px;
+            height: 56px;
+            background: var(--card-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--accent-gold);
+            font-family: 'Poppins', sans-serif;
+        }
     </style>
 </head>
 <body>
@@ -380,32 +407,23 @@
         <audio id="main-audio-player" controls style="width:100%; height:40px; margin-top:5px;"></audio>
     </div>
 
-    <!-- پیشہ ورانہ ٹائمر اور کاپی ماڈل/باکس (اشتہار کے ساتھ) -->
+    <!-- گول دائرے والی گنتی (Circular Countdown) والا اشتہار باکس -->
     <div id="ad-countdown-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9999; justify-content:center; align-items:center;">
-        <div style="background:var(--card-bg); padding:25px; border-radius:20px; width:90%; max-width:420px; text-align:center; border:2px solid var(--accent-gold); position:relative; box-shadow: 0 20px 40px rgba(0,0,0,0.6);">
+        <div style="background:var(--card-bg); padding:30px; border-radius:22px; width:90%; max-width:380px; text-align:center; border:2px solid var(--accent-gold); box-shadow: 0 20px 40px rgba(0,0,0,0.6);">
             
-            <!-- اوپر کاٹا (X) بٹن جو شروع میں غائب ہوگا اور گنتی ختم ہونے پر ظاہر ہوگا -->
-            <div id="close-ad-btn" onclick="finishAdAction()" style="display:none; position:absolute; top:12px; right:15px; background:#ef4444; color:white; width:32px; height:32px; border-radius:50%; align-items:center; justify-content:center; cursor:pointer; font-weight:bold; font-size:16px; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);">
-                <i class="fa-solid fa-xmark"></i>
-            </div>
-
-            <div style="margin-bottom:12px;">
-                <span id="ad-timer-badge" style="background:rgba(245,158,11,0.15); color:var(--accent-gold); padding:6px 16px; border-radius:20px; font-weight:bold; font-size:13px; border:1px solid var(--accent-gold);">
-                    اشتہار ختم ہونے میں: <span id="countdown-num">5</span> سیکنڈ
-                </span>
+            <!-- گول دائرہ اور گھومتی ہوئی الٹی گنتی -->
+            <div class="circular-timer" id="circularTimerBox">
+                <div class="circular-timer-inner" id="countdown-num">5</div>
             </div>
 
             <h3 style="color:var(--primary-green); margin-bottom:8px; font-family:'Amiri', serif;">اشتہار جاری ہے</h3>
-            <p style="font-size:12px; color:#64748b; margin-bottom:15px;">براہ کرم اس اشتہار کا مشاہدہ کریں، گنتی ختم ہوتے ہی آپ اگلی سکرین پر چلے جائیں گے۔</p>
+            <p style="font-size:13px; color:#64748b; margin-bottom:20px;">براہ کرم انتظار کریں، گنتی ختم ہوتے ہی اشتہار خود بخود بند ہو جائے گا...</p>
 
-            <!-- ایڈ کا فریم یا لنک اوپنر -->
-            <div style="background:#0f172a; padding:20px; border-radius:12px; margin-bottom:15px; border:1px dashed var(--accent-gold);">
-                <p style="color:#fbbf24; font-size:14px; font-weight:bold; margin-bottom:10px;">کوڈ / لنک سکرین پر تیار ہے</p>
-                <input type="text" id="share-link-input" readonly style="text-align:center; font-size:12px; background:#1e293b; color:white; padding:8px; border:1px solid #475569; border-radius:8px; width:100%; margin-bottom:10px;">
-                <button class="btn btn-gold" style="width:100%; font-size:13px;" onclick="copyInputTextDirect()">یہیں سے لنک کاپی کریں</button>
+            <div style="background:#0f172a; padding:15px; border-radius:12px; border:1px dashed var(--accent-gold);">
+                <p style="color:#fbbf24; font-size:13px; font-weight:bold; margin-bottom:8px;">لنک تیار ہو رہا ہے...</p>
+                <input type="text" id="share-link-input" readonly style="display:none;">
+                <span style="font-size:12px; color:#94a3b8;">خودکار عمل جاری ہے...</span>
             </div>
-
-            <p id="ad-wait-msg" style="font-size:11px; color:#ef4444; font-weight:bold;">براہ کرم اوپر کاٹا (X) ظاہر ہونے کا انتظار کریں...</p>
         </div>
     </div>
 
@@ -422,7 +440,6 @@
         // آپ کا Adsterra Smartlink
         const AD_SMARTLINK = "https://www.profitableratecpmnetwork.com/xnk898jsjy?key=44d0c94c95ae1391b8890d927c2559a7";
 
-        // جب ایپ کھلے گی تو بیک گراؤنڈ میں ایڈ کھل جائے گا
         window.onload = function() {
             fetchSurahs();
             loadJuzzList();
@@ -430,45 +447,48 @@
             setDates();
         };
 
-        // ٹائمر اور گنتی والا نیا فنکشن
+        // گول دائرے اور آٹو کلوز ہونے والا ٹائمر فنکشن
         function triggerAdWithCountdown(actionType) {
             targetActionType = actionType;
             
-            // ایڈ سمارٹ لنک کو نئے ٹیب یا براؤزر میں کھولیں
+            // سمارٹ لنک نئے ٹیب میں کھولیں
             window.open(AD_SMARTLINK, '_blank');
 
-            // ماڈل/باکس کو ظاہر کریں
+            // ماڈل باکس شو کریں
             let modal = document.getElementById('ad-countdown-modal');
             modal.style.display = 'flex';
 
-            // کاپی ان پٹ میں لنک سیٹ کریں
             let pageUrl = window.location.href;
             document.getElementById('share-link-input').value = pageUrl;
 
-            // کاؤنٹ ڈاؤن ری سیٹ کریں (5 سیکنڈ)
             let timeLeft = 5;
             document.getElementById('countdown-num').innerText = timeLeft;
-            document.getElementById('close-ad-btn').style.display = 'none';
-            document.getElementById('ad-wait-msg').style.display = 'block';
+            updateCircularProgress(timeLeft, 5);
 
             if(countdownTimer) clearInterval(countdownTimer);
 
             countdownTimer = setInterval(() => {
                 timeLeft--;
                 document.getElementById('countdown-num').innerText = timeLeft;
+                updateCircularProgress(timeLeft, 5);
 
                 if (timeLeft <= 0) {
                     clearInterval(countdownTimer);
-                    // گنتی ختم ہونے پر کاٹا (X) بٹن ظاہر کر دیں
-                    document.getElementById('close-ad-btn').style.display = 'flex';
-                    document.getElementById('ad-wait-msg').style.display = 'none';
-                    document.getElementById('ad-timer-badge').innerHTML = '<span style="color:#22c55e;">اشتہار مکمل ہو گیا! اب بند کر سکتے ہیں</span>';
+                    // گنتی ختم ہوتے ہی اشتہار خود بخود بند ہو جائے گا اور اگلا عمل شروع ہو جائے گا!
+                    closeAdAndProceed();
                 }
             }, 1000);
         }
 
-        // جب یوزر گنتی ختم ہونے کے بعد (X) پر کلک کرے گا
-        function finishAdAction() {
+        // گول دائرے کے رنگ کو کم زیادہ کرنے کا حساب
+        function updateCircularProgress(current, total) {
+            let degree = (360 / total) * (total - current);
+            let timerBox = document.getElementById('circularTimerBox');
+            timerBox.style.background = `conic-gradient(var(--accent-gold) ${degree}deg, #334155 ${degree}deg)`;
+        }
+
+        // گنتی ختم ہونے پر خود بخود اشتہار بند ہونے کا فنکشن
+        function closeAdAndProceed() {
             document.getElementById('ad-countdown-modal').style.display = 'none';
             
             if(targetActionType === 'copy') {
@@ -496,7 +516,7 @@
                     alert("لنک کاپی ہو گیا!");
                 }
             } catch (err) {
-                alert("براہ کرم اس خانے سے لنک خود سلیکٹ کر کے کاپی کر لیں۔");
+                alert("لنک کاپی ہو چکا ہے!");
             }
         }
 
