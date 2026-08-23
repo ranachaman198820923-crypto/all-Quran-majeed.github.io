@@ -61,7 +61,7 @@
         }
         .copy-link-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(245, 158, 11, 0.5); }
 
-        /* APKPure طرز کا ایپ ڈاؤن لوڈ بینر */
+        /* ایپ ڈاؤن لوڈ بینر */
         .app-install-banner {
             background: linear-gradient(135deg, #022c22 0%, #043927 100%);
             border: 2px dashed var(--accent-gold);
@@ -222,7 +222,7 @@
         <div id="google_translate_element"></div>
     </div>
 
-    <!-- اے پی کے ایپ ڈاؤن لوڈ بینر (آپ کا گوگل ڈرائیو لنک یہاں کنیکٹ ہے) -->
+    <!-- اے پی کے ایپ ڈاؤن لوڈ بینر (گوگل ڈرائیو کا ڈائریکٹ ڈاؤن لوڈ لنک) -->
     <div class="app-install-banner">
         <div>
             <h4 style="font-family:'Amiri', serif; color:#fbbf24; font-size:18px;"><i class="fa-solid fa-mobile-screen-button"></i> القرآن ایچ ڈی اینڈرائیڈ ایپ</h4>
@@ -371,11 +371,6 @@
 
             <h3 style="color:var(--primary-green); margin-bottom:8px; font-family:'Amiri', serif;">اشتہار جاری ہے</h3>
             <p style="font-size:13px; color:#64748b; margin-bottom:20px;">براہ کرم انتظار کریں، گنتی ختم ہوتے ہی مواد کھل جائے گا...</p>
-
-            <div style="background:#0f172a; padding:15px; border-radius:12px; border:1px dashed var(--accent-gold);">
-                <input type="text" id="share-link-input" readonly style="display:none;">
-                <span style="font-size:12px; color:#94a3b8;">براہ کرم انتظار کریں...</span>
-            </div>
         </div>
     </div>
 
@@ -401,8 +396,6 @@
             window.open(AD_SMARTLINK, '_blank');
             let modal = document.getElementById('ad-countdown-modal');
             modal.style.display = 'flex';
-            let pageUrl = window.location.href;
-            document.getElementById('share-link-input').value = pageUrl;
 
             let timeLeft = 5;
             document.getElementById('countdown-num').innerText = timeLeft;
@@ -431,20 +424,26 @@
         function closeAdAndProceed() {
             document.getElementById('ad-countdown-modal').style.display = 'none';
             if(targetActionType === 'copy') {
-                copyInputTextDirect();
+                copyWebsiteLinkDirect();
             } else {
                 showView(targetActionType);
             }
         }
 
-        function copyInputTextDirect() {
-            let copyText = document.getElementById("share-link-input");
-            copyText.select();
+        function copyWebsiteLinkDirect() {
+            let currentUrl = window.location.href;
             try {
-                navigator.clipboard.writeText(copyText.value);
-                alert("لنک کامیابی سے کاپی ہو گیا ہے!");
+                navigator.clipboard.writeText(currentUrl);
+                alert("ویب سائٹ کا لنک کامیابی سے کاپی ہو گیا ہے!");
             } catch (err) {
-                alert("لنک کاپی ہو چکا ہے!");
+                // اگر کلپ بورڈ API کام نہ کرے تو متبادل طریقہ
+                let tempInput = document.createElement("input");
+                tempInput.value = currentUrl;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand("copy");
+                document.body.removeChild(tempInput);
+                alert("ویب سائٹ کا لنک کاپی ہو چکا ہے!");
             }
         }
 
