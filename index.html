@@ -217,7 +217,7 @@
             </select>
         </div>
 
-        <!-- ہر بار کلک کرنے پر صرف ایک بار اشتہار چلے گا -->
+        <!-- جب بھی یہ بٹن دبائیں گے، صرف ایک بار 5 سیکنڈ کا ایڈ آئے گا -->
         <button class="copy-link-btn" onclick="handleCopyLinkClick()">
             <i class="fa-solid fa-copy"></i> کاپی ویب سائٹ لنک
         </button>
@@ -225,13 +225,14 @@
         <div id="google_translate_element"></div>
     </div>
 
-    <!-- ایپ ڈاؤن لوڈ بینر -->
+    <!-- ایپ ڈاؤن لوڈ بینر (یہاں اپنی اصل ایپ کا ڈائریکٹ لنک درج کریں) -->
     <div class="app-install-banner">
         <div>
             <h4 style="font-family:'Amiri', serif; color:#fbbf24; font-size:18px;"><i class="fa-solid fa-mobile-screen-button"></i> القرآن ایچ ڈی اینڈرائیڈ ایپ</h4>
             <p style="font-size:12px; color:#cbd5e1;">براہ راست اپنے فون میں اصل اینڈرائیڈ ایپ (APK) ڈاؤن لوڈ کریں!</p>
         </div>
-        <a href="https://example.com/app-release.apk" target="_blank" class="btn btn-gold" style="padding: 10px 18px; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+        <!-- نوٹ: ذیل میں 'YOUR_APK_DIRECT_LINK_HERE' کی جگہ اپنی ایپ کا اصل پبلک لنک لکھیں -->
+        <a href="YOUR_APK_DIRECT_LINK_HERE" target="_blank" class="btn btn-gold" style="padding: 10px 18px; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
             <i class="fa-solid fa-download"></i> ایپ ڈاؤن لوڈ
         </a>
     </div>
@@ -364,16 +365,19 @@
         </div>
     </div>
 
-    <!-- ٹائمر اشتہار ماڈل -->
+    <!-- 5 سیکنڈ ٹائمر اشتہار ماڈل (بشمول کاٹے کا نشان ×) -->
     <div id="ad-countdown-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9999; justify-content:center; align-items:center;">
-        <div style="background:var(--card-bg); padding:30px; border-radius:22px; width:90%; max-width:380px; text-align:center; border:2px solid var(--accent-gold); box-shadow: 0 20px 40px rgba(0,0,0,0.6);">
+        <div style="background:var(--card-bg); padding:30px; border-radius:22px; width:90%; max-width:380px; text-align:center; border:2px solid var(--accent-gold); box-shadow: 0 20px 40px rgba(0,0,0,0.6); position:relative;">
             
-            <div class="circular-timer" id="circularTimerBox">
+            <!-- کاٹے کا نشان (Close Button) -->
+            <span onclick="closeAdModal()" style="position:absolute; top:12px; left:15px; font-size:22px; color:#ef4444; cursor:pointer; font-weight:bold;" title="بند کریں">&times;</span>
+
+            <div class="circular-timer" id="circularTimerBox" style="margin-top:10px;">
                 <div class="circular-timer-inner" id="countdown-num">5</div>
             </div>
 
             <h3 style="color:var(--primary-green); margin-bottom:8px; font-family:'Amiri', serif;">اشتہار جاری ہے</h3>
-            <p style="font-size:13px; color:#64748b; margin-bottom:20px;">براہ کرم انتظار کریں، گنتی ختم ہوتے ہی لنک کاپی ہو جائے گا...</p>
+            <p style="font-size:13px; color:#64748b; margin-bottom:20px;">براہ کرم انتظار کریں، 5 سیکنڈ میں لنک خود بخود کاپی ہو جائے گا...</p>
         </div>
     </div>
 
@@ -384,7 +388,7 @@
         let currentSurah = 1;
         let allSurahs = [];
         let countdownTimer = null;
-        let isAdRunning = false; // یہ متغیر ڈبل کلک اور بار بار ایڈ کھلنے کو روکے گا
+        let isAdRunning = false;
         const AD_SMARTLINK = "https://www.profitableratecpmnetwork.com/xnk898jsjy?key=44d0c94c95ae1391b8890d927c2559a7";
 
         window.onload = function() {
@@ -394,13 +398,12 @@
             setDates();
         };
 
-        // جب بھی بٹن دبائیں گے، صرف ایک بار ایڈ آئے گا اور ٹائمر چلے گا
+        // جب بھی لنک کاپی کا بٹن دبایا جائے گا، ہر بار صرف 1 بار 5 سیکنڈ کا ایڈ چلے گا
         function handleCopyLinkClick() {
-            // اگر پہلے سے ٹائمر یا ایڈ چل رہا ہے تو نیا کلک کام نہیں کرےगा (تاکہ بار بار ایڈ نہ کھلیں)
             if (isAdRunning) return;
             isAdRunning = true;
 
-            // ہر کلک پر صرف ایک بار اشتہار کھولیں
+            // اشتہار کا سمارٹ لنک ایک بار کھولیں
             window.open(AD_SMARTLINK, '_blank');
             
             let modal = document.getElementById('ad-countdown-modal');
@@ -420,10 +423,17 @@
                 if (timeLeft <= 0) {
                     clearInterval(countdownTimer);
                     document.getElementById('ad-countdown-modal').style.display = 'none';
-                    isAdRunning = false; // لاک کھول دیں تاکہ اگلی بار کلک کرنے پر دوبارہ صرف ایک ایڈ آ سکے
-                    copyWebsiteLinkDirect(); // لنک کاپی ہو جائے گا
+                    isAdRunning = false;
+                    copyWebsiteLinkDirect(); // ٹائمر پورا ہونے پر لنک کاپی ہو جائے گا
                 }
             }, 1000);
+        }
+
+        // کاٹے کے نشان (×) پر کلک کرنے پر ماڈل بند کرنے کا فنکشن
+        function closeAdModal() {
+            if(countdownTimer) clearInterval(countdownTimer);
+            document.getElementById('ad-countdown-modal').style.display = 'none';
+            isAdRunning = false;
         }
 
         function updateCircularProgress(current, total) {
