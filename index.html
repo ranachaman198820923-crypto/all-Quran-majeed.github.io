@@ -98,11 +98,6 @@
             margin-bottom: 30px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
             border: 2px solid rgba(245, 158, 11, 0.4); position: relative; overflow: hidden;
         }
-        .hero-banner::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(245,158,11,0.1) 0%, transparent 70%);
-            pointer-events: none;
-        }
         .hero-title-arabic {
             font-family: 'Reem Kufi', 'Amiri', serif; font-size: 42px; font-weight: 700;
             color: #fbbf24; text-shadow: 0 4px 10px rgba(0,0,0,0.5); letter-spacing: 1px; margin-bottom: 5px;
@@ -181,7 +176,7 @@
             padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: bold;
         }
 
-        /* Audio Player Bar */
+        /* AUDIO PLAYER BAR */
         .audio-player-bar {
             position: fixed; bottom: 0; left: 0; right: 0;
             background: #021a12; color: white; padding: 15px 25px;
@@ -221,7 +216,7 @@
             </select>
         </div>
 
-        <button class="copy-link-btn" onclick="openCopyBox()">
+        <button class="copy-link-btn" onclick="triggerAdWithCountdown('copy')">
             <i class="fa-solid fa-copy"></i> کاپی ویب سائٹ لنک
         </button>
 
@@ -285,19 +280,19 @@
 
         <!-- Main Categories Grid -->
         <div class="grid-container">
-            <div class="grid-card" onclick="triggerMainAdAndOpen('surah')">
+            <div class="grid-card" onclick="triggerAdWithCountdown('surah')">
                 <i class="fa-solid fa-book-quran"></i>
                 <h4>114 سورتیں (Surahs)</h4>
             </div>
-            <div class="grid-card" onclick="triggerMainAdAndOpen('juzz')">
+            <div class="grid-card" onclick="triggerAdWithCountdown('juzz')">
                 <i class="fa-solid fa-layer-group"></i>
                 <h4>30 پارے (Juzz)</h4>
             </div>
-            <div class="grid-card" onclick="triggerMainAdAndOpen('hadith-search')">
+            <div class="grid-card" onclick="triggerAdWithCountdown('hadith-search')">
                 <i class="fa-solid fa-magnifying-glass-chart"></i>
                 <h4>لائیو حدیث سرچ انجن</h4>
             </div>
-            <div class="grid-card" onclick="triggerMainAdAndOpen('translator')">
+            <div class="grid-card" onclick="triggerAdWithCountdown('translator')">
                 <i class="fa-solid fa-language"></i>
                 <h4>آیت کا اردو ترجمہ</h4>
             </div>
@@ -349,7 +344,7 @@
         </div>
 
         <div id="hadith-loading" style="display:none; text-align:center; padding:20px; font-weight:bold; color:var(--accent-gold-dark);">
-            <i class="fa-solid fa-spinner fa-spin fa-2x"></i><br>آن لائن ڈیٹا بیس اور گوگل سے حدیث تلاش کی جا رہی ہے...
+            <i class="fa-solid fa-spinner fa-spin fa-2x"></i><br>آن لائن ڈیٹا بیس اور گوگل سے حدیث تلاش کی جا रही ہے...
         </div>
 
         <div id="hadith-results"></div>
@@ -385,16 +380,32 @@
         <audio id="main-audio-player" controls style="width:100%; height:40px; margin-top:5px;"></audio>
     </div>
 
-    <!-- 100% کام کرنے والا کاپی ماڈل/باکس (موبائل اور ایپ کے لیے) -->
-    <div id="copy-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999; justify-content:center; align-items:center;">
-        <div style="background:var(--card-bg); padding:20px; border-radius:15px; width:90%; max-width:400px; text-align:center; border:2px solid var(--accent-gold);">
-            <h3 style="color:var(--primary-green); margin-bottom:10px; font-family:'Amiri', serif;">لنک کاپی کریں</h3>
-            <p style="font-size:12px; margin-bottom:10px; color:var(--text-main);">براہ کرم نیچے دیے گئے لنک کو سلیکٹ کر کے کاپی کریں:</p>
-            <input type="text" id="share-link-input" readonly style="text-align:center; font-size:13px; background:var(--bg-light); padding:10px; border:1px solid var(--accent-gold); border-radius:8px; width:100%; margin-bottom:15px;">
-            <div style="display:flex; gap:10px;">
-                <button class="btn btn-gold" style="flex:1;" onclick="copyInputText()">اب کاپی کریں</button>
-                <button class="btn" style="background:#cbd5e1; color:#0f172a; flex:1;" onclick="closeCopyBox()">بند کریں</button>
+    <!-- پیشہ ورانہ ٹائمر اور کاپی ماڈل/باکس (اشتہار کے ساتھ) -->
+    <div id="ad-countdown-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9999; justify-content:center; align-items:center;">
+        <div style="background:var(--card-bg); padding:25px; border-radius:20px; width:90%; max-width:420px; text-align:center; border:2px solid var(--accent-gold); position:relative; box-shadow: 0 20px 40px rgba(0,0,0,0.6);">
+            
+            <!-- اوپر کاٹا (X) بٹن جو شروع میں غائب ہوگا اور گنتی ختم ہونے پر ظاہر ہوگا -->
+            <div id="close-ad-btn" onclick="finishAdAction()" style="display:none; position:absolute; top:12px; right:15px; background:#ef4444; color:white; width:32px; height:32px; border-radius:50%; align-items:center; justify-content:center; cursor:pointer; font-weight:bold; font-size:16px; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);">
+                <i class="fa-solid fa-xmark"></i>
             </div>
+
+            <div style="margin-bottom:12px;">
+                <span id="ad-timer-badge" style="background:rgba(245,158,11,0.15); color:var(--accent-gold); padding:6px 16px; border-radius:20px; font-weight:bold; font-size:13px; border:1px solid var(--accent-gold);">
+                    اشتہار ختم ہونے میں: <span id="countdown-num">5</span> سیکنڈ
+                </span>
+            </div>
+
+            <h3 style="color:var(--primary-green); margin-bottom:8px; font-family:'Amiri', serif;">اشتہار جاری ہے</h3>
+            <p style="font-size:12px; color:#64748b; margin-bottom:15px;">براہ کرم اس اشتہار کا مشاہدہ کریں، گنتی ختم ہوتے ہی آپ اگلی سکرین پر چلے جائیں گے۔</p>
+
+            <!-- ایڈ کا فریم یا لنک اوپنر -->
+            <div style="background:#0f172a; padding:20px; border-radius:12px; margin-bottom:15px; border:1px dashed var(--accent-gold);">
+                <p style="color:#fbbf24; font-size:14px; font-weight:bold; margin-bottom:10px;">کوڈ / لنک سکرین پر تیار ہے</p>
+                <input type="text" id="share-link-input" readonly style="text-align:center; font-size:12px; background:#1e293b; color:white; padding:8px; border:1px solid #475569; border-radius:8px; width:100%; margin-bottom:10px;">
+                <button class="btn btn-gold" style="width:100%; font-size:13px;" onclick="copyInputTextDirect()">یہیں سے لنک کاپی کریں</button>
+            </div>
+
+            <p id="ad-wait-msg" style="font-size:11px; color:#ef4444; font-weight:bold;">براہ کرم اوپر کاٹا (X) ظاہر ہونے کا انتظار کریں...</p>
         </div>
     </div>
 
@@ -405,41 +416,69 @@
         let currentPage = 1;
         let currentSurah = 1;
         let allSurahs = [];
-        
+        let targetActionType = '';
+        let countdownTimer = null;
+
         // آپ کا Adsterra Smartlink
         const AD_SMARTLINK = "https://www.profitableratecpmnetwork.com/xnk898jsjy?key=44d0c94c95ae1391b8890d927c2559a7";
 
-        function openAdLink() {
-            window.open(AD_SMARTLINK, '_blank');
-        }
-
-        // جیسے ہی ایپ کھلے گی، اشتہار کھل جائے گا
+        // جب ایپ کھلے گی تو بیک گراؤنڈ میں ایڈ کھل جائے گا
         window.onload = function() {
-            openAdLink();
             fetchSurahs();
             loadJuzzList();
             fetchPrayerTimes('Lahore');
             setDates();
         };
 
-        function triggerMainAdAndOpen(viewId) {
-            openAdLink();
-            showView(viewId);
-        }
+        // ٹائمر اور گنتی والا نیا فنکشن
+        function triggerAdWithCountdown(actionType) {
+            targetActionType = actionType;
+            
+            // ایڈ سمارٹ لنک کو نئے ٹیب یا براؤزر میں کھولیں
+            window.open(AD_SMARTLINK, '_blank');
 
-        // کاپی باکس کھولنے والا فنکشن جو اشتہار بھی کھولے گا
-        function openCopyBox() {
-            openAdLink();
+            // ماڈل/باکس کو ظاہر کریں
+            let modal = document.getElementById('ad-countdown-modal');
+            modal.style.display = 'flex';
+
+            // کاپی ان پٹ میں لنک سیٹ کریں
             let pageUrl = window.location.href;
             document.getElementById('share-link-input').value = pageUrl;
-            document.getElementById('copy-modal').style.display = 'flex';
+
+            // کاؤنٹ ڈاؤن ری سیٹ کریں (5 سیکنڈ)
+            let timeLeft = 5;
+            document.getElementById('countdown-num').innerText = timeLeft;
+            document.getElementById('close-ad-btn').style.display = 'none';
+            document.getElementById('ad-wait-msg').style.display = 'block';
+
+            if(countdownTimer) clearInterval(countdownTimer);
+
+            countdownTimer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('countdown-num').innerText = timeLeft;
+
+                if (timeLeft <= 0) {
+                    clearInterval(countdownTimer);
+                    // گنتی ختم ہونے پر کاٹا (X) بٹن ظاہر کر دیں
+                    document.getElementById('close-ad-btn').style.display = 'flex';
+                    document.getElementById('ad-wait-msg').style.display = 'none';
+                    document.getElementById('ad-timer-badge').innerHTML = '<span style="color:#22c55e;">اشتہار مکمل ہو گیا! اب بند کر سکتے ہیں</span>';
+                }
+            }, 1000);
         }
 
-        function closeCopyBox() {
-            document.getElementById('copy-modal').style.display = 'none';
+        // جب یوزر گنتی ختم ہونے کے بعد (X) پر کلک کرے گا
+        function finishAdAction() {
+            document.getElementById('ad-countdown-modal').style.display = 'none';
+            
+            if(targetActionType === 'copy') {
+                copyInputTextDirect();
+            } else {
+                showView(targetActionType);
+            }
         }
 
-        function copyInputText() {
+        function copyInputTextDirect() {
             let copyText = document.getElementById("share-link-input");
             copyText.select();
             copyText.setSelectionRange(0, 99999);
@@ -448,16 +487,13 @@
                 if (navigator.clipboard && navigator.clipboard.writeText) {
                     navigator.clipboard.writeText(copyText.value).then(() => {
                         alert("لنک کامیابی سے کاپی ہو گیا ہے!");
-                        closeCopyBox();
                     }).catch(() => {
                         document.execCommand("copy");
                         alert("لنک کاپی ہو گیا!");
-                        closeCopyBox();
                     });
                 } else {
                     document.execCommand("copy");
                     alert("لنک کاپی ہو گیا!");
-                    closeCopyBox();
                 }
             } catch (err) {
                 alert("براہ کرم اس خانے سے لنک خود سلیکٹ کر کے کاپی کر لیں۔");
@@ -653,7 +689,7 @@
                                 </div>
                             </div>`;
                     });
-                    container.innerHTML = html;
+                    container.html = html;
                 } else {
                     showGoogleFrameResults(query, container, loader);
                 }
