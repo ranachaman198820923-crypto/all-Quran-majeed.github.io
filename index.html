@@ -199,18 +199,9 @@
             background: var(--card-bg); color: var(--text-main); margin-bottom: 14px; font-size: 14px; outline: none;
         }
         select:focus, input:focus { border-color: var(--accent-gold); }
-
-        #toast-msg {
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-            background: #15803d; color: white; padding: 12px 25px; border-radius: 30px;
-            font-size: 13px; font-weight: bold; display: none; z-index: 9999;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-        }
     </style>
 </head>
 <body>
-
-    <div id="toast-msg"><i class="fa-solid fa-check-circle"></i> ویب سائٹ کا لنک کاپی ہو گیا ہے!</div>
 
     <!-- Top Control Bar -->
     <div class="top-lang-bar">
@@ -230,7 +221,7 @@
             </select>
         </div>
 
-        <button class="copy-link-btn" onclick="triggerAdAndCopy()">
+        <button class="copy-link-btn" onclick="openCopyBox()">
             <i class="fa-solid fa-copy"></i> کاپی ویب سائٹ لنک
         </button>
 
@@ -292,7 +283,7 @@
             </select>
         </div>
 
-        <!-- Main Categories Grid (صرف یہاں ہوم پیج کے مین بٹن دبانے پر ایک بار ایڈ آئے گا) -->
+        <!-- Main Categories Grid -->
         <div class="grid-container">
             <div class="grid-card" onclick="triggerMainAdAndOpen('surah')">
                 <i class="fa-solid fa-book-quran"></i>
@@ -394,6 +385,19 @@
         <audio id="main-audio-player" controls style="width:100%; height:40px; margin-top:5px;"></audio>
     </div>
 
+    <!-- 100% کام کرنے والا کاپی ماڈل/باکس (موبائل اور ایپ کے لیے) -->
+    <div id="copy-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999; justify-content:center; align-items:center;">
+        <div style="background:var(--card-bg); padding:20px; border-radius:15px; width:90%; max-width:400px; text-align:center; border:2px solid var(--accent-gold);">
+            <h3 style="color:var(--primary-green); margin-bottom:10px; font-family:'Amiri', serif;">لنک کاپی کریں</h3>
+            <p style="font-size:12px; margin-bottom:10px; color:var(--text-main);">براہ کرم نیچے دیے گئے لنک کو سلیکٹ کر کے کاپی کریں:</p>
+            <input type="text" id="share-link-input" readonly style="text-align:center; font-size:13px; background:var(--bg-light); padding:10px; border:1px solid var(--accent-gold); border-radius:8px; width:100%; margin-bottom:15px;">
+            <div style="display:flex; gap:10px;">
+                <button class="btn btn-gold" style="flex:1;" onclick="copyInputText()">اب کاپی کریں</button>
+                <button class="btn" style="background:#cbd5e1; color:#0f172a; flex:1;" onclick="closeCopyBox()">بند کریں</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Google Translate Script -->
     <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script>
@@ -409,7 +413,7 @@
             window.open(AD_SMARTLINK, '_blank');
         }
 
-        // جیسے ہی ایپ ڈاؤن لوڈ ہو کر کھلے گی، ایک بار اشتہار کھل جائے گا
+        // جیسے ہی ایپ کھلے گی، اشتہار کھل جائے گا
         window.onload = function() {
             openAdLink();
             fetchSurahs();
@@ -418,58 +422,46 @@
             setDates();
         };
 
-        // صرف مین ہوم بٹن دبانے پر ایک بار ایڈ کھل کر آگے جائے گا
         function triggerMainAdAndOpen(viewId) {
             openAdLink();
             showView(viewId);
         }
 
-        // 100% گارنٹیڈ کاپی لنک فنکشن (ایپ اور ویب دونوں کے لیے)
-        function triggerAdAndCopy() {
+        // کاپی باکس کھولنے والا فنکشن جو اشتہار بھی کھولے گا
+        function openCopyBox() {
             openAdLink();
-
             let pageUrl = window.location.href;
-            
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(pageUrl).then(() => {
-                    showToastMessage();
-                }).catch(() => {
-                    fallbackCopy(pageUrl);
-                });
-            } else {
-                fallbackCopy(pageUrl);
-            }
+            document.getElementById('share-link-input').value = pageUrl;
+            document.getElementById('copy-modal').style.display = 'flex';
         }
 
-        function fallbackCopy(text) {
-            let textArea = document.createElement("textarea");
-            textArea.value = text;
-            textArea.style.position = "fixed";
-            textArea.style.top = "0";
-            textArea.style.left = "0";
-            textArea.style.opacity = "0";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
+        function closeCopyBox() {
+            document.getElementById('copy-modal').style.display = 'none';
+        }
+
+        function copyInputText() {
+            let copyText = document.getElementById("share-link-input");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+
             try {
-                let successful = document.execCommand('copy');
-                if (successful) {
-                    showToastMessage();
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(copyText.value).then(() => {
+                        alert("لنک کامیابی سے کاپی ہو گیا ہے!");
+                        closeCopyBox();
+                    }).catch(() => {
+                        document.execCommand("copy");
+                        alert("لنک کاپی ہو گیا!");
+                        closeCopyBox();
+                    });
                 } else {
-                    alert("لنک کاپی نہیں ہو سکا۔ براہ کرم براؤزر کے اوپر سے لنک کاپی کر لیں۔");
+                    document.execCommand("copy");
+                    alert("لنک کاپی ہو گیا!");
+                    closeCopyBox();
                 }
             } catch (err) {
-                alert("لنک کاپی کرنے میں خرابی ہے۔");
+                alert("براہ کرم اس خانے سے لنک خود سلیکٹ کر کے کاپی کر لیں۔");
             }
-            document.body.removeChild(textArea);
-        }
-
-        function showToastMessage() {
-            let toast = document.getElementById('toast-msg');
-            toast.style.display = 'block';
-            setTimeout(() => { 
-                toast.style.display = 'none'; 
-            }, 2500);
         }
 
         function showView(viewId) {
@@ -571,12 +563,12 @@
 
         function updateReciter(reciterVal) {
             selectedReciter = reciterVal;
-            let selText = document.getElementById('reciter-select').options[document.getElementById('reciter-selectselectedIndex')].text;
+            let selElem = document.getElementById('reciter-select');
+            let selText = selElem.options[selElem.selectedIndex].text;
             document.getElementById('current-reciter-name').innerText = selText;
             playSurahAudio(currentSurah, "تلاوت");
         }
 
-        /* 16-LINE QURAN READER (اندر کوئی ایڈ نہیں آئے گا) */
         function loadPageImage(pageNum) {
             currentPage = parseInt(pageNum);
             if(currentPage < 1) currentPage = 1;
