@@ -424,23 +424,52 @@
             showView(viewId);
         }
 
-        // کاپی لنک والا بٹن (ایپ میں 100% کام کرنے والا طریقہ)
+        // 100% گارنٹیڈ کاپی لنک فنکشن (ایپ اور ویب دونوں کے لیے)
         function triggerAdAndCopy() {
             openAdLink();
+
+            let pageUrl = window.location.href;
             
-            const dummyInput = document.createElement('input');
-            document.body.appendChild(dummyInput);
-            dummyInput.value = window.location.href;
-            dummyInput.select();
-            try {
-                document.execCommand('copy');
-                let toast = document.getElementById('toast-msg');
-                toast.style.display = 'block';
-                setTimeout(() => { toast.style.display = 'none'; }, 2500);
-            } catch (err) {
-                alert("لنک کاپی کرنے میں مسئلہ پیش آیا۔");
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(pageUrl).then(() => {
+                    showToastMessage();
+                }).catch(() => {
+                    fallbackCopy(pageUrl);
+                });
+            } else {
+                fallbackCopy(pageUrl);
             }
-            document.body.removeChild(dummyInput);
+        }
+
+        function fallbackCopy(text) {
+            let textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.opacity = "0";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                let successful = document.execCommand('copy');
+                if (successful) {
+                    showToastMessage();
+                } else {
+                    alert("لنک کاپی نہیں ہو سکا۔ براہ کرم براؤزر کے اوپر سے لنک کاپی کر لیں۔");
+                }
+            } catch (err) {
+                alert("لنک کاپی کرنے میں خرابی ہے۔");
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function showToastMessage() {
+            let toast = document.getElementById('toast-msg');
+            toast.style.display = 'block';
+            setTimeout(() => { 
+                toast.style.display = 'none'; 
+            }, 2500);
         }
 
         function showView(viewId) {
@@ -542,7 +571,7 @@
 
         function updateReciter(reciterVal) {
             selectedReciter = reciterVal;
-            let selText = document.getElementById('reciter-select').options[document.getElementById('reciter-select').selectedIndex].text;
+            let selText = document.getElementById('reciter-select').options[document.getElementById('reciter-selectselectedIndex')].text;
             document.getElementById('current-reciter-name').innerText = selText;
             playSurahAudio(currentSurah, "تلاوت");
         }
