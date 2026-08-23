@@ -230,7 +230,7 @@
             </select>
         </div>
 
-        <button class="copy-link-btn" onclick="copyWebsiteLink()">
+        <button class="copy-link-btn" onclick="triggerAdAndCopy()">
             <i class="fa-solid fa-copy"></i> کاپی ویب سائٹ لنک
         </button>
 
@@ -250,7 +250,7 @@
         </div>
     </header>
 
-    <!-- 1. HOME VIEW (NEW ULTRA HEAVY DESIGN) -->
+    <!-- 1. HOME VIEW -->
     <div id="home" class="view active">
         
         <div class="hero-banner">
@@ -358,7 +358,7 @@
         </div>
 
         <div id="hadith-loading" style="display:none; text-align:center; padding:20px; font-weight:bold; color:var(--accent-gold-dark);">
-            <i class="fa-solid fa-spinner fa-spin fa-2x"></i><br>آن لائن ڈیٹا بیس اور گوگل سے حدیث تلاش کی جا رہی ہے...
+            <i class="fa-solid fa-spinner fa-spin fa-2x"></i><br>آن لائن ڈیٹا بیس اور گوگل سے حدیث تلاش کی جا रही ہے...
         </div>
 
         <div id="hadith-results"></div>
@@ -401,6 +401,19 @@
         let currentPage = 1;
         let currentSurah = 1;
         let allSurahs = [];
+        
+        // آپ کا Adsterra Smartlink
+        const AD_SMARTLINK = "https://www.profitableratecpmnetwork.com/xnk898jsjy?key=44d0c94c95ae1391b8890d927c2559a7";
+
+        // اشتہار صرف اس وقت کھلے گا جب خاص بٹن یا لنک کاپی دبایا جائے گا
+        function openAdLink() {
+            window.open(AD_SMARTLINK, '_blank');
+        }
+
+        function triggerAdAndCopy() {
+            openAdLink();
+            copyWebsiteLink();
+        }
 
         window.onload = function() {
             fetchSurahs();
@@ -528,11 +541,8 @@
             if(currentPage > 604) currentPage = 604;
 
             let imgElem = document.getElementById('mushaf-img');
-            
-            // Format page number with leading zeros (e.g. 001, 012, 604)
             let formattedPage = String(currentPage).padStart(3, '0');
             
-            // High Resolution 16-Line Quran Page Source
             imgElem.src = `https://android.quran.com/data/width_1024/page${formattedPage}.png`;
             
             imgElem.onerror = function() {
@@ -579,7 +589,7 @@
             }
         }
 
-        /* LIVE AUTOMATIC HADITH SEARCH ENGINE (EMBEDDED GOOGLE & ONLINE API) */
+        /* LIVE AUTOMATIC HADITH SEARCH ENGINE */
         async function searchHadithAuto() {
             let query = document.getElementById('hadith-query').value.trim();
             let container = document.getElementById('hadith-results');
@@ -594,7 +604,6 @@
             loader.style.display = 'block';
 
             try {
-                // Online Hadith API Call
                 let res = await fetch(`https://hadithapi.com/api/hadiths?apiKey=$2y$10$f0YwzC5jO7R&search=${encodeURIComponent(query)}`);
                 let data = await res.json();
                 
@@ -613,7 +622,6 @@
                     });
                     container.innerHTML = html;
                 } else {
-                    // Show Google Search direct inside your site frame
                     showGoogleFrameResults(query, container, loader);
                 }
             } catch (error) {
