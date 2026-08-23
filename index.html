@@ -217,21 +217,21 @@
             </select>
         </div>
 
-        <!-- یہ صرف ویب سائٹ کا لنک کاپی کرے گا -->
-        <button class="copy-link-btn" onclick="triggerAdWithCountdown('copy')">
+        <!-- ہر بار کلک کرنے پر صرف ایک بار اشتہار چلے گا -->
+        <button class="copy-link-btn" onclick="handleCopyLinkClick()">
             <i class="fa-solid fa-copy"></i> کاپی ویب سائٹ لنک
         </button>
 
         <div id="google_translate_element"></div>
     </div>
 
-    <!-- اے پی کے ایپ ڈاؤن لوڈ بینر (یہ صرف ایپ کا ڈائریکٹ ڈاؤن لوڈ لنک کھولے گا) -->
+    <!-- ایپ ڈاؤن لوڈ بینر -->
     <div class="app-install-banner">
         <div>
             <h4 style="font-family:'Amiri', serif; color:#fbbf24; font-size:18px;"><i class="fa-solid fa-mobile-screen-button"></i> القرآن ایچ ڈی اینڈرائیڈ ایپ</h4>
             <p style="font-size:12px; color:#cbd5e1;">براہ راست اپنے فون میں اصل اینڈرائیڈ ایپ (APK) ڈاؤن لوڈ کریں!</p>
         </div>
-        <a href="https://docs.google.com/uc?export=download&id=10oHRncdh2AJOLQDZZM1faj7MVd180_mX" target="_blank" class="btn btn-gold" style="padding: 10px 18px; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+        <a href="https://example.com/app-release.apk" target="_blank" class="btn btn-gold" style="padding: 10px 18px; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
             <i class="fa-solid fa-download"></i> ایپ ڈاؤن لوڈ
         </a>
     </div>
@@ -281,19 +281,19 @@
 
         <!-- Main Categories Grid -->
         <div class="grid-container">
-            <div class="grid-card" onclick="triggerAdWithCountdown('surah')">
+            <div class="grid-card" onclick="showView('surah')">
                 <i class="fa-solid fa-book-quran"></i>
                 <h4>114 سورتیں (Surahs)</h4>
             </div>
-            <div class="grid-card" onclick="triggerAdWithCountdown('juzz')">
+            <div class="grid-card" onclick="showView('juzz')">
                 <i class="fa-solid fa-layer-group"></i>
                 <h4>30 پارے (Juzz)</h4>
             </div>
-            <div class="grid-card" onclick="triggerAdWithCountdown('hadith-search')">
+            <div class="grid-card" onclick="showView('hadith-search')">
                 <i class="fa-solid fa-magnifying-glass-chart"></i>
                 <h4>لائیو حدیث سرچ انجن</h4>
             </div>
-            <div class="grid-card" onclick="triggerAdWithCountdown('translator')">
+            <div class="grid-card" onclick="showView('translator')">
                 <i class="fa-solid fa-language"></i>
                 <h4>آیت کا اردو ترجمہ</h4>
             </div>
@@ -373,7 +373,7 @@
             </div>
 
             <h3 style="color:var(--primary-green); margin-bottom:8px; font-family:'Amiri', serif;">اشتہار جاری ہے</h3>
-            <p style="font-size:13px; color:#64748b; margin-bottom:20px;">براہ کرم انتظار کریں، گنتی ختم ہوتے ہی مواد کھل جائے گا...</p>
+            <p style="font-size:13px; color:#64748b; margin-bottom:20px;">براہ کرم انتظار کریں، گنتی ختم ہوتے ہی لنک کاپی ہو جائے گا...</p>
         </div>
     </div>
 
@@ -383,8 +383,8 @@
         let currentPage = 1;
         let currentSurah = 1;
         let allSurahs = [];
-        let targetActionType = '';
         let countdownTimer = null;
+        let isAdRunning = false; // یہ متغیر ڈبل کلک اور بار بار ایڈ کھلنے کو روکے گا
         const AD_SMARTLINK = "https://www.profitableratecpmnetwork.com/xnk898jsjy?key=44d0c94c95ae1391b8890d927c2559a7";
 
         window.onload = function() {
@@ -394,9 +394,15 @@
             setDates();
         };
 
-        function triggerAdWithCountdown(actionType) {
-            targetActionType = actionType;
+        // جب بھی بٹن دبائیں گے، صرف ایک بار ایڈ آئے گا اور ٹائمر چلے گا
+        function handleCopyLinkClick() {
+            // اگر پہلے سے ٹائمر یا ایڈ چل رہا ہے تو نیا کلک کام نہیں کرےगा (تاکہ بار بار ایڈ نہ کھلیں)
+            if (isAdRunning) return;
+            isAdRunning = true;
+
+            // ہر کلک پر صرف ایک بار اشتہار کھولیں
             window.open(AD_SMARTLINK, '_blank');
+            
             let modal = document.getElementById('ad-countdown-modal');
             modal.style.display = 'flex';
 
@@ -413,7 +419,9 @@
 
                 if (timeLeft <= 0) {
                     clearInterval(countdownTimer);
-                    closeAdAndProceed();
+                    document.getElementById('ad-countdown-modal').style.display = 'none';
+                    isAdRunning = false; // لاک کھول دیں تاکہ اگلی بار کلک کرنے پر دوبارہ صرف ایک ایڈ آ سکے
+                    copyWebsiteLinkDirect(); // لنک کاپی ہو جائے گا
                 }
             }, 1000);
         }
@@ -424,22 +432,13 @@
             timerBox.style.background = `conic-gradient(var(--accent-gold) ${degree}deg, #334155 ${degree}deg)`;
         }
 
-        function closeAdAndProceed() {
-            document.getElementById('ad-countdown-modal').style.display = 'none';
-            if(targetActionType === 'copy') {
-                copyWebsiteLinkDirect();
-            } else {
-                showView(targetActionType);
-            }
-        }
-
-        // یہ فنکشن صرف اور صرف ویب سائٹ کا اپنا URL کاپی کرے گا
+        // ویب سائٹ کا اصل URL کاپی کرنے کا فنکشن
         function copyWebsiteLinkDirect() {
             let currentUrl = window.location.href;
             
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(currentUrl).then(() => {
-                    alert("ویب سائٹ کا لنک کامیابی سے کاپی ہو گیا ہے!");
+                    alert("ویب سائٹ کا لنک کامیابی سے کاپی ہو گیا ہے: " + currentUrl);
                 }).catch(() => {
                     fallbackCopyText(currentUrl);
                 });
