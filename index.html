@@ -222,13 +222,13 @@
         <div id="google_translate_element"></div>
     </div>
 
-    <!-- اے پی کے ایپ ڈاؤن لوڈ بینر (گوگل ڈرائیو کا ڈائریکٹ ڈاؤن لوڈ لنک) -->
+    <!-- اے پی کے ایپ ڈاؤن لوڈ بینر (ڈائریکٹ ڈاؤن لوڈ لنک کے ساتھ) -->
     <div class="app-install-banner">
         <div>
             <h4 style="font-family:'Amiri', serif; color:#fbbf24; font-size:18px;"><i class="fa-solid fa-mobile-screen-button"></i> القرآن ایچ ڈی اینڈرائیڈ ایپ</h4>
             <p style="font-size:12px; color:#cbd5e1;">براہ راست اپنے فون میں اصل اینڈرائیڈ ایپ (APK) ڈاؤن لوڈ کریں!</p>
         </div>
-        <a href="https://drive.google.com/uc?export=download&id=10oHRncdh2AJOLQDZZM1faj7MVd180_mX" class="btn btn-gold" style="padding: 10px 18px; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+        <a href="https://docs.google.com/uc?export=download&id=10oHRncdh2AJOLQDZZM1faj7MVd180_mX" class="btn btn-gold" style="padding: 10px 18px; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
             <i class="fa-solid fa-download"></i> ایپ ڈاؤن لوڈ
         </a>
     </div>
@@ -436,7 +436,6 @@
                 navigator.clipboard.writeText(currentUrl);
                 alert("ویب سائٹ کا لنک کامیابی سے کاپی ہو گیا ہے!");
             } catch (err) {
-                // اگر کلپ بورڈ API کام نہ کرے تو متبادل طریقہ
                 let tempInput = document.createElement("input");
                 tempInput.value = currentUrl;
                 document.body.appendChild(tempInput);
@@ -542,7 +541,7 @@
 
         async function openSurahPage(surahNum) {
             try {
-                let res = await fetch(`https://api.alquran.cloud/v1/surah/${surahNum}`);
+                let res = await fetcch(`https://api.alquran.cloud/v1/surah/${surahNum}`);
                 let data = await res.json();
                 showView('reader');
                 loadPageImage(data.data.ayahs[0].page);
