@@ -5,210 +5,275 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>آل قرآن مجید والحدیث</title>
     
-    <!-- FontAwesome Icons -->
+    <!-- FontAwesome & Google Fonts -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Reem+Kufi:wght@700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --poster-bg: #f5f0eb;
-            --blue-capsule: linear-gradient(135deg, #0b2265 0%, #05133b 100%);
-            --green-capsule: linear-gradient(135deg, #044b2a 0%, #022b18 100%);
-            --gold-accent: #d4af37;
+            --bg-color: #f7f2ea;
+            --blue-pill: linear-gradient(135deg, #0b2265 0%, #05133b 100%);
+            --green-pill: linear-gradient(135deg, #044b2a 0%, #022b18 100%);
+            --gold-color: #d4af37;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body { 
-            background-color: var(--poster-bg);
-            background-image: radial-gradient(#d4af37 0.5px, transparent 0.5px), radial-gradient(#d4af37 0.5px, #f5f0eb 0.5px);
-            background-size: 20px 20px;
-            color: #333;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#d4af37 0.6px, transparent 0.6px), radial-gradient(#d4af37 0.6px, #f7f2ea 0.6px);
+            background-size: 24px 24px;
             font-family: 'Noto Nastaliq Urdu', serif;
-            padding: 10px;
+            padding: 15px;
+            color: #222;
         }
 
-        /* Top Bar */
-        .top-lang-bar {
-            background: #081225; color: white; padding: 8px 15px;
-            display: flex; justify-content: space-between; align-items: center; font-size: 12px;
-            border-bottom: 2px solid var(--gold-accent); border-radius: 8px; margin-bottom: 10px;
-        }
-        .copy-link-btn {
-            background: linear-gradient(135deg, #f59e0b, #b45309); color: white; border: none; 
-            padding: 5px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 11px;
-        }
-
-        /* Main Poster Wrapper */
-        .poster-container {
+        /* Outer Poster Box */
+        .poster-wrapper {
             max-width: 1050px;
             margin: 0 auto;
             background: #ffffff;
-            border: 4px solid var(--gold-accent);
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border: 5px solid var(--gold-color);
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
             position: relative;
+            overflow: hidden;
         }
 
-        /* Header Poster Style */
-        .poster-header {
+        /* Top Header Area matching poster */
+        .poster-top-header {
             text-align: center;
             position: relative;
             padding-bottom: 15px;
-            border-bottom: 2px dashed #d4af37;
-        }
-        .lantern-left, .lantern-right {
-            position: absolute; top: -5px; font-size: 35px; color: var(--gold-accent);
-        }
-        .lantern-left { left: 10px; }
-        .lantern-right { right: 10px; }
-
-        .bismillah {
-            font-family: 'Amiri', serif; font-size: 28px; color: #1a2a3a; font-weight: bold;
-        }
-        .slogan-top {
-            font-size: 14px; color: #444; margin-top: -5px; font-weight: bold;
+            border-bottom: 2px dashed var(--gold-color);
         }
 
-        .main-title-flex {
-            display: flex; align-items: center; justify-content: center; gap: 15px; margin: 15px 0;
+        .poster-lantern {
+            position: absolute;
+            top: -10px;
+            font-size: 40px;
+            color: var(--gold-color);
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
         }
-        .quran-round-badge {
-            width: 80px; height: 80px; background: #0b2265; border: 3px solid var(--gold-accent);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            color: var(--gold-accent); font-size: 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-        .main-title-text h1 {
-            font-family: 'Reem Kufi', sans-serif; font-size: 42px; color: #0b2265;
-            text-shadow: 2px 2px 0px #fff, 4px 4px 0px var(--gold-accent);
-            line-height: 1.2;
-        }
-        .main-subtitle-pill {
-            background: #f0f4f8; border: 1.5px solid var(--gold-accent); border-radius: 25px;
-            padding: 4px 20px; font-size: 13px; color: #0b2265; font-weight: bold; display: inline-block;
+        .lantern-l { left: 10px; }
+        .lantern-r { right: 10px; }
+
+        .bismillah-text {
+            font-family: 'Amiri', serif;
+            font-size: 30px;
+            color: #1a2a3a;
+            font-weight: bold;
         }
 
-        /* Side-by-Side Main Layout (ہو بہو تصویر کے مطابق: بائیں طرف موبائل، دائیں طرف کیپسول) */
-        .poster-grid-body {
+        .top-sub-slogan {
+            font-size: 14px;
+            color: #444;
+            font-weight: bold;
+            margin-top: 2px;
+        }
+
+        .title-row {
             display: flex;
-            flex-wrap: nowrap;
-            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 12px 0;
+        }
+
+        .gold-quran-badge {
+            width: 85px;
+            height: 85px;
+            background: #0b2265;
+            border: 3px solid var(--gold-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold-color);
+            font-size: 42px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+        }
+
+        .main-title-h1 {
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 46px;
+            color: #0b2265;
+            text-shadow: 2px 2px 0px #fff, 4px 4px 0px var(--gold-color);
+            line-height: 1.1;
+        }
+
+        .sub-pill-badge {
+            background: #f0f4f8;
+            border: 1.5px solid var(--gold-color);
+            border-radius: 30px;
+            padding: 5px 25px;
+            font-size: 13px;
+            color: #0b2265;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        /* Center Grid: Left Phone, Right 6 Capsules */
+        .center-body-grid {
+            display: flex;
+            gap: 25px;
             margin-top: 25px;
             align-items: center;
             justify-content: space-between;
         }
 
-        @media(max-width: 850px) {
-            .poster-grid-body { flex-wrap: wrap; justify-content: center; }
+        @media(max-width: 900px) {
+            .center-body-grid { flex-direction: column; }
         }
 
-        /* LEFT: Phone Mockup */
-        .phone-column {
-            flex: 0 0 350px;
-            display: flex;
-            justify-content: center;
-        }
-        .real-phone-mockup {
-            width: 100%;
+        /* EXACT MOBILE MOCKUP ON LEFT */
+        .phone-mockup-side {
+            flex: 0 0 340px;
             background: #111827;
-            border: 8px solid #374151;
-            border-radius: 40px;
+            border: 9px solid #374151;
+            border-radius: 45px;
             padding: 12px 10px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.4);
         }
-        .phone-screen {
+
+        .phone-inner-screen {
             background: #031527;
-            border-radius: 28px;
+            border-radius: 30px;
             padding: 12px;
             color: white;
         }
-        .phone-header-title {
-            display: flex; justify-content: space-between; align-items: center;
-            font-size: 13px; font-weight: bold; color: white; padding-bottom: 8px;
-        }
-        .phone-search-input {
-            width: 100%; background: white; border-radius: 8px; padding: 6px 10px;
-            font-size: 10px; color: #333; margin-bottom: 10px; border: none; text-align: right;
-        }
-        .phone-banner {
-            background: linear-gradient(135deg, #092c4c, #031527);
-            border: 1px solid var(--gold-accent); border-radius: 10px;
-            padding: 8px; text-align: center; margin-bottom: 10px;
-        }
-        .phone-banner h4 { font-family: 'Amiri', serif; color: var(--gold-accent); font-size: 15px; }
 
-        /* 6 Grid Buttons inside phone */
-        .phone-grid-menu {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px;
+        .phone-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            font-weight: bold;
+            color: white;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 8px;
         }
-        .phone-grid-card {
-            background: #ffffff; color: #0f172a; border-radius: 8px; padding: 8px 4px;
-            text-align: center; font-size: 10px; font-weight: bold; cursor: pointer;
+
+        .phone-search-box {
+            width: 100%;
+            background: white;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 10px;
+            color: #333;
+            margin-bottom: 8px;
+            border: none;
+            text-align: right;
+        }
+
+        .phone-surah-card-small {
+            background: linear-gradient(135deg, #092c4c, #031527);
+            border: 1px solid var(--gold-color);
+            border-radius: 10px;
+            padding: 8px;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .phone-surah-card-small h4 { font-family: 'Amiri', serif; color: var(--gold-color); font-size: 15px; }
+
+        .phone-6-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .phone-grid-item {
+            background: #ffffff;
+            color: #0f172a;
+            border-radius: 8px;
+            padding: 8px 3px;
+            text-align: center;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-        .phone-grid-card i { font-size: 15px; color: #0b2265; display: block; margin-bottom: 3px; }
+        .phone-grid-item i { font-size: 15px; color: #0b2265; display: block; margin-bottom: 3px; }
 
-        .phone-player {
-            background: #071f38; border-radius: 10px; padding: 8px; font-size: 9px;
-            border: 1px solid #1e3a8a; text-align: center;
+        .phone-audio-player {
+            background: #071f38;
+            border-radius: 10px;
+            padding: 8px;
+            font-size: 9px;
+            border: 1px solid #1e3a8a;
+            text-align: center;
         }
 
-        /* RIGHT: 6 Capsules Menu List */
-        .capsules-column {
+        /* 6 BIG CAPSULES ON RIGHT */
+        .right-capsules-side {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
 
-        .capsule-item {
+        .poster-capsule-item {
             display: flex;
             align-items: center;
-            border-radius: 50px;
-            padding: 6px 8px 6px 18px;
+            border-radius: 60px;
+            padding: 7px 10px 7px 20px;
             color: white;
-            text-decoration: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             cursor: pointer;
-            border: 2px solid var(--gold-accent);
+            border: 2.5px solid var(--gold-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
             transition: 0.2s;
         }
-        .capsule-item:hover { transform: scale(1.01); }
+        .poster-capsule-item:hover { transform: scale(1.01); }
 
-        .capsule-item.blue { background: var(--blue-capsule); }
-        .capsule-item.green { background: var(--green-capsule); border-color: #4ade80; }
+        .poster-capsule-item.blue-c { background: var(--blue-pill); }
+        .poster-capsule-item.green-c { background: var(--green-pill); border-color: #4ade80; }
 
-        .capsule-icon-circle {
-            width: 52px; height: 52px; border-radius: 50%; background: white;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 22px; color: #0b2265; flex-shrink: 0;
-            border: 2px solid var(--gold-accent);
-            box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+        .capsule-white-circle {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #0b2265;
+            flex-shrink: 0;
+            border: 2px solid var(--gold-color);
+            box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
         }
-        .capsule-item.green .capsule-icon-circle { color: #044b2a; border-color: #4ade80; }
+        .poster-capsule-item.green-c .capsule-white-circle { color: #044b2a; border-color: #4ade80; }
 
-        .capsule-text-content {
-            margin-right: 15px; flex-grow: 1; text-align: right;
+        .capsule-text-area {
+            margin-right: 18px;
+            flex-grow: 1;
+            text-align: right;
         }
-        .capsule-text-content h3 {
-            font-size: 17px; color: white; font-family: 'Noto Nastaliq Urdu', serif; line-height: 1.3;
+        .capsule-text-area h3 {
+            font-size: 18px;
+            color: white;
+            font-family: 'Noto Nastaliq Urdu', serif;
+            line-height: 1.2;
         }
-        .capsule-text-content p {
-            font-size: 11px; color: #e2e8f0; font-family: sans-serif;
+        .capsule-text-area p {
+            font-size: 11.5px;
+            color: #e2e8f0;
+            font-family: sans-serif;
         }
 
-        /* WhatsApp Direct Options (حفظ، ناظرہ، مسائل) */
-        .whatsapp-courses-grid {
+        /* WhatsApp Courses Section (حفظ، ناظرہ، مسائل) */
+        .whatsapp-action-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 12px;
             margin-top: 25px;
         }
-        .wa-course-card {
+        .wa-action-box {
             background: linear-gradient(135deg, #075e54, #128c7e);
-            border: 2px solid var(--gold-accent);
+            border: 2px solid var(--gold-color);
             border-radius: 15px;
             padding: 12px;
             text-align: center;
@@ -217,13 +282,13 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             transition: 0.2s;
         }
-        .wa-course-card:hover { transform: translateY(-3px); }
-        .wa-course-card i { font-size: 24px; color: #25d366; background: white; width: 40px; height: 40px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 5px; }
-        .wa-course-card h4 { font-size: 15px; margin-bottom: 3px; font-family: 'Noto Nastaliq Urdu', serif; }
-        .wa-course-card p { font-size: 11px; color: #e9edef; }
+        .wa-action-box:hover { transform: translateY(-3px); }
+        .wa-action-box i { font-size: 24px; color: #25d366; background: white; width: 42px; height: 42px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 5px; }
+        .wa-action-box h4 { font-size: 15px; margin-bottom: 3px; }
+        .wa-action-box p { font-size: 11px; color: #e9edef; }
 
-        /* Poster Bottom Section */
-        .poster-bottom-wrapper {
+        /* Bottom Section of Poster */
+        .poster-bottom-row {
             margin-top: 20px;
             display: flex;
             flex-wrap: wrap;
@@ -231,173 +296,216 @@
             justify-content: space-between;
             align-items: center;
         }
-        .visit-qr-box {
-            flex: 1; min-width: 250px;
-            background: #f8fafc; border: 2px solid #044b2a; border-radius: 15px;
-            padding: 10px 15px; display: flex; align-items: center; justify-content: space-between;
-        }
-        .useful-slogan-box {
-            flex: 1; min-width: 250px;
-            background: #fffdf0; border: 2px solid var(--gold-accent); border-radius: 15px;
-            padding: 12px; text-align: center; color: #0b2265; font-weight: bold; font-size: 13px;
+
+        .bottom-slogan-card {
+            flex: 1;
+            min-width: 250px;
+            background: #fffdf0;
+            border: 2px solid var(--gold-color);
+            border-radius: 15px;
+            padding: 12px;
+            text-align: center;
+            color: #0b2265;
+            font-weight: bold;
+            font-size: 14px;
         }
 
-        /* Footer Blue Strip */
-        .bottom-blue-strip {
-            background: #0b2265; border-radius: 12px; padding: 12px;
-            display: flex; justify-content: space-around; align-items: center;
-            color: white; margin-top: 15px; border: 1.5px solid var(--gold-accent);
-            flex-wrap: wrap; gap: 10px;
-        }
-        .bottom-strip-item {
-            display: flex; align-items: center; gap: 8px; font-size: 11px; text-decoration: none; color: white; cursor: pointer;
-        }
-        .bottom-strip-item i { font-size: 18px; color: var(--gold-accent); }
-
-        .final-poster-slogan {
-            text-align: center; margin-top: 15px; font-size: 20px; font-family: 'Amiri', serif;
-            color: #0b2265; font-weight: bold;
+        .bottom-visit-card {
+            flex: 1;
+            min-width: 250px;
+            background: #f8fafc;
+            border: 2px solid #044b2a;
+            border-radius: 15px;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        /* Views Styles */
-        .view { display: none; max-width: 1050px; margin: 0 auto; }
-        .view.active { display: block; }
-
-        .back-btn {
-            background: var(--blue-capsule); color: white; border: 1px solid var(--gold-accent);
-            padding: 8px 20px; border-radius: 20px; cursor: pointer; margin-bottom: 15px;
-            font-weight: bold; font-size: 13px;
+        /* Bottom Blue Strip matching footer of poster */
+        .poster-footer-strip {
+            background: #0b2265;
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            color: white;
+            margin-top: 15px;
+            border: 1.5px solid var(--gold-color);
+            flex-wrap: wrap;
+            gap: 10px;
         }
-        .mushaf-container { background: #fdfbf7; border: 8px solid #0b2265; border-radius: 15px; padding: 10px; text-align: center; }
-        .mushaf-container img { width: 100%; max-width: 550px; height: auto; border-radius: 5px; }
+        .footer-strip-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: white;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: 'Noto Nastaliq Urdu', serif;
+        }
+        .footer-strip-btn i { font-size: 18px; color: var(--gold-color); }
+
+        .poster-final-bottom-quote {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 22px;
+            font-family: 'Amiri', serif;
+            color: #0b2265;
+            font-weight: bold;
+        }
+
+        /* Views management */
+        .view-section { display: none; max-width: 1050px; margin: 0 auto; }
+        .view-section.active { display: block; }
+
+        .back-nav-btn {
+            background: var(--blue-pill);
+            color: white;
+            border: 1px solid var(--gold-color);
+            padding: 8px 22px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .mushaf-box-view {
+            background: #fdfbf7;
+            border: 8px solid #0b2265;
+            border-radius: 15px;
+            padding: 10px;
+            text-align: center;
+        }
+        .mushaf-box-view img { width: 100%; max-width: 550px; height: auto; border-radius: 5px; }
     </style>
 </head>
 <body>
 
-    <!-- Top Bar -->
-    <div class="top-lang-bar">
+    <!-- Top Site Bar -->
+    <div style="background: #081225; color: white; padding: 8px 15px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; border-bottom: 2px solid var(--gold-color); border-radius: 8px; margin-bottom: 12px;">
         <div>
-            <i class="fa-solid fa-globe" style="color:var(--gold-accent);"></i>
-            <span style="margin-right: 5px;">جامعہ مصعب بن عمیر سمبڑیال مولووالی</span>
+            <i class="fa-solid fa-globe" style="color:var(--gold-color);"></i>
+            <span style="margin-right: 6px;">جامعہ مصعب بن عمیر سمبڑیال مولووالی</span>
         </div>
-        <button class="copy-link-btn" onclick="copySiteLink()"><i class="fa-solid fa-copy"></i> کاپی ویب سائٹ لنک</button>
+        <button onclick="copySiteLink()" style="background: linear-gradient(135deg, #f59e0b, #b45309); color: white; border: none; padding: 5px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 11px;">کاپی ویب سائٹ لنک</button>
     </div>
 
-    <!-- 1. MAIN HOME VIEW -->
-    <div id="home" class="view active">
-        <div class="poster-container">
+    <!-- HOME VIEW (EXACT POSTER DESIGN) -->
+    <div id="home" class="view-section active">
+        <div class="poster-wrapper">
             
             <!-- Poster Header -->
-            <div class="poster-header">
-                <div class="lantern-left"><i class="fa-solid fa-fan"></i></div>
-                <div class="lantern-right"><i class="fa-solid fa-fan"></i></div>
-                <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-                <div class="slogan-top">اللہ کا کلام پڑھیں، سمجھیں اور زندگی میں اتاریں</div>
+            <div class="poster-top-header">
+                <div class="poster-lantern lantern-l"><i class="fa-solid fa-fan"></i></div>
+                <div class="poster-lantern lantern-r"><i class="fa-solid fa-fan"></i></div>
+                <div class="bismillah-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+                <div class="top-sub-slogan">اللہ کا کلام پڑھیں، سمجھیں اور زندگی میں اتاریں</div>
                 
-                <div class="main-title-flex">
-                    <div class="quran-round-badge"><i class="fa-solid fa-book-quran"></i></div>
-                    <div class="main-title-text">
-                        <h1>آل قرآن مجید والحدیث</h1>
-                    </div>
+                <div class="title-row">
+                    <div class="gold-quran-badge"><i class="fa-solid fa-book-quran"></i></div>
+                    <div class="main-title-h1">آل قرآن مجید والحدیث</div>
                 </div>
-                <div class="main-subtitle-pill">قرآن مجید، حدیث، تفسیر، ترجمہ، نماز کے اوقات اور بہت کچھ ایک ہی پلیٹ فارم پر</div>
+                <div class="sub-pill-badge">قرآن مجید، حدیث، تفسیر، ترجمہ، نماز کے اوقات اور بہت کچھ ایک ہی پلیٹ فارم پر</div>
             </div>
 
-            <!-- Body Grid: Left Phone & Right Capsules Side-by-Side -->
-            <div class="poster-grid-body">
+            <!-- Central Body Grid: Left Phone, Right 6 Capsules -->
+            <div class="center-body-grid">
                 
-                <!-- LEFT: Phone Mockup -->
-                <div class="phone-column">
-                    <div class="real-phone-mockup">
-                        <div class="phone-screen">
-                            <div class="phone-header-title">
-                                <span><i class="fa-solid fa-bars"></i></span>
-                                <span>آل قرآن مجید والحدیث</span>
-                            </div>
-                            <input type="text" class="phone-search-input" placeholder="آیت، سورہ یا ترجمہ تلاش کریں...">
-                            
-                            <div class="phone-banner">
-                                <h4>سورة النُّور</h4>
-                                <p style="font-size:10px; color:#cbd5e1;">القرآن مجید</p>
-                            </div>
+                <!-- LEFT SIDE: EXACT PHONE MOCKUP -->
+                <div class="phone-mockup-side">
+                    <div class="phone-inner-screen">
+                        <div class="phone-top-bar">
+                            <span><i class="fa-solid fa-bars"></i></span>
+                            <span>آل قرآن مجید والحدیث</span>
+                        </div>
+                        <input type="text" class="phone-search-box" placeholder="آیت، سورہ یا ترجمہ تلاش کریں...">
+                        
+                        <div class="phone-surah-card-small">
+                            <h4>سورة النُّور</h4>
+                            <p style="font-size:9.5px; color:#cbd5e1;">القرآن مجید</p>
+                        </div>
 
-                            <!-- 6 Grid Buttons inside phone -->
-                            <div class="phone-grid-menu">
-                                <div class="phone-grid-card" onclick="openWithAd('surah')">
-                                    <i class="fa-solid fa-book-open"></i> القرآن مجید
-                                </div>
-                                <div class="phone-grid-card" onclick="openWithAd('surah')">
-                                    <i class="fa-solid fa-headphones"></i> آواز قرآن
-                                </div>
-                                <div class="phone-grid-card" onclick="openWithAd('hadith-search')">
-                                    <i class="fa-solid fa-magnifying-glass"></i> لائیو سرچ
-                                </div>
-                                <div class="phone-grid-card" onclick="openWithAd('translator')">
-                                    <i class="fa-solid fa-book"></i> ترجمہ القرآن
-                                </div>
-                                <div class="phone-grid-card" onclick="openWithAd('hadith-search')">
-                                    <i class="fa-solid fa-layer-group"></i> الحدیث
-                                </div>
-                                <div class="phone-grid-card" onclick="openWithAd('home')">
-                                    <i class="fa-solid fa-clock"></i> نماز اوقات
-                                </div>
+                        <!-- 6 Grid inside Phone -->
+                        <div class="phone-6-grid">
+                            <div class="phone-grid-item" onclick="openWithAd('surah')">
+                                <i class="fa-solid fa-book-open"></i> القرآن مجید
                             </div>
+                            <div class="phone-grid-item" onclick="openWithAd('surah')">
+                                <i class="fa-solid fa-headphones"></i> آواز قرآن
+                            </div>
+                            <div class="phone-grid-item" onclick="openWithAd('hadith-search')">
+                                <i class="fa-solid fa-magnifying-glass"></i> لائیو سرچ
+                            </div>
+                            <div class="phone-grid-item" onclick="openWithAd('translator')">
+                                <i class="fa-solid fa-book"></i> ترجمہ القرآن
+                            </div>
+                            <div class="phone-grid-item" onclick="openWithAd('hadith-search')">
+                                <i class="fa-solid fa-layer-group"></i> الحدیث
+                            </div>
+                            <div class="phone-grid-item" onclick="openWithAd('home')">
+                                <i class="fa-solid fa-clock"></i> نماز اوقات
+                            </div>
+                        </div>
 
-                            <div class="phone-player">
-                                <div>سورة الرحمٰن - آیت 1</div>
-                                <div style="font-size:14px; margin:4px 0;"><i class="fa-solid fa-play"></i></div>
-                                <div>00:00 / 21:42</div>
-                            </div>
+                        <div class="phone-audio-player">
+                            <div>سورة الرحمٰن - آیت 1</div>
+                            <div style="font-size:13px; margin:3px 0;"><i class="fa-solid fa-play"></i></div>
+                            <div>00:00 / 21:42</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- RIGHT: 6 Capsule Buttons -->
-                <div class="capsules-column">
+                <!-- RIGHT SIDE: 6 BIG CAPSULE BUTTONS -->
+                <div class="right-capsules-side">
                     
-                    <div class="capsule-item blue" onclick="openWithAd('surah')">
-                        <div class="capsule-icon-circle"><i class="fa-solid fa-book-quran"></i></div>
-                        <div class="capsule-text-content">
+                    <div class="poster-capsule-item blue-c" onclick="openWithAd('surah')">
+                        <div class="capsule-white-circle"><i class="fa-solid fa-book-quran"></i></div>
+                        <div class="capsule-text-area">
                             <h3>القرآن مجید مکمل</h3>
                             <p>تمام 114 سورہ خوبصورت انداز میں تلاوت کے ساتھ</p>
                         </div>
                     </div>
 
-                    <div class="capsule-item green" onclick="openWithAd('surah')">
-                        <div class="capsule-icon-circle"><i class="fa-solid fa-headphones"></i></div>
-                        <div class="capsule-text-content">
+                    <div class="poster-capsule-item green-c" onclick="openWithAd('surah')">
+                        <div class="capsule-white-circle"><i class="fa-solid fa-headphones"></i></div>
+                        <div class="capsule-text-area">
                             <h3>آواز قرآن مجید</h3>
                             <p>ہر سورۃ کی تلاوت خوبصورت آواز میں سنتے جائیں</p>
                         </div>
                     </div>
 
-                    <div class="capsule-item blue" onclick="openWithAd('hadith-search')">
-                        <div class="capsule-icon-circle"><i class="fa-solid fa-magnifying-glass"></i></div>
-                        <div class="capsule-text-content">
+                    <div class="poster-capsule-item blue-c" onclick="openWithAd('hadith-search')">
+                        <div class="capsule-white-circle"><i class="fa-solid fa-magnifying-glass"></i></div>
+                        <div class="capsule-text-area">
                             <h3>لائیو سرچ بار</h3>
                             <p>آیت، سورہ، حدیث یا ترجمہ تلاش کریں فوراً حاصل کریں</p>
                         </div>
                     </div>
 
-                    <div class="capsule-item green" onclick="openWithAd('translator')">
-                        <div class="capsule-icon-circle"><i class="fa-solid fa-book"></i></div>
-                        <div class="capsule-text-content">
+                    <div class="poster-capsule-item green-c" onclick="openWithAd('translator')">
+                        <div class="capsule-white-circle"><i class="fa-solid fa-book"></i></div>
+                        <div class="capsule-text-area">
                             <h3>ترجمہ القرآن</h3>
                             <p>آیات کا اردو ترجمہ آسان اور مفہوم انداز میں</p>
                         </div>
                     </div>
 
-                    <div class="capsule-item blue" onclick="openWithAd('hadith-search')">
-                        <div class="capsule-icon-circle"><i class="fa-solid fa-layer-group"></i></div>
-                        <div class="capsule-text-content">
+                    <div class="poster-capsule-item blue-c" onclick="openWithAd('hadith-search')">
+                        <div class="capsule-white-circle"><i class="fa-solid fa-layer-group"></i></div>
+                        <div class="capsule-text-area">
                             <h3>الحدیث</h3>
                             <p>صحیح احادیث کا ذخیرہ موضوعات کے مطابق</p>
                         </div>
                     </div>
 
-                    <div class="capsule-item green" onclick="openWithAd('home')">
-                        <div class="capsule-icon-circle"><i class="fa-solid fa-clock"></i></div>
-                        <div class="capsule-text-content">
+                    <div class="poster-capsule-item green-c" onclick="openWithAd('home')">
+                        <div class="capsule-white-circle"><i class="fa-solid fa-clock"></i></div>
+                        <div class="capsule-text-area">
                             <h3>نماز کے اوقات</h3>
                             <p>روزانہ کے نماز کے اوقات آپ کے شہر کے مطابق</p>
                         </div>
@@ -407,130 +515,129 @@
 
             </div>
 
-            <!-- WhatsApp Direct Options with Ad Integration (حفظ، ناظرہ، مسائل) -->
-            <div class="whatsapp-courses-grid">
-                <div class="wa-course-card" onclick="openWhatsApp('السلام علیکم! میں آن لائن قرآن حفظ کرنا چاہتا ہوں، رہنمائی فرمائیں۔')">
+            <!-- WhatsApp Direct Connection Cards (حفظ، ناظرہ، مسائل) -->
+            <div class="whatsapp-action-grid">
+                <div class="wa-action-box" onclick="openWhatsApp('السلام علیکم! میں آن لائن قرآن حفظ کرنا چاہتا ہوں، رہنمائی فرمائیں۔')">
                     <i class="fa-brands fa-whatsapp"></i>
                     <h4>آن لائن قرآن حفظ کورس</h4>
                     <p>رابطہ کرنے کے لیے یہاں کلک کریں</p>
                 </div>
-                <div class="wa-course-card" onclick="openWhatsApp('السلام علیکم! میں آن لائن ناظرہ قرآن پڑھنا چاہتا ہوں، رہنمائی فرمائیں۔')">
+                <div class="wa-action-box" onclick="openWhatsApp('السلام علیکم! میں آن لائن ناظرہ قرآن پڑھنا چاہتا ہوں، رہنمائی فرمائیں۔')">
                     <i class="fa-brands fa-whatsapp"></i>
                     <h4>آن لائن ناظرہ قرآن</h4>
                     <p>رابطہ کرنے کے لیے یہاں کلک کریں</p>
                 </div>
-                <div class="wa-course-card" onclick="openWhatsApp('السلام علیکم! میرا دینی مسئلہ ہے، رہنمائی فرمائیں۔')">
+                <div class="wa-action-box" onclick="openWhatsApp('السلام علیکم! میرا دینی مسئلہ ہے، رہنمائی فرمائیں۔')">
                     <i class="fa-brands fa-whatsapp"></i>
                     <h4>دینی مسائل کے بارے میں پوچھیں</h4>
                     <p>رابطہ کرنے کے لیے یہاں کلک کریں</p>
                 </div>
             </div>
 
-            <!-- Poster Bottom Section -->
-            <div class="poster-bottom-wrapper">
-                <div class="useful-slogan-box">
+            <!-- Poster Bottom Slogan / QR Row -->
+            <div class="poster-bottom-row">
+                <div class="bottom-slogan-card">
                     آسان، مفید اور ہر وقت ساتھ<br>ہر مسلمان کے لیے بہترین سہولت
                 </div>
-                <div class="visit-qr-box">
+                <div class="bottom-visit-card">
                     <div>
                         <h4 style="color:#044b2a; font-size:15px;">آج ہی وزٹ کریں</h4>
-                        <p style="font-size:11px; color:#64748b;">جامعہ مصعب بن عمیر چینل</p>
+                        <p style="font-size:11px; color:#64748b;">لینک کے ذریعے شیئر کریں</p>
                     </div>
-                    <i class="fa-solid fa-qrcode" style="font-size:40px; color:#0b2265;"></i>
+                    <i class="fa-solid fa-qrcode" style="font-size:38px; color:#0b2265;"></i>
                 </div>
             </div>
 
-            <!-- Bottom Blue Strip with WhatsApp Channel Link -->
-            <div class="bottom-blue-strip">
-                <div class="bottom-strip-item" onclick="openChannelLink()">
+            <!-- Poster Footer Strip -->
+            <div class="poster-footer-strip">
+                <button class="footer-strip-btn" onclick="openChannelLink()">
                     <i class="fa-brands fa-whatsapp" style="color:#25d366;"></i> <span>واٹس ایپ چینل جوائن کریں</span>
-                </div>
-                <div class="bottom-strip-item" onclick="openWithAd('home')"><i class="fa-solid fa-volume-high"></i> <span>سنیں اور سیکھیں</span></div>
-                <div class="bottom-strip-item" onclick="openWithAd('home')"><i class="fa-solid fa-hand-holding-heart"></i> <span>سمجھیں اور عمل کریں</span></div>
-                <div class="bottom-strip-item" onclick="openWithAd('surah')"><i class="fa-solid fa-book-open"></i> <span>قرآن پڑھیں</span></div>
+                </button>
+                <button class="footer-strip-btn" onclick="openWithAd('home')">
+                    <i class="fa-solid fa-volume-high"></i> <span>سنیں اور سیکھیں</span>
+                </button>
+                <button class="footer-strip-btn" onclick="openWithAd('home')">
+                    <i class="fa-solid fa-hand-holding-heart"></i> <span>سمجھیں اور عمل کریں</span>
+                </button>
+                <button class="footer-strip-btn" onclick="openWithAd('surah')">
+                    <i class="fa-solid fa-book-open"></i> <span>قرآن پڑھیں</span>
+                </button>
             </div>
 
-            <div class="final-poster-slogan">✦ قرآن سے جڑیں ، زندگی سنواریں ✦</div>
+            <div class="poster-final-bottom-quote">✦ قرآن سے جڑیں ، زندگی سنواریں ✦</div>
 
         </div>
     </div>
 
-    <!-- 2. SURAH LIST VIEW -->
-    <div id="surah" class="view">
-        <button class="back-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-right"></i> ہوم پر واپس جائیں</button>
+    <!-- OTHER VIEWS (SURAH, READER, HADITH, TRANSLATOR) -->
+    <div id="surah" class="view-section">
+        <button class="back-nav-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-right"></i> ہوم پر واپس جائیں</button>
         <h2 style="font-family:'Amiri', serif; margin-bottom:15px; color:#0b2265;">فہرست سورۃ المبارکہ</h2>
         <div id="surah-list"></div>
     </div>
 
-    <!-- 3. MUSHAF READER VIEW -->
-    <div id="reader" class="view">
-        <button class="back-btn" onclick="showView('surah')"><i class="fa-solid fa-arrow-right"></i> سورتوں کی فہرست</button>
-        <div class="mushaf-container">
+    <div id="reader" class="view-section">
+        <button class="back-nav-btn" onclick="showView('surah')"><i class="fa-solid fa-arrow-right"></i> سورتوں کی فہرست</button>
+        <div class="mushaf-box-view">
             <img id="quran-page-img" src="" alt="Quran Page">
         </div>
         <div style="display:flex; justify-content:space-between; margin-top:15px;">
-            <button class="back-btn" onclick="changePage(1)">اگلا صفحہ</button>
-            <button class="back-btn" onclick="changePage(-1)">پچھلا صفحہ</button>
+            <button class="back-nav-btn" onclick="changePage(1)">اگلا صفحہ</button>
+            <button class="back-nav-btn" onclick="changePage(-1)">پچھلا صفحہ</button>
         </div>
     </div>
 
-    <!-- 4. HADITH VIEW -->
-    <div id="hadith-search" class="view">
-        <button class="back-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-right"></i> ہوم پر واپس جائیں</button>
+    <div id="hadith-search" class="view-section">
+        <button class="back-nav-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-right"></i> ہوم پر واپس جائیں</button>
         <h2 style="font-family:'Amiri', serif; margin-bottom:15px; color:#0b2265;">الحدیث و سرچ پورٹل</h2>
         <input type="text" id="h-query" placeholder="موضوع کا نام لکھیں..." style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; margin-bottom:10px;">
-        <button class="back-btn" style="width:100%;" onclick="searchHadith()">تلاش کریں</button>
+        <button class="back-nav-btn" style="width:100%;" onclick="searchHadith()">تلاش کریں</button>
         <div id="hadith-box" style="margin-top:15px;"></div>
     </div>
 
-    <!-- 5. TRANSLATOR VIEW -->
-    <div id="translator" class="view">
-        <button class="back-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-right"></i> ہوم پر واپس جائیں</button>
+    <div id="translator" class="view-section">
+        <button class="back-nav-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-right"></i> ہوم پر واپس جائیں</button>
         <h2 style="font-family:'Amiri', serif; margin-bottom:15px; color:#0b2265;">ترجمہ القرآن</h2>
         <div style="background:white; padding:15px; border-radius:10px; border:1px solid #ccc;">
             <label>سورۃ نمبر:</label>
             <input type="number" id="t-surah" value="1" min="1" max="114" style="width:100%; padding:8px; margin:5px 0 10px 0;">
             <label>آیت نمبر:</label>
             <input type="number" id="t-ayah" value="1" min="1" style="width:100%; padding:8px; margin:5px 0 10px 0;">
-            <button class="back-btn" style="width:100%;" onclick="fetchUrduTrans()">ترجمہ دیکھیں</button>
+            <button class="back-nav-btn" style="width:100%;" onclick="fetchUrduTrans()">ترجمہ دیکھیں</button>
         </div>
-        <div id="trans-result" style="margin-top:15px; background:white; padding:15px; border-radius:10px; border:1px solid var(--gold-accent); display:none;">
+        <div id="trans-result" style="margin-top:15px; background:white; padding:15px; border-radius:10px; border:1px solid var(--gold-color); display:none;">
             <h3 id="trans-ar" style="font-family:'Amiri', serif; color:#0b2265; font-size:22px; text-align:right;"></h3>
             <p id="trans-ur" style="margin-top:10px; font-size:16px; line-height:1.8; text-align:right;"></p>
         </div>
     </div>
 
-    <!-- JavaScript Logic -->
+    <!-- SCRIPT LOGIC (ADS & WHATSAPP) -->
     <script>
-        // آپ کا اصل ارننگ ایڈ لنک (Adsterra Direct Link)
-        const AD_DIRECT_LINK = "https://www.profitableratecpmnetwork.com/xnk898jsjy?key=44d0c94c95ae1391b8890d927c2559a7"; 
+        const AD_DIRECT_LINK = "https://www.profitableratecpmnetwork.com/xnk898jsjy?key=44d0c94c95ae1391b8890d927c2559a7";
         const WA_PHONE_NUMBER = "923074974713"; // رانا چمن بھائی کا واٹس ایپ نمبر
 
-        // ہر عام بٹن پر کلک کرنے پر ایڈ کھلنے کا فنکشن
         function openWithAd(targetView) {
             window.open(AD_DIRECT_LINK, '_blank');
             showView(targetView);
         }
 
-        // واٹس ایپ کورسز/مسائل والے بٹن پر کلک کرنے پر: پہلے ایڈ کھلے گا، پھر واٹس ایپ نمبر اوپن ہوگا
         function openWhatsApp(message) {
             window.open(AD_DIRECT_LINK, '_blank');
             let url = `https://wa.me/${WA_PHONE_NUMBER}?text=${encodeURIComponent(message)}`;
             setTimeout(function() {
                 window.open(url, '_blank');
-            }, 500); // آدھے سیکنڈ کے وقفے سے واٹس ایپ کھل جائے گا
+            }, 400);
         }
 
-        // واٹس ایپ چینل کا لنک کھولنے کا فنکشن
         function openChannelLink() {
             window.open(AD_DIRECT_LINK, '_blank');
             setTimeout(function() {
                 window.open("https://whatsapp.com/channel/0029Vaf4Jxu59PwNdXYB3i0r", '_blank');
-            }, 500);
+            }, 400);
         }
 
         function showView(viewId) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
             document.getElementById(viewId).classList.add('active');
             window.scrollTo(0, 0);
         }
@@ -540,7 +647,6 @@
             alert("ویب سائٹ کا لنک کامیابی سے کاپی کر لیا گیا ہے!");
         }
 
-        // Surah List Fetching
         async function loadSurahs() {
             try {
                 let res = await fetch('https://api.alquran.cloud/v1/surah');
@@ -548,9 +654,9 @@
                 let html = '';
                 data.data.forEach(s => {
                     html += `
-                        <div style="background:white; border:1px solid var(--gold-accent); padding:12px; margin-bottom:8px; border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
+                        <div style="background:white; border:1px solid var(--gold-color); padding:12px; margin-bottom:8px; border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
                             <div><strong>${s.number}. ${s.name}</strong> (${s.englishName})</div>
-                            <button class="back-btn" style="margin:0;" onclick="openSurah(${s.number})">پڑھیں</button>
+                            <button class="back-nav-btn" style="margin:0;" onclick="openSurah(${s.number})">پڑھیں</button>
                         </div>
                     `;
                 });
