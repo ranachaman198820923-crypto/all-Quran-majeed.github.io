@@ -264,7 +264,7 @@
             font-family: sans-serif;
         }
 
-        /* WhatsApp Courses Section (حفظ، ناظرہ، مسائل) */
+        /* WhatsApp Courses Section */
         .whatsapp-action-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -320,9 +320,10 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            cursor: pointer;
         }
 
-        /* Bottom Blue Strip matching footer of poster */
+        /* Bottom Blue Strip */
         .poster-footer-strip {
             background: #0b2265;
             border-radius: 12px;
@@ -358,7 +359,6 @@
             font-weight: bold;
         }
 
-        /* Views management */
         .view-section { display: none; max-width: 1050px; margin: 0 auto; }
         .view-section.active { display: block; }
 
@@ -386,16 +386,22 @@
 </head>
 <body>
 
-    <!-- Top Site Bar -->
-    <div style="background: #081225; color: white; padding: 8px 15px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; border-bottom: 2px solid var(--gold-color); border-radius: 8px; margin-bottom: 12px;">
+    <!-- Top Site Bar with Download & Copy Options -->
+    <div style="background: #081225; color: white; padding: 8px 15px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; border-bottom: 2px solid var(--gold-color); border-radius: 8px; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
         <div>
             <i class="fa-solid fa-globe" style="color:var(--gold-color);"></i>
             <span style="margin-right: 6px;">جامعہ مصعب بن عمیر سمبڑیال مولووالی</span>
         </div>
-        <button onclick="copySiteLink()" style="background: linear-gradient(135deg, #f59e0b, #b45309); color: white; border: none; padding: 5px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 11px;">کاپی ویب سائٹ لنک</button>
+        <div style="display: flex; gap: 8px;">
+            <!-- ڈاؤن لوڈ / انسٹال ایپ کا بٹن جو آپ نے سیٹ کیا تھا -->
+            <button id="installAppBtn" onclick="installAppPrompt()" style="background: linear-gradient(135deg, #059669, #047857); color: white; border: none; padding: 5px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 11px; display: none;">
+                <i class="fa-solid fa-download"></i> ایپ ڈاؤن لوڈ کریں
+            </button>
+            <button onclick="copySiteLink()" style="background: linear-gradient(135deg, #f59e0b, #b45309); color: white; border: none; padding: 5px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 11px;">کاپی لنک</button>
+        </div>
     </div>
 
-    <!-- HOME VIEW (EXACT POSTER DESIGN) -->
+    <!-- HOME VIEW -->
     <div id="home" class="view-section active">
         <div class="poster-wrapper">
             
@@ -413,10 +419,10 @@
                 <div class="sub-pill-badge">قرآن مجید، حدیث، تفسیر، ترجمہ، نماز کے اوقات اور بہت کچھ ایک ہی پلیٹ فارم پر</div>
             </div>
 
-            <!-- Central Body Grid: Left Phone, Right 6 Capsules -->
+            <!-- Central Body Grid -->
             <div class="center-body-grid">
                 
-                <!-- LEFT SIDE: EXACT PHONE MOCKUP -->
+                <!-- LEFT SIDE: PHONE MOCKUP -->
                 <div class="phone-mockup-side">
                     <div class="phone-inner-screen">
                         <div class="phone-top-bar">
@@ -430,7 +436,6 @@
                             <p style="font-size:9.5px; color:#cbd5e1;">القرآن مجید</p>
                         </div>
 
-                        <!-- 6 Grid inside Phone -->
                         <div class="phone-6-grid">
                             <div class="phone-grid-item" onclick="openWithAd('surah')">
                                 <i class="fa-solid fa-book-open"></i> القرآن مجید
@@ -460,7 +465,7 @@
                     </div>
                 </div>
 
-                <!-- RIGHT SIDE: 6 BIG CAPSULE BUTTONS -->
+                <!-- RIGHT SIDE: 6 CAPSULES -->
                 <div class="right-capsules-side">
                     
                     <div class="poster-capsule-item blue-c" onclick="openWithAd('surah')">
@@ -515,7 +520,7 @@
 
             </div>
 
-            <!-- WhatsApp Direct Connection Cards (حفظ، ناظرہ، مسائل) -->
+            <!-- WhatsApp Action Grid -->
             <div class="whatsapp-action-grid">
                 <div class="wa-action-box" onclick="openWhatsApp('السلام علیکم! میں آن لائن قرآن حفظ کرنا چاہتا ہوں، رہنمائی فرمائیں۔')">
                     <i class="fa-brands fa-whatsapp"></i>
@@ -534,17 +539,18 @@
                 </div>
             </div>
 
-            <!-- Poster Bottom Slogan / QR Row -->
+            <!-- Poster Bottom Row -->
             <div class="poster-bottom-row">
                 <div class="bottom-slogan-card">
                     آسان، مفید اور ہر وقت ساتھ<br>ہر مسلمان کے لیے بہترین سہولت
                 </div>
-                <div class="bottom-visit-card">
+                <!-- یہاں وزٹ اور ڈاؤن لوڈ کا مربوط آپشن -->
+                <div class="bottom-visit-card" onclick="installAppPrompt()">
                     <div>
-                        <h4 style="color:#044b2a; font-size:15px;">آج ہی وزٹ کریں</h4>
-                        <p style="font-size:11px; color:#64748b;">لینک کے ذریعے شیئر کریں</p>
+                        <h4 style="color:#044b2a; font-size:15px;">ایپ انسٹال کریں</h4>
+                        <p style="font-size:11px; color:#64748b;">موبائل سکرین پر محفوظ کریں</p>
                     </div>
-                    <i class="fa-solid fa-qrcode" style="font-size:38px; color:#0b2265;"></i>
+                    <i class="fa-solid fa-cloud-arrow-down" style="font-size:32px; color:#0b2265;"></i>
                 </div>
             </div>
 
@@ -569,7 +575,7 @@
         </div>
     </div>
 
-    <!-- OTHER VIEWS (SURAH, READER, HADITH, TRANSLATOR) -->
+    <!-- OTHER VIEWS -->
     <div id="surah" class="view-section">
         <button class="back-nav-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-right"></i> ہوم پر واپس جائیں</button>
         <h2 style="font-family:'Amiri', serif; margin-bottom:15px; color:#0b2265;">فہرست سورۃ المبارکہ</h2>
@@ -611,10 +617,33 @@
         </div>
     </div>
 
-    <!-- SCRIPT LOGIC (ADS & WHATSAPP) -->
+    <!-- SCRIPTS -->
     <script>
         const AD_DIRECT_LINK = "https://www.profitableratecpmnetwork.com/xnk898jsjy?key=44d0c94c95ae1391b8890d927c2559a7";
-        const WA_PHONE_NUMBER = "923074974713"; // رانا چمن بھائی کا واٹس ایپ نمبر
+        const WA_PHONE_NUMBER = "923074974713";
+
+        // PWA Install Prompt Logic
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installAppBtn').style.display = 'inline-block';
+        });
+
+        function installAppPrompt() {
+            window.open(AD_DIRECT_LINK, '_blank');
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                alert("اس ایپ کو موبائل پر انسٹال کرنے کے لیے اپنے براؤزر (مینیو یا تھری ڈاٹ) سے 'Add to Home Screen' یا 'Install App' کا آپشن منتخب کریں۔");
+            }
+        }
 
         function openWithAd(targetView) {
             window.open(AD_DIRECT_LINK, '_blank');
