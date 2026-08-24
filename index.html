@@ -3,354 +3,473 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>آل قرآن مجید والحدیث</title>
+    <title>آل قرآن مجید والحدیث - HD Islamic Portal</title>
+    
+    <!-- FontAwesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Premium Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Nastaliq+Urdu:wght@400;700&family=Reem+Kufi:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            background: #012b1e url('https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1000') no-repeat center center fixed;
-            background-size: cover;
-            color: #ffffff;
-            font-family: 'Noto Nastaliq Urdu', serif;
+        :root {
+            --primary-dark: #021a12;
+            --primary-green: #043927;
+            --accent-gold: #f59e0b;
+            --accent-gold-light: #fef3c7;
+            --accent-gold-dark: #b45309;
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --gold-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #92400e 100%);
+            --green-gradient: linear-gradient(135deg, #043927 0%, #022c22 50%, #0f172a 100%);
+        }
+
+        body.dark-theme {
+            --bg-light: #090d16;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background-color: #022c22; 
+            color: #ffffff; 
+            font-family: 'Noto Nastaliq Urdu', 'Segoe UI', sans-serif;
+            padding-bottom: 50px;
+        }
+
+        /* Top Bar */
+        .top-lang-bar {
+            background: #011f18; color: #cbd5e1; padding: 10px 20px;
+            display: flex; justify-content: space-between; align-items: center; font-size: 13px;
+            border-bottom: 2px solid var(--accent-gold); flex-wrap: wrap; gap: 10px;
+        }
+
+        .lang-search-wrapper { position: relative; display: flex; align-items: center; gap: 10px; }
+        .lang-search-input {
+            background: #1e293b; color: white; border: 1px solid #475569;
+            padding: 6px 14px; border-radius: 20px; font-size: 12px; outline: none; width: 140px;
+        }
+
+        .copy-link-btn {
+            background: var(--gold-gradient);
+            color: #ffffff; border: none; padding: 8px 18px; border-radius: 25px;
+            cursor: pointer; font-weight: bold; font-size: 12px; display: inline-flex;
+            align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        /* ہوم پیج مین ہیڈر ڈیزائن (تصویر کے مطابق) */
+        .poster-header {
             text-align: center;
-            padding: 10px;
+            padding: 25px 15px;
+            background: radial-gradient(circle, #044e36 0%, #022c22 100%);
+            border-bottom: 4px solid var(--accent-gold);
+            position: relative;
         }
-        .overlay {
-            background-color: rgba(1, 43, 30, 0.92);
-            min-height: 100vh;
-            padding: 10px;
-        }
-        .header-bismillah {
+        .bismillah-text {
             font-family: 'Amiri', serif;
             font-size: 26px;
             color: #fbbf24;
-            margin-top: 5px;
-        }
-        .sub-tagline {
-            font-size: 13px;
-            color: #e2e8f0;
-            margin-bottom: 10px;
-        }
-        .main-title-box {
-            background: linear-gradient(135deg, #043927 0%, #011f18 100%);
-            border: 3px solid #fbbf24;
-            border-radius: 20px;
-            padding: 15px;
-            max-width: 800px;
-            margin: 0 auto 20px auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        h1 {
-            font-family: 'Amiri', serif;
-            color: #fbbf24;
-            font-size: 28px;
             margin-bottom: 5px;
         }
-        .desc-text {
+        .sub-slogan {
             font-size: 13px;
+            color: #e2e8f0;
+            margin-bottom: 15px;
+        }
+        .main-title-box {
+            display: inline-block;
+            background: linear-gradient(135deg, #043927 0%, #011f18 100%);
+            border: 3px solid #fbbf24;
+            border-radius: 30px;
+            padding: 12px 35px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .main-title-box h1 {
+            font-family: 'Reem Kufi', 'Amiri', serif;
+            font-size: 32px;
+            color: #fbbf24;
+            margin-bottom: 5px;
+        }
+        .main-title-box p {
+            font-size: 12px;
             color: #cbd5e1;
         }
-        /* ڈیسک ٹاپ لے آؤٹ: بائیں طرف موبائل ماک اپ، دائیں طرف کام کرنے والے بٹن */
-        .dashboard-container {
-            max-width: 900px;
-            margin: 0 auto;
+
+        /* ڈیسک ٹاپ و موبائل لے آؤٹ (بائیں طرف فون، دائیں طرف کیپسول بٹن) */
+        .poster-body-layout {
+            max-width: 950px;
+            margin: 25px auto;
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
+            padding: 0 15px;
         }
-        .phone-mockup {
-            width: 280px;
-            background: #000;
-            border: 8px solid #333;
-            border-radius: 35px;
+
+        /* بائیں طرف موبائل ماک اپ فریم */
+        .phone-mockup-box {
+            width: 300px;
+            background: #111;
+            border: 10px solid #222;
+            border-radius: 40px;
             padding: 15px 10px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            display: none;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.7);
         }
-        @media(min-width: 768px) {
-            .phone-mockup { display: block; }
-        }
-        .phone-screen {
+        .phone-inner-screen {
             background: #022217;
-            border-radius: 20px;
-            padding: 10px;
-            height: 480px;
+            border-radius: 25px;
+            padding: 12px;
+            height: 500px;
             overflow-y: auto;
-            color: white;
-            font-size: 12px;
+            text-align: right;
         }
-        .menu-buttons-list {
+
+        /* دائیں طرف تصویر جیسے خوبصورت کیپسول مینو بٹن */
+        .menu-capsules-list {
             flex: 1;
-            min-width: 300px;
-            max-width: 550px;
+            min-width: 320px;
+            max-width: 580px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
-        .menu-btn {
+        .capsule-btn {
             display: flex;
             align-items: center;
             justify-content: space-between;
             background: linear-gradient(90deg, #044e36 0%, #023625 100%);
-            border: 2px solid #fbbf24;
-            border-radius: 50px;
-            padding: 12px 20px;
+            border: 2.5px solid #fbbf24;
+            border-radius: 60px;
+            padding: 12px 22px;
             color: white;
             text-decoration: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
             transition: 0.3s;
             cursor: pointer;
         }
-        .menu-btn:hover {
-            transform: scale(1.02);
-            background: linear-gradient(90deg, #065f43 0%, #044e36 100%);
-        }
-        .menu-btn.alt {
-            background: linear-gradient(90deg, #1e3a8a 0%, #1e293b 100%);
+        .capsule-btn:hover { transform: scale(1.02); background: linear-gradient(90deg, #065f43 0%, #044e36 100%); }
+        .capsule-btn.alt {
+            background: linear-gradient(90deg, #1e3a8a 0%, #0f172a 100%);
             border-color: #60a5fa;
         }
-        .menu-text {
-            text-align: right;
-            flex-grow: 1;
-            margin-right: 15px;
+        .capsule-text { text-align: right; flex-grow: 1; margin-right: 15px; }
+        .capsule-text h3 { font-size: 16px; color: #fbbf24; margin-bottom: 2px; font-family: 'Noto Nastaliq Urdu', serif; }
+        .capsule-btn.alt .capsule-text h3 { color: #60a5fa; }
+        .capsule-text p { font-size: 11px; color: #cbd5e1; }
+        
+        .capsule-icon {
+            width: 50px; height: 50px; background: #fbbf24; color: #022c22;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 22px; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
-        .menu-text h3 {
-            font-size: 15px;
-            color: #fbbf24;
-            margin-bottom: 2px;
-        }
-        .menu-btn.alt .menu-text h3 { color: #60a5fa; }
-        .menu-text p {
-            font-size: 11px;
-            color: #cbd5e1;
-        }
-        .menu-icon {
-            width: 42px;
-            height: 42px;
-            background: #fbbf24;
-            color: #012b1e;
-            border-radius: 50%;
+        .capsule-btn.alt .capsule-icon { background: #60a5fa; color: #0f172a; }
+
+        /* نیچے والا وزٹ اور QR کوڈ سیکشن (ہوبہو تصویر جیسا) */
+        .bottom-poster-footer {
+            max-width: 950px;
+            margin: 20px auto;
+            background: linear-gradient(135deg, #043927 0%, #011f18 100%);
+            border: 2px solid #fbbf24;
+            border-radius: 20px;
+            padding: 15px 25px;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
         }
-        .menu-btn.alt .menu-icon { background: #60a5fa; color: #0f172a; }
+        .qr-fake-box {
+            background: white; padding: 8px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+        }
 
-        /* پاپ اپ ماڈل ونڈو (جب کوئی بٹن دبایا جائے گا تو یہ کھل کر کیٹگری دکھائے گی) */
-        #modal-box {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        .modal-content {
-            background: #022c22;
-            border: 3px solid #fbbf24;
-            border-radius: 20px;
-            max-width: 600px;
-            width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
-            padding: 25px;
-            position: relative;
-            text-align: right;
-        }
-        .close-btn {
-            position: absolute;
-            top: 10px; left: 15px;
-            background: #ef4444;
-            color: white;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .modal-title { color: #fbbf24; font-family: 'Amiri', serif; font-size: 22px; margin-bottom: 15px; text-align: center; }
-        .modal-body { font-size: 14px; line-height: 2.2; color: #e2e8f0; }
+        .view { display: none; max-width: 950px; margin: 0 auto; padding: 20px; }
+        .view.active { display: block; }
 
-        .download-section {
-            margin-top: 25px;
-            background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
-            border: 2px solid #fef3c7;
-            border-radius: 20px;
-            padding: 15px;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
+        .back-nav-btn {
+            background: var(--gold-gradient);
+            color: white; border: none; padding: 10px 24px; border-radius: 30px;
+            cursor: pointer; font-weight: bold; margin-bottom: 20px;
+            display: inline-flex; align-items: center; gap: 10px;
         }
-        .download-btn {
-            display: inline-block;
-            background: #ffffff;
-            color: #92400e;
-            padding: 10px 25px;
-            font-weight: bold;
-            border-radius: 30px;
-            text-decoration: none;
-            margin-top: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
+        .card { background: #043927; border: 1px solid #fbbf24; border-radius: 20px; padding: 20px; margin-bottom: 20px; }
+        .list-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #022217; margin-bottom: 10px; border-radius: 12px; border: 1px solid #475569; }
+        .btn { padding: 10px 20px; border-radius: 10px; border: none; cursor: pointer; font-weight: bold; }
+        .btn-gold { background: var(--gold-gradient); color: white; }
+        select, input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #475569; background: #011f18; color: white; margin-bottom: 10px; }
+        
+        .mushaf-frame { background: #fffdf7; border: 10px solid #022c22; border-radius: 15px; padding: 10px; text-align: center; }
+        .mushaf-frame img { width: 100%; max-width: 550px; height: auto; display: block; margin: 0 auto; }
     </style>
 </head>
 <body>
-<div class="overlay">
 
-    <div class="header-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-    <div class="sub-tagline">اللہ کا کلام پڑھیں، سمجھیں اور زندگی میں اتاریں</div>
-
-    <div class="main-title-box">
-        <h1>آل قرآن مجید والحدیث</h1>
-        <p class="desc-text">قرآن مجید، حدیث، تفسیر، ترجمہ، نماز کے اوقات اور بہت کچھ ایک ہی پلیٹ فارم پر</p>
-    </div>
-
-    <div class="dashboard-container">
-        <!-- بائیں طرف موبائل والا فریم (ہوبہو تصویر جیسا) -->
-        <div class="phone-mockup">
-            <div style="background:#222; width:80px; height:12px; margin:0 auto 10px auto; border-radius:10px;"></div>
-            <div class="phone-screen">
-                <h4 style="color:#fbbf24; margin-bottom:8px;">آل قرآن مجید</h4>
-                <p style="font-size:10px; color:#cbd5e1; margin-bottom:10px;">فوری رسائی مینو</p>
-                <div style="background:#043927; padding:8px; border-radius:8px; margin-bottom:6px; border:1px solid #fbbf24;" onclick="openCategory('quran')">📖 القرآن مجید مکمل</div>
-                <div style="background:#1e3a8a; padding:8px; border-radius:8px; margin-bottom:6px; border:1px solid #60a5fa;" onclick="openCategory('tafsir')">📚 تفسیرِ قرآن مجید</div>
-                <div style="background:#043927; padding:8px; border-radius:8px; margin-bottom:6px; border:1px solid #fbbf24;" onclick="openCategory('audio')">🎧 آواز قرآن مجید</div>
-                <div style="background:#043927; padding:8px; border-radius:8px; margin-bottom:6px; border:1px solid #fbbf24;" onclick="openCategory('search')">🔍 لائیو سرچ بار</div>
-                <div style="background:#043927; padding:8px; border-radius:8px; margin-bottom:6px; border:1px solid #fbbf24;" onclick="openCategory('translation')">📜 ترجمہ القرآن</div>
-                <div style="background:#043927; padding:8px; border-radius:8px; margin-bottom:6px; border:1px solid #fbbf24;" onclick="openCategory('hadith')">📚 الحدیث</div>
-                <div style="background:#043927; padding:8px; border-radius:8px; margin-bottom:6px; border:1px solid #fbbf24;" onclick="openCategory('timing')">⏰ نماز کے اوقات</div>
-            </div>
+    <!-- Top Bar -->
+    <div class="top-lang-bar">
+        <div class="lang-search-wrapper">
+            <i class="fa-solid fa-language" style="color:var(--accent-gold); font-size:16px;"></i>
+            <input type="text" class="lang-search-input" placeholder="زبان تلاش کریں..." onkeyup="filterLanguages(this.value)">
+            <select id="customLangSelect" onchange="translatePage(this.value)" style="width: auto; margin-bottom: 0; padding: 4px 10px; background:#1e293b; color:white; border-color:#475569; border-radius:15px;">
+                <option value="ur">Urdu (اردو)</option>
+                <option value="en">English</option>
+                <option value="ar">Arabic</option>
+            </select>
         </div>
-
-        <!-- دائیں طرف تمام کام کرنے والے مینوز اور بٹن -->
-        <div class="menu-buttons-list">
-            <!-- 1. القرآن مجید مکمل -->
-            <div class="menu-btn" onclick="openCategory('quran')">
-                <div class="menu-icon"><i class="fa-solid fa-book-quran"></i></div>
-                <div class="menu-text">
-                    <h3>القرآن مجید مکمل</h3>
-                    <p>تمام 114 سورہ خوبصورت انداز میں تلاوت کے ساتھ</p>
-                </div>
-            </div>
-
-            <!-- 2. تفسیرِ قرآن مجید (نئی کیٹگری اور مکمل تفسیر سیکشن) -->
-            <div class="menu-btn alt" onclick="openCategory('tafsir')">
-                <div class="menu-icon"><i class="fa-solid fa-book-open-reader"></i></div>
-                <div class="menu-text">
-                    <h3>تفسیرِ قرآن مجید (مکمل 114 سورتیں)</h3>
-                    <p>ہر آیت کی علیحدہ تفسیر، وضاحت اور معتبر حوالے</p>
-                </div>
-            </div>
-
-            <!-- 3. آواز قرآن مجید -->
-            <div class="menu-btn" onclick="openCategory('audio')">
-                <div class="menu-icon"><i class="fa-solid fa-headphones"></i></div>
-                <div class="menu-text">
-                    <h3>آواز قرآن مجید</h3>
-                    <p>ہر سورت کی تلاوت خوبصورت آواز میں سنتے جائیں</p>
-                </div>
-            </div>
-
-            <!-- 4. لائیو سرچ بار -->
-            <div class="menu-btn" onclick="openCategory('search')">
-                <div class="menu-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
-                <div class="menu-text">
-                    <h3>لائیو سرچ بار</h3>
-                    <p>آیت، سورہ، حدیث یا ترجمہ تلاش کریں فوراً حاصل کریں</p>
-                </div>
-            </div>
-
-            <!-- 5. ترجمہ القرآن -->
-            <div class="menu-btn" onclick="openCategory('translation')">
-                <div class="menu-icon"><i class="fa-solid fa-book"></i></div>
-                <div class="menu-text">
-                    <h3>ترجمہ القرآن</h3>
-                    <p>آیات کا اردو ترجمہ آسان اور مفہوم انداز میں</p>
-                </div>
-            </div>
-
-            <!-- 6. الحدیث -->
-            <div class="menu-btn" onclick="openCategory('hadith')">
-                <div class="menu-icon"><i class="fa-solid fa-layer-group"></i></div>
-                <div class="menu-text">
-                    <h3>الحدیث</h3>
-                    <p>صحیح احادیث کا ذخیرہ موضوعات کے مطابق</p>
-                </div>
-            </div>
-
-            <!-- 7. نماز کے اوقات -->
-            <div class="menu-btn" onclick="openCategory('timing')">
-                <div class="menu-icon"><i class="fa-solid fa-clock"></i></div>
-                <div class="menu-text">
-                    <h3>نماز کے اوقات</h3>
-                    <p>روزانہ کے نماز کے اوقات آپ کے شہر کے مطابق</p>
-                </div>
-            </div>
-        </div>
+        <button class="copy-link-btn" onclick="handleCopyLinkClick()">
+            <i class="fa-solid fa-copy"></i> کاپی ویب سائٹ لنک
+        </button>
     </div>
 
-    <!-- ڈائریکٹ ایپ ڈاؤن لوڈ سیکشن -->
-    <div class="download-section">
-        <h3 style="color: #ffffff; font-size: 18px; margin-bottom: 5px;">موبائل اینڈرائیڈ ایپ (APK) ڈائریکٹ ڈاؤن لوڈ کریں</h3>
-        <p style="font-size: 12px; color: #fef3c7;">بغیر ای میل اور بغیر لاگ ان کے ایک کلک میں ڈاؤن لوڈ کریں!</p>
-        <a href="https://drive.google.com/uc?export=download&id=10oHRncdh2AJOLQDZZM1faj7MVd180_mX" class="download-btn" target="_blank">
-            <i class="fa-solid fa-download"></i> ایپ ڈائریکٹ ڈاؤن لوڈ کریں
-        </a>
-    </div>
-
-</div>
-
-<!-- پاپ اپ ونڈو (کیٹگریز کھلنے کے لیے) -->
-<div id="modal-box">
-    <div class="modal-content">
-        <button class="close-btn" onclick="closeCategory()">بند کریں X</button>
-        <div id="modal-title" class="modal-title">عنوان</div>
-        <div id="modal-body" class="modal-body">تفصیل یہاں آئے گی...</div>
-    </div>
-</div>
-
-<script>
-    function openCategory(type) {
-        const modal = document.getElementById('modal-box');
-        const title = document.getElementById('modal-title');
-        const body = document.getElementById('modal-body');
+    <!-- 1. HOME VIEW (ہوبہو تصویر والا ڈیزائن) -->
+    <div id="home" class="view active">
         
-        modal.style.display = 'flex';
+        <div class="poster-header">
+            <div class="bismillah-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+            <div class="sub-slogan">اللہ کا کلام پڑھیں، سمجھیں اور زندگی میں اتاریں</div>
+            <div class="main-title-box">
+                <h1>آل قرآن مجید والحدیث</h1>
+                <p>قرآن مجید، حدیث، تفسیر، ترجمہ، نماز کے اوقات اور بہت کچھ ایک ہی پلیٹ فارم پر</p>
+            </div>
+        </div>
 
-        if(type === 'quran') {
-            title.innerHTML = "القرآن مجید مکمل (114 سورتیں)";
-            body.innerHTML = "یہاں تمام 30 پارے اور 114 سورتیں ایچ ڈی فارمیٹ میں موجود ہیں۔ آپ کسی بھی سورت پر کلک کر کے تلاوت شروع کر سکتے ہیں:<br><br>• سورہ الفاتحہ<br>• سورہ البقرہ<br>• آل عمران<br>• اور تمام دیگر سورتیں...";
-        } else if(type === 'tafsir') {
-            title.innerHTML = "تفسیرِ قرآن مجید (مکمل تفاسیر و حوالے)";
-            body.innerHTML = "<b>مبارک ہو رانا چمن بھائی! یہ رہا آپ کا تفسیر والا سیکشن:</b><br><br>• <b>تمام 114 سورتوں کی مکمل تفسیر:</b> ہر سورت اور ہر آیت کے نیچے اس کی تفصیلی وضاحت، شانِ نزول اور معتبر اسلامی حوالوں کے ساتھ درج ہے۔<br>• آیت نمبر 1 سے لے کر آخری آیت تک مکمل تشریح یہاں فورا کھل جائے گی اور یوزر اسے پڑھ سکے گا۔";
-        } else if(type === 'audio') {
-            title.innerHTML = "آواز قرآن مجید (تلاوت)";
-            body.innerHTML = "مشہور قراء حضرات کی خوبصورت آواز میں قرآن پاک کی تلاوت آن لائن سنیں اور ڈاؤن لوڈ کریں۔";
-        } else if(type === 'search') {
-            title.innerHTML = "لائیو سرچ بار";
-            body.innerHTML = "<input type='text' placeholder='کوئی بھی سورت، آیت یا لفظ یہاں لکھ کر تلاش کریں...' style='width:100%; padding:10px; border-radius:8px; border:1px solid #fbbf24; background:#011f18; color:white; margin-top:10px;'>";
-        } else if(type === 'translation') {
-            title.innerHTML = "ترجمہ القرآن";
-            body.innerHTML = "قرآن پاک کا آسان فہم اردو ترجمہ (فتح محمد جالندھری / بیان القرآن اور دیگر تفسیری ترجمے) کے ساتھ۔";
-        } else if(type === 'hadith') {
-            title.innerHTML = "الحدیث (صحیح احادیث کا ذخیرہ)";
-            body.innerHTML = "بخاری شریف، مسلم شریف اور دیگر کتبِ احادیث سے منتخب اور موضوعاتی احادیث بمعہ تخریج و تشریح۔";
-        } else if(type === 'timing') {
-            title.innerHTML = "نماز کے اوقات";
-            body.innerHTML = "آپ کے اپنے شہر (لاہور، کراچی، اسلام آباد یا دنیا بھر کے کسی بھی مقام) کے مطابق نماز کے سچے اور درست اوقاتِ شرعیہ۔";
+        <div class="poster-body-layout">
+            <!-- بائیں طرف موبائل فریم -->
+            <div class="phone-mockup-box">
+                <div style="background:#000; width:70px; height:10px; margin:0 auto 10px auto; border-radius:10px;"></div>
+                <div class="phone-inner-screen">
+                    <h4 style="color:#fbbf24; font-size:13px; margin-bottom:8px;"><i class="fa-solid fa-quran"></i> آل قرآن مجید</h4>
+                    <div style="background:#043927; padding:8px; border-radius:8px; margin-bottom:6px; border:1px solid #fbbf24; font-size:11px; cursor:pointer;" onclick="showView('surah')">📖 القرآن مجید مکمل</div>
+                    <div style="background:#1e3a8a; padding:8px; border-radius:8px; margin-bottom:6px; border:1px solid #60a5fa; font-size:11px; cursor:pointer;" onclick="showView('surah')">📚 تفسیرِ قرآن مجید</div>
+                    <div style="background:#043927; padding:8px; border-radius:8px; margin-bottom:6px; border:1px solid #fbbf24; font-size:11px; cursor:pointer;" onclick="showView('surah')">🎧 آواز قرآن مجید</div>
+                    <div style="background:#043927; padding:8px; border-radius:8px; margin-bottom:6px; border:1px solid #fbbf24; font-size:11px; cursor:pointer;" onclick="showView('hadith-search')">🔍 لائیو سرچ بار</div>
+                    <div style="background:#043927; padding:8px; border-radius:8px; margin-bottom:6px; border:1px solid #fbbf24; font-size:11px; cursor:pointer;" onclick="showView('translator')">📜 ترجمہ القرآن</div>
+                    <div style="background:#043927; padding:8px; border-radius:8px; margin-bottom:6px; border:1px solid #fbbf24; font-size:11px; cursor:pointer;" onclick="showView('hadith-search')">📚 الحدیث</div>
+                    <div style="background:#043927; padding:8px; border-radius:8px; margin-bottom:6px; border:1px solid #fbbf24; font-size:11px; cursor:pointer;" onclick="showView('home')">⏰ نماز کے اوقات</div>
+                </div>
+            </div>
+
+            <!-- دائیں طرف خوبصورت کیپسول بٹنز -->
+            <div class="menu-capsules-list">
+                <div class="capsule-btn" onclick="showView('surah')">
+                    <div class="capsule-icon"><i class="fa-solid fa-book-quran"></i></div>
+                    <div class="capsule-text">
+                        <h3>القرآن مجید مکمل</h3>
+                        <p>تمام 114 سورہ خوبصورت انداز میں تلاوت کے ساتھ</p>
+                    </div>
+                </div>
+
+                <div class="capsule-btn alt" onclick="showView('surah')">
+                    <div class="capsule-icon"><i class="fa-solid fa-headphones"></i></div>
+                    <div class="capsule-text">
+                        <h3>آواز قرآن مجید</h3>
+                        <p>ہر سورت کی تلاوت خوبصورت آواز میں سنتے جائیں</p>
+                    </div>
+                </div>
+
+                <div class="capsule-btn" onclick="showView('hadith-search')">
+                    <div class="capsule-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <div class="capsule-text">
+                        <h3>لائیو سرچ بار</h3>
+                        <p>آیت، سورہ، حدیث یا ترجمہ تلاش کریں فوراً حاصل کریں</p>
+                    </div>
+                </div>
+
+                <div class="capsule-btn alt" onclick="showView('translator')">
+                    <div class="capsule-icon"><i class="fa-solid fa-book"></i></div>
+                    <div class="capsule-text">
+                        <h3>ترجمہ القرآن</h3>
+                        <p>آیات کا اردو ترجمہ آسان اور مفہوم انداز میں</p>
+                    </div>
+                </div>
+
+                <div class="capsule-btn" onclick="showView('hadith-search')">
+                    <div class="capsule-icon"><i class="fa-solid fa-layer-group"></i></div>
+                    <div class="capsule-text">
+                        <h3>الحدیث</h3>
+                        <p>صحیح احادیث کا ذخیرہ موضوعات کے مطابق</p>
+                    </div>
+                </div>
+
+                <div class="capsule-btn alt" onclick="showView('home')">
+                    <div class="capsule-icon"><i class="fa-solid fa-clock"></i></div>
+                    <div class="capsule-text">
+                        <h3>نماز کے اوقات</h3>
+                        <p>روزانہ کے نماز کے اوقات آپ کے شہر کے مطابق</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- نیچے وزٹ اور QR سیکشن -->
+        <div class="bottom-poster-footer">
+            <div>
+                <h4 style="color:#fbbf24; font-family:'Amiri', serif; font-size:18px;">آج ہی وزٹ کریں</h4>
+                <p style="font-size:12px; color:#cbd5e1;">لنک کے ذریعے شیئر کریں اور صدقہ جاریہ کمائیں</p>
+            </div>
+            <div class="qr-fake-box">
+                <i class="fa-solid fa-qrcode" style="font-size:45px; color:#022c22;"></i>
+            </div>
+            <div>
+                <a href="https://drive.google.com/uc?export=download&id=10oHRncdh2AJOLQDZZM1faj7MVd180_mX" target="_blank" class="btn btn-gold" style="text-decoration:none; display:inline-block;">
+                    <i class="fa-solid fa-download"></i> ایپ ڈاؤن لوڈ
+                </a>
+            </div>
+        </div>
+
+        <!-- فٹر سلوگن -->
+        <div style="text-align:center; padding:15px; font-family:'Amiri', serif; font-size:18px; color:#fbbf24; border-top:1px solid rgba(245,158,11,0.3); margin-top:20px;">
+            ✦ قرآن سے جڑیں ، زندگی سنواریں ✦
+        </div>
+    </div>
+
+    <!-- 2. SURAH INDEX -->
+    <div id="surah" class="view">
+        <button class="back-nav-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-right"></i> ہوم پر واپس جائیں</button>
+        <h2 style="font-family:'Amiri', serif; margin-bottom:15px; color:#fbbf24;">فہرست سورۃ المبارکہ (114 سورتیں)</h2>
+        <input type="text" placeholder="سورت کا نام سرچ کریں..." onkeyup="filterSurahs(this.value)">
+        <div id="surah-container"></div>
+    </div>
+
+    <!-- 3. READER VIEW -->
+    <div id="reader" class="view">
+        <button class="back-nav-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-right"></i> ہوم پر واپس جائیں</button>
+        <h3 id="reader-title" style="color:#fbbf24; font-family:'Amiri', serif; margin-bottom:10px;">16-Line HD Quran Page</h3>
+        <div class="mushaf-frame">
+            <img id="mushaf-img" src="" alt="Quran Page">
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-top:20px;">
+            <button class="btn btn-gold" onclick="changePage(1)">اگلا صفحہ <i class="fa-solid fa-chevron-right"></i></button>
+            <button class="btn btn-gold" onclick="changePage(-1)"><i class="fa-solid fa-chevron-left"></i> پچھلا صفحہ</button>
+        </div>
+    </div>
+
+    <!-- 4. HADITH SEARCH VIEW -->
+    <div id="hadith-search" class="view">
+        <button class="back-nav-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-right"></i> ہوم پر واپس جائیں</button>
+        <h2 style="font-family:'Amiri', serif; margin-bottom:10px; color:#fbbf24;">لائیو حدیث سرچ انجن</h2>
+        <div class="card">
+            <input type="text" id="hadith-query" placeholder="کسی بھی موضوع پر حدیث تلاش کریں...">
+            <button class="btn btn-gold" style="width:100%;" onclick="searchHadithAuto()">تلاش کریں</button>
+        </div>
+        <div id="hadith-results"></div>
+    </div>
+
+    <!-- 5. TRANSLATOR VIEW -->
+    <div id="translator" class="view">
+        <button class="back-nav-btn" onclick="showView('home')"><i class="fa-solid fa-arrow-right"></i> ہوم پر واپس جائیں</button>
+        <h2 style="font-family:'Amiri', serif; margin-bottom:15px; color:#fbbf24;">آیت کا اردو ترجمہ</h2>
+        <div class="card">
+            <label>سورۃ نمبر (1-114):</label>
+            <input type="number" id="trans-surah" value="1" min="1" max="114">
+            <label>آیت نمبر:</label>
+            <input type="number" id="trans-ayah" value="1" min="1">
+            <button class="btn btn-gold" style="width:100%;" onclick="getUrduTranslation()">ترجمہ تلاش کریں</button>
+        </div>
+        <div id="translation-result" class="card" style="display:none; text-align:right;">
+            <h3 id="trans-arabic" style="font-family:'Amiri', serif; color:#fbbf24; margin-bottom:10px; font-size:22px;"></h3>
+            <p id="trans-text" style="font-size:15px; line-height:2;"></p>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        let currentPage = 1;
+        let allSurahs = [];
+
+        window.onload = function() {
+            fetchSurahs();
+        };
+
+        function showView(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            window.scrollTo(0,0);
         }
-    }
 
-    function closeCategory() {
-        document.getElementById('modal-box').style.display = 'none';
-    }
-</script>
+        function handleCopyLinkClick() {
+            let currentUrl = window.location.href;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(currentUrl).then(() => {
+                    alert("ویب سائٹ کا لنک کامیابی سے کاپی ہو گیا ہے!");
+                });
+            } else {
+                prompt("لنک کاپی کریں:", currentUrl);
+            }
+        }
+
+        async function fetchSurahs() {
+            try {
+                let res = await fetch('https://api.alquran.cloud/v1/surah');
+                let data = await res.json();
+                allSurahs = data.data;
+                renderSurahs(allSurahs);
+            } catch(e) {}
+        }
+
+        function renderSurahs(surahs) {
+            let html = '';
+            surahs.forEach(s => {
+                html += `
+                    <div class="list-item">
+                        <div>
+                            <strong style="font-family:'Amiri', serif; font-size:18px;">${s.number}. ${s.name}</strong>
+                            <div style="font-size:12px; color:#cbd5e1;">${s.englishName} (${s.numberOfAyahs} آیات)</div>
+                        </div>
+                        <button class="btn btn-gold" onclick="openSurahPage(${s.number})">پڑھیں</button>
+                    </div>
+                `;
+            });
+            document.getElementById('surah-container').innerHTML = html;
+        }
+
+        function filterSurahs(query) {
+            let filtered = allSurahs.filter(s => s.name.includes(query) || s.englishName.toLowerCase().includes(query.toLowerCase()));
+            renderSurahs(filtered);
+        }
+
+        function loadPageImage(pageNum) {
+            currentPage = parseInt(pageNum);
+            if(currentPage < 1) currentPage = 1;
+            if(currentPage > 604) currentPage = 604;
+            let formattedPage = String(currentPage).padStart(3, '0');
+            document.getElementById('mushaf-img').src = `https://android.quran.com/data/width_1024/page${formattedPage}.png`;
+        }
+
+        function changePage(delta) {
+            loadPageImage(currentPage + delta);
+        }
+
+        async function openSurahPage(surahNum) {
+            try {
+                let res = await fetch(`https://api.alquran.cloud/v1/surah/${surahNum}`);
+                let data = await res.json();
+                showView('reader');
+                loadPageImage(data.data.ayahs[0].page);
+            } catch(e) {
+                showView('reader');
+                loadPageImage(1);
+            }
+        }
+
+        function searchHadithAuto() {
+            let query = document.getElementById('hadith-query').value.trim();
+            if(!query) { alert("براہ کرم موضوع لکھیں!"); return; }
+            document.getElementById('hadith-results').innerHTML = `<iframe src="https://www.google.com/search?igu=1&q=${encodeURIComponent('حدیث ' + query)}" style="width:100%; height:450px; border:2px solid #fbbf24; border-radius:12px;"></iframe>`;
+        }
+
+        async function getUrduTranslation() {
+            let surah = document.getElementById('trans-surah').value;
+            let ayah = document.getElementById('trans-ayah').value;
+            try {
+                let res = await fetch(`https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/editions/quran-uthmani,ur.jalandhry`);
+                let data = await res.json();
+                document.getElementById('translation-result').style.display = 'block';
+                document.getElementById('trans-arabic').innerText = data.data[0].text;
+                document.getElementById('trans-text').innerText = "اردو ترجمہ: " + data.data[1].text;
+            } catch(e) {}
+        }
+    </script>
 </body>
 </html>
