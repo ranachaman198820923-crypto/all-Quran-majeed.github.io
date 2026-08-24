@@ -90,7 +90,7 @@
             padding: 4px 20px; font-size: 13px; color: #0b2265; font-weight: bold; display: inline-block;
         }
 
-        /* Side-by-Side Main Layout (تصویر کے ہو بہو مطابق: بائیں طرف موبائل، دائیں طرف کیپسول) */
+        /* Side-by-Side Main Layout (ہو بہو تصویر کے مطابق: بائیں طرف موبائل، دائیں طرف کیپسول) */
         .poster-grid-body {
             display: flex;
             flex-wrap: nowrap;
@@ -199,7 +199,7 @@
             font-size: 11px; color: #e2e8f0; font-family: sans-serif;
         }
 
-        /* Bottom Section: WhatsApp Direct Actions (حفظ، ناظرہ، مسائل) */
+        /* WhatsApp Direct Options (حفظ، ناظرہ، مسائل) */
         .whatsapp-courses-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -222,7 +222,7 @@
         .wa-course-card h4 { font-size: 15px; margin-bottom: 3px; font-family: 'Noto Nastaliq Urdu', serif; }
         .wa-course-card p { font-size: 11px; color: #e9edef; }
 
-        /* Poster Bottom Wrapper */
+        /* Poster Bottom Section */
         .poster-bottom-wrapper {
             margin-top: 20px;
             display: flex;
@@ -250,7 +250,7 @@
             flex-wrap: wrap; gap: 10px;
         }
         .bottom-strip-item {
-            display: flex; align-items: center; gap: 8px; font-size: 11px; text-decoration: none; color: white;
+            display: flex; align-items: center; gap: 8px; font-size: 11px; text-decoration: none; color: white; cursor: pointer;
         }
         .bottom-strip-item i { font-size: 18px; color: var(--gold-accent); }
 
@@ -407,7 +407,7 @@
 
             </div>
 
-            <!-- New WhatsApp Direct Options (حفظ، ناظرہ، مسائل) -->
+            <!-- WhatsApp Direct Options with Ad Integration (حفظ، ناظرہ، مسائل) -->
             <div class="whatsapp-courses-grid">
                 <div class="wa-course-card" onclick="openWhatsApp('السلام علیکم! میں آن لائن قرآن حفظ کرنا چاہتا ہوں، رہنمائی فرمائیں۔')">
                     <i class="fa-brands fa-whatsapp"></i>
@@ -442,12 +442,12 @@
 
             <!-- Bottom Blue Strip with WhatsApp Channel Link -->
             <div class="bottom-blue-strip">
-                <a href="https://whatsapp.com/channel/0029Vaf4Jxu59PwNdXYB3i0r" target="_blank" class="bottom-strip-item">
+                <div class="bottom-strip-item" onclick="openChannelLink()">
                     <i class="fa-brands fa-whatsapp" style="color:#25d366;"></i> <span>واٹس ایپ چینل جوائن کریں</span>
-                </a>
-                <div class="bottom-strip-item"><i class="fa-solid fa-volume-high"></i> <span>سنیں اور سیکھیں</span></div>
-                <div class="bottom-strip-item"><i class="fa-solid fa-hand-holding-heart"></i> <span>سمجھیں اور عمل کریں</span></div>
-                <div class="bottom-strip-item"><i class="fa-solid fa-book-open"></i> <span>قرآن پڑھیں</span></div>
+                </div>
+                <div class="bottom-strip-item" onclick="openWithAd('home')"><i class="fa-solid fa-volume-high"></i> <span>سنیں اور سیکھیں</span></div>
+                <div class="bottom-strip-item" onclick="openWithAd('home')"><i class="fa-solid fa-hand-holding-heart"></i> <span>سمجھیں اور عمل کریں</span></div>
+                <div class="bottom-strip-item" onclick="openWithAd('surah')"><i class="fa-solid fa-book-open"></i> <span>قرآن پڑھیں</span></div>
             </div>
 
             <div class="final-poster-slogan">✦ قرآن سے جڑیں ، زندگی سنواریں ✦</div>
@@ -502,21 +502,31 @@
 
     <!-- JavaScript Logic -->
     <script>
-        // آپ کی ڈائریکٹ ایڈ کا لنک (Adsterra Direct Link)
-        const AD_DIRECT_LINK = "https://www.popads.net"; 
+        // آپ کا اصل ارننگ ایڈ لنک (Adsterra Direct Link)
+        const AD_DIRECT_LINK = "https://www.profitableratecpmnetwork.com/xnk898jsjy?key=44d0c94c95ae1391b8890d927c2559a7"; 
         const WA_PHONE_NUMBER = "923074974713"; // رانا چمن بھائی کا واٹس ایپ نمبر
 
-        // ہر بٹن پر کلک کرنے سے پہلے ایڈ کھولنا اور پھر فیچر پر جانا
+        // ہر عام بٹن پر کلک کرنے پر ایڈ کھلنے کا فنکشن
         function openWithAd(targetView) {
             window.open(AD_DIRECT_LINK, '_blank');
             showView(targetView);
         }
 
-        // واٹس ایپ پر ڈائریکٹ میسج بھیجنے کا فنکشن (حفظ، ناظرہ، مسائل)
+        // واٹس ایپ کورسز/مسائل والے بٹن پر کلک کرنے پر: پہلے ایڈ کھلے گا، پھر واٹس ایپ نمبر اوپن ہوگا
         function openWhatsApp(message) {
-            window.open(AD_DIRECT_LINK, '_blank'); // ایڈ اوپن کرنے کے لیے
+            window.open(AD_DIRECT_LINK, '_blank');
             let url = `https://wa.me/${WA_PHONE_NUMBER}?text=${encodeURIComponent(message)}`;
-            window.open(url, '_blank');
+            setTimeout(function() {
+                window.open(url, '_blank');
+            }, 500); // آدھے سیکنڈ کے وقفے سے واٹس ایپ کھل جائے گا
+        }
+
+        // واٹس ایپ چینل کا لنک کھولنے کا فنکشن
+        function openChannelLink() {
+            window.open(AD_DIRECT_LINK, '_blank');
+            setTimeout(function() {
+                window.open("https://whatsapp.com/channel/0029Vaf4Jxu59PwNdXYB3i0r", '_blank');
+            }, 500);
         }
 
         function showView(viewId) {
