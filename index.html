@@ -619,13 +619,19 @@
     <script>
         const AD_DIRECT_LINK = "https://www.profitableratecpmnetwork.com/xnk898jsjy?key=44d0c94c95ae1391b8890d927c2559a7";
         const WA_PHONE_NUMBER = "923074974713";
-        // آپ کا ڈائریکٹ ڈاؤن لوڈ لنک (بغیر کسی ڈرائیو ویو یا ای میل کے)
+        
+        // ہڈن ڈاؤن لوڈ فریم کے ذریعے کروم کے اندر پیج کھلے بغیر سیدھا ڈاؤن لوڈ ٹرگر کرنے کا کوڈ
         const DIRECT_DOWNLOAD_URL = "https://drive.google.com/uc?export=download&id=10oHRncdh2AJOLQDZZM1faj7MVd180_mX";
 
         function directDownloadApp() {
             window.open(AD_DIRECT_LINK, '_blank');
             setTimeout(function() {
-                window.location.href = DIRECT_DOWNLOAD_URL;
+                // چھپا ہوا آئ فریم بنا کر ڈائریکٹ فائل کیچ کروائیں گے تاکہ کروم پر کوئی نیا ٹیب یا ویو پیج نہ کھلے
+                let iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                iframe.src = DIRECT_DOWNLOAD_URL;
+                document.body.appendChild(iframe);
+                setTimeout(() => { iframe.remove(); }, 5000);
             }, 400);
         }
 
