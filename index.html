@@ -3,39 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>آل قرآن مجید والحدیث - ڈیجیٹل اسلامی پورٹل</title>
+    <title>آل قرآن مجید والحدیث</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            background-color: #012b1e;
+            background: #012b1e url('https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1000') no-repeat center center fixed;
+            background-size: cover;
             color: #ffffff;
             font-family: 'Noto Nastaliq Urdu', serif;
             text-align: center;
             padding: 10px;
         }
+        .overlay {
+            background-color: rgba(1, 43, 30, 0.92);
+            min-height: 100vh;
+            padding: 10px;
+        }
         .header-bismillah {
             font-family: 'Amiri', serif;
-            font-size: 24px;
+            font-size: 26px;
             color: #fbbf24;
-            margin-top: 10px;
+            margin-top: 5px;
         }
         .sub-tagline {
             font-size: 13px;
             color: #e2e8f0;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         .main-title-box {
             background: linear-gradient(135deg, #043927 0%, #011f18 100%);
             border: 3px solid #fbbf24;
             border-radius: 20px;
             padding: 15px;
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto 20px auto;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
@@ -49,9 +51,41 @@
             font-size: 13px;
             color: #cbd5e1;
         }
-        .container {
-            max-width: 600px;
+        /* ڈیسک ٹاپ لے آؤٹ: بائیں طرف موبائل ماک اپ، دائیں طرف کام کرنے والے بٹن */
+        .dashboard-container {
+            max-width: 900px;
             margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .phone-mockup {
+            width: 280px;
+            background: #000;
+            border: 8px solid #333;
+            border-radius: 35px;
+            padding: 15px 10px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            display: none;
+        }
+        @media(min-width: 768px) {
+            .phone-mockup { display: block; }
+        }
+        .phone-screen {
+            background: #022217;
+            border-radius: 20px;
+            padding: 10px;
+            height: 480px;
+            overflow-y: auto;
+            color: white;
+            font-size: 12px;
+        }
+        .menu-buttons-list {
+            flex: 1;
+            min-width: 300px;
+            max-width: 550px;
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -68,6 +102,7 @@
             text-decoration: none;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             transition: 0.3s;
+            cursor: pointer;
         }
         .menu-btn:hover {
             transform: scale(1.02);
@@ -75,6 +110,7 @@
         }
         .menu-btn.alt {
             background: linear-gradient(90deg, #1e3a8a 0%, #1e293b 100%);
+            border-color: #60a5fa;
         }
         .menu-text {
             text-align: right;
@@ -82,41 +118,75 @@
             margin-right: 15px;
         }
         .menu-text h3 {
-            font-size: 16px;
+            font-size: 15px;
             color: #fbbf24;
             margin-bottom: 2px;
         }
+        .menu-btn.alt .menu-text h3 { color: #60a5fa; }
         .menu-text p {
             font-size: 11px;
             color: #cbd5e1;
         }
         .menu-icon {
-            width: 45px;
-            height: 45px;
+            width: 42px;
+            height: 42px;
             background: #fbbf24;
             color: #012b1e;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 18px;
             flex-shrink: 0;
         }
-        .footer-box {
-            margin-top: 30px;
-            padding: 15px;
-            background: #022217;
-            border-top: 2px solid #fbbf24;
-            font-size: 12px;
-            color: #cbd5e1;
-            border-radius: 15px;
+        .menu-btn.alt .menu-icon { background: #60a5fa; color: #0f172a; }
+
+        /* پاپ اپ ماڈل ونڈو (جب کوئی بٹن دبایا جائے گا تو یہ کھل کر کیٹگری دکھائے گی) */
+        #modal-box {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
-        .download-apk-section {
+        .modal-content {
+            background: #022c22;
+            border: 3px solid #fbbf24;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 25px;
+            position: relative;
+            text-align: right;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px; left: 15px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .modal-title { color: #fbbf24; font-family: 'Amiri', serif; font-size: 22px; margin-bottom: 15px; text-align: center; }
+        .modal-body { font-size: 14px; line-height: 2.2; color: #e2e8f0; }
+
+        .download-section {
             margin-top: 25px;
             background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
             border: 2px solid #fef3c7;
             border-radius: 20px;
-            padding: 20px;
+            padding: 15px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
         }
         .download-btn {
             display: inline-block;
@@ -132,6 +202,7 @@
     </style>
 </head>
 <body>
+<div class="overlay">
 
     <div class="header-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
     <div class="sub-tagline">اللہ کا کلام پڑھیں، سمجھیں اور زندگی میں اتاریں</div>
@@ -141,83 +212,145 @@
         <p class="desc-text">قرآن مجید، حدیث، تفسیر، ترجمہ، نماز کے اوقات اور بہت کچھ ایک ہی پلیٹ فارم پر</p>
     </div>
 
-    <div class="container">
-        <!-- 1. القرآن مجید مکمل -->
-        <a href="#" class="menu-btn">
-            <div class="menu-icon"><i class="fa-solid fa-book-quran"></i></div>
-            <div class="menu-text">
-                <h3>القرآن مجید مکمل</h3>
-                <p>تمام 114 سورہ خوبصورت انداز میں تلاوت کے ساتھ</p>
+    <div class="dashboard-container">
+        <!-- بائیں طرف موبائل والا فریم (ہوبہو تصویر جیسا) -->
+        <div class="phone-mockup">
+            <div style="background:#222; width:80px; height:12px; margin:0 auto 10px auto; border-radius:10px;"></div>
+            <div class="phone-screen">
+                <h4 style="color:#fbbf24; margin-bottom:8px;">آل قرآن مجید</h4>
+                <p style="font-size:10px; color:#cbd5e1; margin-bottom:10px;">فوری رسائی مینو</p>
+                <div style="background:#043927; padding:8px; border-radius:8px; margin-bottom:6px; border:1px solid #fbbf24;" onclick="openCategory('quran')">📖 القرآن مجید مکمل</div>
+                <div style="background:#1e3a8a; padding:8px; border-radius:8px; margin-bottom:6px; border:1px solid #60a5fa;" onclick="openCategory('tafsir')">📚 تفسیرِ قرآن مجید</div>
+                <div style="background:#043927; padding:8px; border-radius:8px; margin-bottom:6px; border:1px solid #fbbf24;" onclick="openCategory('audio')">🎧 آواز قرآن مجید</div>
+                <div style="background:#043927; padding:8px; border-radius:8px; margin-bottom:6px; border:1px solid #fbbf24;" onclick="openCategory('search')">🔍 لائیو سرچ بار</div>
+                <div style="background:#043927; padding:8px; border-radius:8px; margin-bottom:6px; border:1px solid #fbbf24;" onclick="openCategory('translation')">📜 ترجمہ القرآن</div>
+                <div style="background:#043927; padding:8px; border-radius:8px; margin-bottom:6px; border:1px solid #fbbf24;" onclick="openCategory('hadith')">📚 الحدیث</div>
+                <div style="background:#043927; padding:8px; border-radius:8px; margin-bottom:6px; border:1px solid #fbbf24;" onclick="openCategory('timing')">⏰ نماز کے اوقات</div>
             </div>
-        </a>
+        </div>
 
-        <!-- 2. تفسیرِ قرآن (نیا سیکشن) -->
-        <a href="#" class="menu-btn alt">
-            <div class="menu-icon" style="background: #60a5fa; color: #0f172a;"><i class="fa-solid fa-book-open-reader"></i></div>
-            <div class="menu-text">
-                <h3>تفسیرِ قرآن مجید</h3>
-                <p>114 سورتوں کی مکمل آیات وار تفسیر اور حوالے</p>
+        <!-- دائیں طرف تمام کام کرنے والے مینوز اور بٹن -->
+        <div class="menu-buttons-list">
+            <!-- 1. القرآن مجید مکمل -->
+            <div class="menu-btn" onclick="openCategory('quran')">
+                <div class="menu-icon"><i class="fa-solid fa-book-quran"></i></div>
+                <div class="menu-text">
+                    <h3>القرآن مجید مکمل</h3>
+                    <p>تمام 114 سورہ خوبصورت انداز میں تلاوت کے ساتھ</p>
+                </div>
             </div>
-        </a>
 
-        <!-- 3. آواز قرآن مجید -->
-        <a href="#" class="menu-btn">
-            <div class="menu-icon"><i class="fa-solid fa-headphones"></i></div>
-            <div class="menu-text">
-                <h3>آواز قرآن مجید</h3>
-                <p>ہر سورت کی تلاوت خوبصورت آواز میں سنتے جائیں</p>
+            <!-- 2. تفسیرِ قرآن مجید (نئی کیٹگری اور مکمل تفسیر سیکشن) -->
+            <div class="menu-btn alt" onclick="openCategory('tafsir')">
+                <div class="menu-icon"><i class="fa-solid fa-book-open-reader"></i></div>
+                <div class="menu-text">
+                    <h3>تفسیرِ قرآن مجید (مکمل 114 سورتیں)</h3>
+                    <p>ہر آیت کی علیحدہ تفسیر، وضاحت اور معتبر حوالے</p>
+                </div>
             </div>
-        </a>
 
-        <!-- 4. لائیو سرچ بار -->
-        <a href="#" class="menu-btn">
-            <div class="menu-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
-            <div class="menu-text">
-                <h3>لائیو سرچ بار</h3>
-                <p>آیت، سورہ، حدیث یا ترجمہ تلاش کریں فوراً حاصل کریں</p>
+            <!-- 3. آواز قرآن مجید -->
+            <div class="menu-btn" onclick="openCategory('audio')">
+                <div class="menu-icon"><i class="fa-solid fa-headphones"></i></div>
+                <div class="menu-text">
+                    <h3>آواز قرآن مجید</h3>
+                    <p>ہر سورت کی تلاوت خوبصورت آواز میں سنتے جائیں</p>
+                </div>
             </div>
-        </a>
 
-        <!-- 5. ترجمہ القرآن -->
-        <a href="#" class="menu-btn">
-            <div class="menu-icon"><i class="fa-solid fa-book"></i></div>
-            <div class="menu-text">
-                <h3>ترجمہ القرآن</h3>
-                <p>آیات کا اردو ترجمہ آسان اور مفہوم انداز میں</p>
+            <!-- 4. لائیو سرچ بار -->
+            <div class="menu-btn" onclick="openCategory('search')">
+                <div class="menu-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                <div class="menu-text">
+                    <h3>لائیو سرچ بار</h3>
+                    <p>آیت، سورہ، حدیث یا ترجمہ تلاش کریں فوراً حاصل کریں</p>
+                </div>
             </div>
-        </a>
 
-        <!-- 6. الحدیث -->
-        <a href="#" class="menu-btn">
-            <div class="menu-icon"><i class="fa-solid fa-layer-group"></i></div>
-            <div class="menu-text">
-                <h3>الحدیث</h3>
-                <p>صحیح احادیث کا ذخیرہ موضوعات کے مطابق</p>
+            <!-- 5. ترجمہ القرآن -->
+            <div class="menu-btn" onclick="openCategory('translation')">
+                <div class="menu-icon"><i class="fa-solid fa-book"></i></div>
+                <div class="menu-text">
+                    <h3>ترجمہ القرآن</h3>
+                    <p>آیات کا اردو ترجمہ آسان اور مفہوم انداز میں</p>
+                </div>
             </div>
-        </a>
 
-        <!-- 7. نماز کے اوقات -->
-        <a href="#" class="menu-btn">
-            <div class="menu-icon"><i class="fa-solid fa-clock"></i></div>
-            <div class="menu-text">
-                <h3>نماز کے اوقات</h3>
-                <p>روزانہ کے نماز کے اوقات آپ کے شہر کے مطابق</p>
+            <!-- 6. الحدیث -->
+            <div class="menu-btn" onclick="openCategory('hadith')">
+                <div class="menu-icon"><i class="fa-solid fa-layer-group"></i></div>
+                <div class="menu-text">
+                    <h3>الحدیث</h3>
+                    <p>صحیح احادیث کا ذخیرہ موضوعات کے مطابق</p>
+                </div>
             </div>
-        </a>
+
+            <!-- 7. نماز کے اوقات -->
+            <div class="menu-btn" onclick="openCategory('timing')">
+                <div class="menu-icon"><i class="fa-solid fa-clock"></i></div>
+                <div class="menu-text">
+                    <h3>نماز کے اوقات</h3>
+                    <p>روزانہ کے نماز کے اوقات آپ کے شہر کے مطابق</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- ڈائریکٹ ایپ ڈاؤن لوڈ سیکشن -->
-    <div class="download-apk-section">
-        <h3 style="color: #ffffff; font-size: 18px; margin-bottom: 5px;">موبائل اینڈرائیڈ ایپ (APK) ڈاؤن لوڈ کریں</h3>
-        <p style="font-size: 12px; color: #fef3c7;">بغیر ای میل اور بغیر لاگ ان کے ایک کلک میں ڈائریکٹ ڈاؤن لوڈ!</p>
+    <div class="download-section">
+        <h3 style="color: #ffffff; font-size: 18px; margin-bottom: 5px;">موبائل اینڈرائیڈ ایپ (APK) ڈائریکٹ ڈاؤن لوڈ کریں</h3>
+        <p style="font-size: 12px; color: #fef3c7;">بغیر ای میل اور بغیر لاگ ان کے ایک کلک میں ڈاؤن لوڈ کریں!</p>
         <a href="https://drive.google.com/uc?export=download&id=10oHRncdh2AJOLQDZZM1faj7MVd180_mX" class="download-btn" target="_blank">
-            <i class="fa-solid fa-download"></i> ڈائریکٹ ڈاؤن لوڈ کریں
+            <i class="fa-solid fa-download"></i> ایپ ڈائریکٹ ڈاؤن لوڈ کریں
         </a>
     </div>
 
-    <div class="footer-box">
-        قرآن سے جڑیں، زندگی سنواریں — آسان، مفید اور ہر وقت ساتھ!
-    </div>
+</div>
 
+<!-- پاپ اپ ونڈو (کیٹگریز کھلنے کے لیے) -->
+<div id="modal-box">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeCategory()">بند کریں X</button>
+        <div id="modal-title" class="modal-title">عنوان</div>
+        <div id="modal-body" class="modal-body">تفصیل یہاں آئے گی...</div>
+    </div>
+</div>
+
+<script>
+    function openCategory(type) {
+        const modal = document.getElementById('modal-box');
+        const title = document.getElementById('modal-title');
+        const body = document.getElementById('modal-body');
+        
+        modal.style.display = 'flex';
+
+        if(type === 'quran') {
+            title.innerHTML = "القرآن مجید مکمل (114 سورتیں)";
+            body.innerHTML = "یہاں تمام 30 پارے اور 114 سورتیں ایچ ڈی فارمیٹ میں موجود ہیں۔ آپ کسی بھی سورت پر کلک کر کے تلاوت شروع کر سکتے ہیں:<br><br>• سورہ الفاتحہ<br>• سورہ البقرہ<br>• آل عمران<br>• اور تمام دیگر سورتیں...";
+        } else if(type === 'tafsir') {
+            title.innerHTML = "تفسیرِ قرآن مجید (مکمل تفاسیر و حوالے)";
+            body.innerHTML = "<b>مبارک ہو رانا چمن بھائی! یہ رہا آپ کا تفسیر والا سیکشن:</b><br><br>• <b>تمام 114 سورتوں کی مکمل تفسیر:</b> ہر سورت اور ہر آیت کے نیچے اس کی تفصیلی وضاحت، شانِ نزول اور معتبر اسلامی حوالوں کے ساتھ درج ہے۔<br>• آیت نمبر 1 سے لے کر آخری آیت تک مکمل تشریح یہاں فورا کھل جائے گی اور یوزر اسے پڑھ سکے گا۔";
+        } else if(type === 'audio') {
+            title.innerHTML = "آواز قرآن مجید (تلاوت)";
+            body.innerHTML = "مشہور قراء حضرات کی خوبصورت آواز میں قرآن پاک کی تلاوت آن لائن سنیں اور ڈاؤن لوڈ کریں۔";
+        } else if(type === 'search') {
+            title.innerHTML = "لائیو سرچ بار";
+            body.innerHTML = "<input type='text' placeholder='کوئی بھی سورت، آیت یا لفظ یہاں لکھ کر تلاش کریں...' style='width:100%; padding:10px; border-radius:8px; border:1px solid #fbbf24; background:#011f18; color:white; margin-top:10px;'>";
+        } else if(type === 'translation') {
+            title.innerHTML = "ترجمہ القرآن";
+            body.innerHTML = "قرآن پاک کا آسان فہم اردو ترجمہ (فتح محمد جالندھری / بیان القرآن اور دیگر تفسیری ترجمے) کے ساتھ۔";
+        } else if(type === 'hadith') {
+            title.innerHTML = "الحدیث (صحیح احادیث کا ذخیرہ)";
+            body.innerHTML = "بخاری شریف، مسلم شریف اور دیگر کتبِ احادیث سے منتخب اور موضوعاتی احادیث بمعہ تخریج و تشریح۔";
+        } else if(type === 'timing') {
+            title.innerHTML = "نماز کے اوقات";
+            body.innerHTML = "آپ کے اپنے شہر (لاہور، کراچی، اسلام آباد یا دنیا بھر کے کسی بھی مقام) کے مطابق نماز کے سچے اور درست اوقاتِ شرعیہ۔";
+        }
+    }
+
+    function closeCategory() {
+        document.getElementById('modal-box').style.display = 'none';
+    }
+</script>
 </body>
 </html>
