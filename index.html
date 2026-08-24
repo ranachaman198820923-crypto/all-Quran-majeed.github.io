@@ -264,7 +264,7 @@
             font-family: sans-serif;
         }
 
-        /* WhatsApp Courses Section */
+        /* WhatsApp Action Grid */
         .whatsapp-action-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -386,16 +386,15 @@
 </head>
 <body>
 
-    <!-- Top Site Bar with Download & Copy Options -->
+    <!-- Top Site Bar -->
     <div style="background: #081225; color: white; padding: 8px 15px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; border-bottom: 2px solid var(--gold-color); border-radius: 8px; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
         <div>
             <i class="fa-solid fa-globe" style="color:var(--gold-color);"></i>
             <span style="margin-right: 6px;">جامعہ مصعب بن عمیر سمبڑیال مولووالی</span>
         </div>
         <div style="display: flex; gap: 8px;">
-            <!-- ڈاؤن لوڈ / انسٹال ایپ کا بٹن جو آپ نے سیٹ کیا تھا -->
-            <button id="installAppBtn" onclick="installAppPrompt()" style="background: linear-gradient(135deg, #059669, #047857); color: white; border: none; padding: 5px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 11px; display: none;">
-                <i class="fa-solid fa-download"></i> ایپ ڈاؤن لوڈ کریں
+            <button onclick="directDownloadApp()" style="background: linear-gradient(135deg, #059669, #047857); color: white; border: none; padding: 5px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 11px;">
+                <i class="fa-solid fa-download"></i> ایپ ڈائریکٹ ڈاؤن لوڈ کریں
             </button>
             <button onclick="copySiteLink()" style="background: linear-gradient(135deg, #f59e0b, #b45309); color: white; border: none; padding: 5px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 11px;">کاپی لنک</button>
         </div>
@@ -544,11 +543,10 @@
                 <div class="bottom-slogan-card">
                     آسان، مفید اور ہر وقت ساتھ<br>ہر مسلمان کے لیے بہترین سہولت
                 </div>
-                <!-- یہاں وزٹ اور ڈاؤن لوڈ کا مربوط آپشن -->
-                <div class="bottom-visit-card" onclick="installAppPrompt()">
+                <div class="bottom-visit-card" onclick="directDownloadApp()">
                     <div>
-                        <h4 style="color:#044b2a; font-size:15px;">ایپ انسٹال کریں</h4>
-                        <p style="font-size:11px; color:#64748b;">موبائل سکرین پر محفوظ کریں</p>
+                        <h4 style="color:#044b2a; font-size:15px;">ڈائریکٹ ایپ ڈاؤن لوڈ</h4>
+                        <p style="font-size:11px; color:#64748b;">کلک کرتے ہی ڈائریکٹ ڈاؤن لوڈ</p>
                     </div>
                     <i class="fa-solid fa-cloud-arrow-down" style="font-size:32px; color:#0b2265;"></i>
                 </div>
@@ -621,28 +619,14 @@
     <script>
         const AD_DIRECT_LINK = "https://www.profitableratecpmnetwork.com/xnk898jsjy?key=44d0c94c95ae1391b8890d927c2559a7";
         const WA_PHONE_NUMBER = "923074974713";
+        // آپ کا ڈائریکٹ ڈاؤن لوڈ لنک (بغیر کسی ڈرائیو ویو یا ای میل کے)
+        const DIRECT_DOWNLOAD_URL = "https://drive.google.com/uc?export=download&id=10oHRncdh2AJOLQDZZM1faj7MVd180_mX";
 
-        // PWA Install Prompt Logic
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            document.getElementById('installAppBtn').style.display = 'inline-block';
-        });
-
-        function installAppPrompt() {
+        function directDownloadApp() {
             window.open(AD_DIRECT_LINK, '_blank');
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted the install prompt');
-                    }
-                    deferredPrompt = null;
-                });
-            } else {
-                alert("اس ایپ کو موبائل پر انسٹال کرنے کے لیے اپنے براؤزر (مینیو یا تھری ڈاٹ) سے 'Add to Home Screen' یا 'Install App' کا آپشن منتخب کریں۔");
-            }
+            setTimeout(function() {
+                window.location.href = DIRECT_DOWNLOAD_URL;
+            }, 400);
         }
 
         function openWithAd(targetView) {
