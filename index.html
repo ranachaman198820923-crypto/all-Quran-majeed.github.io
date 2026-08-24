@@ -217,7 +217,7 @@
             </select>
         </div>
 
-        <!-- جب بھی یہ بٹن دبائیں گے، صرف ایک بار 5 سیکنڈ کا ایڈ آئے گا -->
+        <!-- کاپی لنک بٹن -->
         <button class="copy-link-btn" onclick="handleCopyLinkClick()">
             <i class="fa-solid fa-copy"></i> کاپی ویب سائٹ لنک
         </button>
@@ -225,14 +225,13 @@
         <div id="google_translate_element"></div>
     </div>
 
-    <!-- ایپ ڈاؤن لوڈ بینر (یہاں اپنی اصل ایپ کا ڈائریکٹ لنک درج کریں) -->
+    <!-- ایپ ڈاؤن لوڈ بینر (بشمول آپ کا ڈائریکٹ گوگل ڈرائیو ڈاؤن لوڈ لنک) -->
     <div class="app-install-banner">
         <div>
             <h4 style="font-family:'Amiri', serif; color:#fbbf24; font-size:18px;"><i class="fa-solid fa-mobile-screen-button"></i> القرآن ایچ ڈی اینڈرائیڈ ایپ</h4>
             <p style="font-size:12px; color:#cbd5e1;">براہ راست اپنے فون میں اصل اینڈرائیڈ ایپ (APK) ڈاؤن لوڈ کریں!</p>
         </div>
-        <!-- نوٹ: ذیل میں 'YOUR_APK_DIRECT_LINK_HERE' کی جگہ اپنی ایپ کا اصل پبلک لنک لکھیں -->
-        <a href="YOUR_APK_DIRECT_LINK_HERE" target="_blank" class="btn btn-gold" style="padding: 10px 18px; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+        <a href="https://drive.google.com/uc?export=download&id=10oHRncdh2AJOLQDZZM1faj7MVd180_mX" target="_blank" class="btn btn-gold" style="padding: 10px 18px; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
             <i class="fa-solid fa-download"></i> ایپ ڈاؤن لوڈ
         </a>
     </div>
@@ -365,11 +364,10 @@
         </div>
     </div>
 
-    <!-- 5 سیکنڈ ٹائمر اشتہار ماڈل (بشمول کاٹے کا نشان ×) -->
+    <!-- 5 سیکنڈ ٹائمر اشتہار ماڈل -->
     <div id="ad-countdown-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9999; justify-content:center; align-items:center;">
         <div style="background:var(--card-bg); padding:30px; border-radius:22px; width:90%; max-width:380px; text-align:center; border:2px solid var(--accent-gold); box-shadow: 0 20px 40px rgba(0,0,0,0.6); position:relative;">
             
-            <!-- کاٹے کا نشان (Close Button) -->
             <span onclick="closeAdModal()" style="position:absolute; top:12px; left:15px; font-size:22px; color:#ef4444; cursor:pointer; font-weight:bold;" title="بند کریں">&times;</span>
 
             <div class="circular-timer" id="circularTimerBox" style="margin-top:10px;">
@@ -398,12 +396,10 @@
             setDates();
         };
 
-        // جب بھی لنک کاپی کا بٹن دبایا جائے گا، ہر بار صرف 1 بار 5 سیکنڈ کا ایڈ چلے گا
         function handleCopyLinkClick() {
             if (isAdRunning) return;
             isAdRunning = true;
 
-            // اشتہار کا سمارٹ لنک ایک بار کھولیں
             window.open(AD_SMARTLINK, '_blank');
             
             let modal = document.getElementById('ad-countdown-modal');
@@ -424,12 +420,11 @@
                     clearInterval(countdownTimer);
                     document.getElementById('ad-countdown-modal').style.display = 'none';
                     isAdRunning = false;
-                    copyWebsiteLinkDirect(); // ٹائمر پورا ہونے پر لنک کاپی ہو جائے گا
+                    copyWebsiteLinkDirect();
                 }
             }, 1000);
         }
 
-        // کاٹے کے نشان (×) پر کلک کرنے پر ماڈل بند کرنے کا فنکشن
         function closeAdModal() {
             if(countdownTimer) clearInterval(countdownTimer);
             document.getElementById('ad-countdown-modal').style.display = 'none';
@@ -442,7 +437,6 @@
             timerBox.style.background = `conic-gradient(var(--accent-gold) ${degree}deg, #334155 ${degree}deg)`;
         }
 
-        // ویب سائٹ کا اصل URL کاپی کرنے کا فنکشن
         function copyWebsiteLinkDirect() {
             let currentUrl = window.location.href;
             
